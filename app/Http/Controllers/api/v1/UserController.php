@@ -20,7 +20,7 @@ class UserController extends Controller
     public function login(){ 
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             $user = Auth::user(); 
-            $success['token'] =  $user->createToken('Token')-> accessToken; 
+            $success['token'] =  $user->createToken('AccToken')-> accessToken; 
             return response()->json(['success' => $success], $this-> successStatus); 
         } 
         else{ 
@@ -47,7 +47,7 @@ class UserController extends Controller
         $input = $request->all(); 
         $input['password'] = bcrypt($input['password']); 
         $user = User::create($input); 
-        $success['token'] =  $user->createToken('MyApp')-> accessToken; 
+        $success['token'] =  $user->createToken('AccToken')-> accessToken; 
         $success['name'] =  $user->name;
         return response()->json(['success'=>$success], $this-> successStatus); 
     }
