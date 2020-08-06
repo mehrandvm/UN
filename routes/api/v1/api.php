@@ -17,8 +17,10 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::post('login', 'api\v1\UserController@login');
-Route::post('register', 'api\v1\UserController@register');
-Route::group(['middleware' => 'auth:api'], function(){
-    Route::post('details', 'api\v1\UserController@details');
+Route::prefix('user')->group(function () {
+    Route::post('login', 'api\v1\UserController@login');
+    Route::post('register', 'api\v1\UserController@register');
+    Route::middleware(['auth:api'])->group(function () {
+        Route::post('profile', 'api\v1\UserController@profile');
+    });
 });

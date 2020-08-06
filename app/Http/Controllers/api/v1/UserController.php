@@ -49,7 +49,7 @@ class UserController extends Controller
         $user = User::create($input); 
         $success['token'] =  $user->createToken('AccToken')-> accessToken; 
         $success['name'] =  $user->name;
-        return response()->json(['success'=>$success], $this-> successStatus); 
+        return response()->json(['success'=>$success], $this->successStatus); 
     }
 
     /** 
@@ -57,9 +57,13 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\Response 
      */ 
-    public function details() 
+    public function profile() 
     { 
         $user = Auth::user(); 
-        return response()->json(['success' => $user], $this-> successStatus); 
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'success',
+            'data' => $user
+        ]); 
     } 
 }
