@@ -10,6 +10,7 @@ use Validator;
 class UserController extends Controller
 {
     public $successStatus = 200;
+    public $unauthorisedStatus = 401;
     //
 
     /** 
@@ -21,10 +22,17 @@ class UserController extends Controller
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             $user = Auth::user(); 
             $success['token'] =  $user->createToken('AccToken')-> accessToken; 
-            return response()->json(['success' => $success], $this-> successStatus); 
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'Success',
+                'data' => $success
+            ]); 
         } 
         else{ 
-            return response()->json(['error'=>'Unauthorised'], 401); 
+            return response()->json([
+                'status_code' => $this->unauthorisedStatus,
+                'status_message' => 'Unauthorised',
+            ]); 
         } 
     }
 
@@ -62,9 +70,10 @@ class UserController extends Controller
     public function profile() 
     { 
         $user = Auth::user(); 
+        $user['roles'] = [];
         return response()->json([
-            'status_code' => 200,
-            'status_message' => 'success',
+            'status_code' => $this->successStatus,
+            'status_message' => 'Success',
             'data' => $user
         ]); 
     } 
