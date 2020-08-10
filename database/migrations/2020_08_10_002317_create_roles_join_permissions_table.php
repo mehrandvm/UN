@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersJoinRolesTable extends Migration
+class CreateRolesJoinPermissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateUsersJoinRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_join_roles', function (Blueprint $table) {
-            $table->unsignedInteger('user_id');
+        Schema::create('roles_join_permissions', function (Blueprint $table) {
             $table->unsignedInteger('role_id');
+            $table->unsignedInteger('permission_id');
 
             //FOREIGN KEY CONSTRAINTS
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
 
             //SETTING THE PRIMARY KEYS
-            $table->primary(['user_id', 'role_id']);
+            $table->primary(['role_id', 'permission_id']);
         });
     }
 
@@ -33,6 +33,6 @@ class CreateUsersJoinRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_join_roles');
+        Schema::dropIfExists('roles_join_permissions');
     }
 }
