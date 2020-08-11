@@ -15,4 +15,13 @@ class Role extends Model
     {
         return $this->belongsToMany(User::class, 'users_join_roles');
     }
+
+    public function getInfo()
+    {
+        $info = (object) null;
+        $info->id = $this->id;
+        $info->name = $this->name;
+        $info->slug = $this->slug;
+        return $info;
+    }
 }

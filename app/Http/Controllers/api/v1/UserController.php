@@ -70,7 +70,15 @@ class UserController extends Controller
     public function profile() 
     { 
         $user = Auth::user(); 
-        $user['roles'] = [];
+        
+        $roles = [];
+        foreach ($user->getUserRoles() as $role) {
+            // dd($role->getInfo());
+            $roles[] = $role->getInfo();
+        }
+        $user['roles'] = $roles;
+
+
         return response()->json([
             'status_code' => $this->successStatus,
             'status_message' => 'Success',

@@ -63,6 +63,11 @@ trait HasPermissionsTrait
         return false;
     }
 
+    public function getUserRoles(...$roles)
+    {
+        return $this->roles;
+    }
+
     public function roles()
     {
 
@@ -84,4 +89,6 @@ trait HasPermissionsTrait
 
         return Permission::whereIn('slug', $permissions)->get();
     }
+
+    
 }
