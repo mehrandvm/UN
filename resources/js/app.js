@@ -13,3 +13,4 @@ require('./bootstrap');
  */
 
 require('./components/home/Home');
+require('./components/login/Login');
