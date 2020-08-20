@@ -62,6 +62,8 @@ const Header = (props) => {
                     <Typography variant="h6" className={classes.title}>
                         <a href="/"><img src={habitatLogo} className={classes.logo} /></a>
                     </Typography>
+                    <Button onClick={() => props.setLanguage("en")} color="inherit" >EN</Button>
+                    <Button onClick={() => props.setLanguage("fa")} color="inherit" >FA</Button>
                     <form action="/logout" method="post">
                         <input
                             type="hidden"
