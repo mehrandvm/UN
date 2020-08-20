@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Typography, Grid, Button, ThemeProvider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
@@ -60,10 +60,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
     const classes = useStyles();
+    const [language, setLanguage] = useState("en")
     return (
         <ThemeProvider theme={theme}>
             <div>
-                <Header />
+                <Header setLanguage={setLanguage} />
                 <Grid container className={classes.showcase} alignItems="center">
                     <Grid item xs={12}>
                         <Grid item xs={12} className={classes.text}>
