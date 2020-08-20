@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import {
   Avatar, Button, CssBaseline, TextField, FormControlLabel,
@@ -61,11 +61,11 @@ const useStyles = makeStyles(() => ({
 
 const Login = () => {
   const classes = useStyles();
-
+  const [language, setLanguage] = useState("en")
   return (
     <React.Fragment>
       <ThemeProvider theme={theme}>
-        <Header />
+        <Header setLanguage={setLanguage} />
         <Grid container component="main" className={classes.root}>
           <CssBaseline />
           <Grid item xs={false} sm={4} md={7} className={classes.imageBox}>
