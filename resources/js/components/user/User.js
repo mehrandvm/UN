@@ -1,14 +1,24 @@
 import React, {useState} from 'react';
-import ReactDOM from 'react-dom'
 import {
-    SortingState, EditingState, PagingState, SummaryState,
-    IntegratedPaging, IntegratedSorting, IntegratedSummary,
+    EditingState,
+    IntegratedPaging,
+    IntegratedSorting,
+    IntegratedSummary,
+    PagingState,
+    SortingState,
+    SummaryState,
 } from '@devexpress/dx-react-grid';
 import {
+    DragDropProvider,
     Grid as DevGrid,
-    Table, TableHeaderRow, TableEditRow, TableEditColumn,
-    PagingPanel, DragDropProvider, TableColumnReordering,
-    TableFixedColumns, TableSummaryRow,
+    PagingPanel,
+    Table,
+    TableColumnReordering,
+    TableEditColumn,
+    TableEditRow,
+    TableFixedColumns,
+    TableHeaderRow,
+    TableSummaryRow,
 } from '@devexpress/dx-react-grid-material-ui';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -21,9 +31,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
-import {withStyles, makeStyles} from '@material-ui/core/styles';
+import InfoIcon from '@material-ui/icons/Info';
+import AddIcon from '@material-ui/icons/Add';
+import {makeStyles} from '@material-ui/core/styles';
 import Header from "../header/Header";
 import {Grid} from "@material-ui/core";
+import {Link} from "react-router-dom";
 
 const values = {
     userRole: [
@@ -74,7 +87,7 @@ const data = [
 ]
 
 const useStyles = makeStyles((theme) => ({
-    container:{
+    container: {
         overflowX: "hidden"
     },
     chartContainer: {
@@ -82,6 +95,11 @@ const useStyles = makeStyles((theme) => ({
         overflowX: "scroll",
         marginTop: 64,
     },
+    tableCell: {
+        borderBottom: '1px solid rgba(224, 224, 224, 1)',
+        borderRight: '1px solid rgba(224, 224, 224, 1)',
+        textAlign: 'center',
+    }
 }));
 
 const AddButton = ({onExecute}) => (
@@ -183,6 +201,34 @@ const EditCell = (props) => {
 
 const getRowId = row => row.id;
 
+const EditColumnCell = (editProps) => {
+    const deleteItem = () => {
+        // TODO: replace with MUI pop up
+        if (window.confirm('Are you sure you want to delete this row?')) {
+            // props.deleteEntity(editProps.row.id).then(() => {
+            //     updateTable();
+            // }).catch(() => SnackbarUtil.error('err'));
+        }
+    };
+    const classes = useStyles()
+    return (
+        <td className={classes.tableCell}>
+            <IconButton><InfoIcon/></IconButton>
+            <IconButton><EditIcon/></IconButton>
+            <IconButton onClick={deleteItem}><DeleteIcon/></IconButton>
+        </td>
+    );
+};
+
+const EditColumnHeaderCell = () => {
+    const classes = useStyles()
+    return (
+        <th className={classes.tableCell}>
+            <Link to={`/create`}><IconButton><AddIcon/></IconButton></Link>
+        </th>
+    )
+};
+
 const User = () => {
     const classes = useStyles();
     const [language, setLanguage] = useState("en")
@@ -235,19 +281,19 @@ const User = () => {
 
     const commitChanges = ({added, changed, deleted}) => {
         let changedRows;
-        if (added) {
-            const startingAddedId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
-            changedRows = [
-                ...rows,
-                ...added.map((row, index) => ({
-                    id: startingAddedId + index,
-                    ...row,
-                })),
-            ];
-        }
-        if (changed) {
-            changedRows = rows.map(row => (changed[row.id] ? {...row, ...changed[row.id]} : row));
-        }
+        // if (added) {
+        //     const startingAddedId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
+        //     changedRows = [
+        //         ...rows,
+        //         ...added.map((row, index) => ({
+        //             id: startingAddedId + index,
+        //             ...row,
+        //         })),
+        //     ];
+        // }
+        // if (changed) {
+        //     changedRows = rows.map(row => (changed[row.id] ? {...row, ...changed[row.id]} : row));
+        // }
         if (deleted) {
             changedRows = deleteRows(deleted);
         }
@@ -283,13 +329,9 @@ const User = () => {
                             onAddedRowsChange={changeAddedRows}
                             onCommitChanges={commitChanges}
                         />
-                        <SummaryState
-                            totalItems={totalSummaryItems}
-                        />
 
                         <IntegratedSorting/>
                         <IntegratedPaging/>
-                        <IntegratedSummary/>
 
                         <DragDropProvider/>
 
@@ -311,8 +353,9 @@ const User = () => {
                             showEditCommand
                             showDeleteCommand
                             commandComponent={Command}
+                            cellComponent={EditColumnCell}
+                            headerCellComponent={EditColumnHeaderCell}
                         />
-                        <TableSummaryRow/>
                         <TableFixedColumns
                             leftColumns={leftFixedColumns}
                         />
@@ -327,8 +370,4 @@ const User = () => {
 };
 
 
-if (document.getElementById("user")) {
-    const csrf_token = document.getElementById("user").getAttribute("csrf_token");
-    const message = document.getElementById("user").getAttribute("user");
-    ReactDOM.render(<User csrf_token={csrf_token} message={message}/>, document.getElementById("user"));
-}
+export default User
