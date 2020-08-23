@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import { Typography, Grid, Button, ThemeProvider } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useState} from 'react';
+import {Button, Grid, Typography} from '@material-ui/core'
+import {makeStyles} from '@material-ui/core/styles';
 import construction from '../../../images/construction.jpg'
 import MapIcon from '@material-ui/icons/Map';
 import Header from '../header/Header';
-import theme from '../theme/theme';
 
 const useStyles = makeStyles((theme) => ({
     showcase: {
@@ -62,7 +60,6 @@ const Home = () => {
     const classes = useStyles();
     const [language, setLanguage] = useState("en")
     return (
-        <ThemeProvider theme={theme}>
             <div>
                 <Header setLanguage={setLanguage} />
                 <Grid container className={classes.showcase} alignItems="center">
@@ -102,12 +99,7 @@ const Home = () => {
                     <p>Lorem Ipsum &copy; 2020</p>
                 </footer>
             </div>
-        </ThemeProvider>
     );
 }
 
-if (document.getElementById("home")) {
-    var csrf_token = document.getElementById("home").getAttribute("csrf_token");
-    var message = document.getElementById("home").getAttribute("home");
-    ReactDOM.render(<Home csrf_token={csrf_token} message={message} />, document.getElementById("home"));
-}
+export default Home

@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import React, {useState} from 'react';
 import {
-  Avatar, Button, CssBaseline, TextField, FormControlLabel,
-  Checkbox, Grid, Link, Box, Paper, Typography, ThemeProvider
+    Avatar,
+    Box,
+    Button,
+    Checkbox,
+    CssBaseline,
+    FormControlLabel,
+    Grid,
+    Link,
+    Paper,
+    TextField,
+    Typography
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import construction from '../../../images/construction.jpg'
 import Header from '../header/Header';
 import theme from '../theme/theme';
@@ -64,7 +72,6 @@ const Login = () => {
   const [language, setLanguage] = useState("en")
   return (
     <React.Fragment>
-      <ThemeProvider theme={theme}>
         <Header setLanguage={setLanguage} />
         <Grid container component="main" className={classes.root}>
           <CssBaseline />
@@ -134,13 +141,8 @@ const Login = () => {
             </div>
           </Grid>
         </Grid>
-      </ThemeProvider>
     </React.Fragment>
   );
 }
 
-if (document.getElementById("login")) {
-  var csrf_token = document.getElementById("login").getAttribute("csrf_token");
-  var message = document.getElementById("login").getAttribute("message");
-  ReactDOM.render(<Login csrf_token={csrf_token} message={message} />, document.getElementById("login"));
-}
+export default Login
