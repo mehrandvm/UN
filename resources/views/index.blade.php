@@ -11,7 +11,7 @@
     <body>
         <div class="flex-center position-ref full-height">
             <div class="container">
-                <div id="user" csrf_token='{{csrf_token()}}' auth_message='{{ $message ?? '' }}'></div>
+                <div id="index" csrf_token='{{csrf_token()}}' auth_message='{{ $message ?? '' }}'></div>
             </div>
         </div>
         <script src="/js/app.js"></script>
