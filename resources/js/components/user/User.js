@@ -213,8 +213,8 @@ const EditColumnCell = (editProps) => {
     const classes = useStyles()
     return (
         <td className={classes.tableCell}>
-            <IconButton><InfoIcon/></IconButton>
-            <IconButton><EditIcon/></IconButton>
+            <Link to={`/dashboard/user/details/${editProps.row.id}`}><IconButton><InfoIcon/></IconButton></Link>
+            <Link to={`/dashboard/user/edit/${editProps.row.id}`}><IconButton><EditIcon/></IconButton></Link>
             <IconButton onClick={deleteItem}><DeleteIcon/></IconButton>
         </td>
     );
@@ -224,7 +224,7 @@ const EditColumnHeaderCell = () => {
     const classes = useStyles()
     return (
         <th className={classes.tableCell}>
-            <Link to={`/create`}><IconButton><AddIcon/></IconButton></Link>
+            <Link to={`/dashboard/user/new`}><IconButton><AddIcon/></IconButton></Link>
         </th>
     )
 };
