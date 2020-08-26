@@ -8,22 +8,32 @@ import Login from "./components/login/Login";
 import Home from "./components/home/Home";
 import {ThemeProvider} from "@material-ui/core";
 import theme from "./components/theme/theme";
+import UserForm from "./components/user-form/UserForm";
 
 const Index = () => {
     return (
         <ThemeProvider theme={theme}>
             <Router>
                 <Switch>
-                    <Route path="/dashboard/user">
+                    <Route exact path="/dashboard/user/details/:id">
+                        <UserForm mode={"details"}/>
+                    </Route>
+                    <Route exact path="/dashboard/user/edit/:id">
+                        <UserForm mode={"edit"}/>
+                    </Route>
+                    <Route exact path="/dashboard/user/new">
+                        <UserForm mode={"create"}/>
+                    </Route>
+                    <Route exact path="/dashboard/user">
                         <User/>
                     </Route>
-                    <Route path="/dashboard/role">
+                    <Route exact path="/dashboard/role">
                         <Role/>
                     </Route>
                     <Route exact path="/dashboard">
                         <Dashboard/>
                     </Route>
-                    <Route path="/login">
+                    <Route exact path="/login">
                         <Login/>
                     </Route>
                     <Route path="/">
