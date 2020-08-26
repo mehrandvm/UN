@@ -34,6 +34,7 @@ const Copyright = () => {
 const useStyles = makeStyles(() => ({
   root: {
     height: '100%',
+    overflowX: 'hidden',
   },
   imageBox: {
     height: '100vh',

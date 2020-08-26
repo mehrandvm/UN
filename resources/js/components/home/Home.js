@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         textShadow: '2px 2px 10px #000',
+        overflowX: 'hidden',
     },
     text: {
         paddingLeft: 50,
