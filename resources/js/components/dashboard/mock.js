@@ -35,38 +35,62 @@ const data = {
     },
     'rightCharts': {
         '0': {
-            'title': 'Palms infected',
+            // 'title': 'Stage One',
             'type': 'bar',
             'labels': [
                 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
             ],
             'datasets': {
-                'RPW': [
-                    15, 45, 65, 25, 35, 65, 25, 35, 55, 65, 45, 10,
-                ],
-                'RPW2': [
-                    25, 35, 55, 65, 45, 10, 15, 45, 65, 25, 35, 65,
-                ],
-                'RPW3': [
-                    15, 45, 65, 25, 45, 10, 35, 65, 25, 35, 55, 65,
-                ],
-                'RPW4': [
-                    65, 45, 10, 15, 45, 65, 25, 35, 65, 25, 35, 55,
+                'Stage One': [
+                    15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
         },
         '1': {
-            'title': 'RPW Total',
+            // 'title': 'Stage Two',
             'type': 'bar',
             'labels': [
-                'Bushehr', 'Fars', 'Hormozgan', 'Kerman', 'Khozestan', 'Sistan o balochistan',
+                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
             ],
             'datasets': {
-                'RPW': [
-                    15, 45, 65, 25, 35, 65, 25, 35, 55, 65, 45, 10,
+                'Stage Two': [
+                    15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
-                'RPW2': [
-                    25, 35, 55, 65, 45, 10, 15, 45, 65, 25, 35, 65,
+            },
+        },
+        '2': {
+            // 'title': 'Stage Three',
+            'type': 'bar',
+            'labels': [
+                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+            ],
+            'datasets': {
+                'Stage Three': [
+                    15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
+                ],
+            },
+        },
+        '3': {
+            'title': 'All Stages',
+            'type': 'pie',
+            'dataset': {
+                'Stage One': 15,
+                'Stage Two': 35,
+                'Stage Three': 30,
+                'Stage Four': 20,
+            },
+        },
+    },
+    'bottomCharts': {
+        '0': {
+            // 'title': 'Stage One',
+            'type': 'bar',
+            'labels': [
+                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+            ],
+            'datasets': {
+                'Past Year Progress by Month': [
+                    15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
         },
