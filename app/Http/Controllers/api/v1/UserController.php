@@ -70,10 +70,8 @@ class UserController extends Controller
     public function profile() 
     { 
         $user = Auth::user(); 
-        
         $roles = [];
         foreach ($user->getUserRoles() as $role) {
-            // dd($role->getInfo());
             $roles[] = $role->getInfo();
         }
         $user['roles'] = $roles;
@@ -84,5 +82,5 @@ class UserController extends Controller
             'status_message' => 'Success',
             'data' => $user
         ]); 
-    } 
+    }
 }
