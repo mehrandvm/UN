@@ -17,17 +17,14 @@ const useStyles = makeStyles((theme) => ({
         overflowX: 'hidden',
     },
     text: {
-        paddingLeft: 50,
-        paddingRight: 50,
         color: '#F2F2F2',
     },
     title: {
-        paddingTop: 20,
-        paddingBottom: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
     },
-    buttonContainer: {
-        paddingLeft: 50,
-        paddingRight: 50,
+    container: {
+        padding: '0 100px',
     },
     button: {
         marginTop: 25,
@@ -55,51 +52,58 @@ const useStyles = makeStyles((theme) => ({
     aboutUsIcon: {
         fontSize: 200,
     },
+    backdrop: {
+        backgroundColor: "black",
+        zIndex: 3,
+    }
 }));
 
 const Home = () => {
     const classes = useStyles();
     const [language, setLanguage] = useState("en")
     return (
-            <div>
-                <Header setLanguage={setLanguage} />
-                <Grid container className={classes.showcase} alignItems="center">
+        <div>
+            <Header setLanguage={setLanguage} isDark={true}/>
+            <Grid container className={classes.showcase} alignItems="center">
+                <Grid item xs={12} className={classes.container}>
+                    <Grid item xs={12} className={classes.text}>
+                        <Typography variant='h2' className={classes.title}>Lorem Ipsum</Typography>
+                        <Typography variant='h4' className={classes.title}>Lorem Ipsum is simply dummy text</Typography>
+                        <Typography variant='h4' className={classes.title}>of the printing and typesetting industry</Typography>
+                        <Typography variant='h6' className={classes.title}>UN Habitat</Typography>
+                    </Grid>
                     <Grid item xs={12}>
-                        <Grid item xs={12} className={classes.text}>
-                            <Typography variant='h2' className={classes.title}>Lorem Ipsum</Typography>
-                            <Typography variant='h4' className={classes.title}>Lorem Ipsum is simply dummy text of the printing and typesetting industry</Typography>
-                            <Typography variant='h6' className={classes.title}>UN Habitat</Typography>
-                        </Grid>
-                        <Grid item xs={12} className={classes.buttonContainer}>
-                            <a href={'/login'} className={classes.link}>
-                                <Button variant="contained" color="primary" className={classes.button}>
-                                    Login
+                        <a href={'/login'} className={classes.link}>
+                            <Button variant="contained" color="primary" className={classes.button}>
+                                Login
+                            </Button>
+                        </a>
+                        <Button variant="contained" color="secondary" href="#aboutus" className={classes.button}>
+                            About Us
                         </Button>
-                            </a>
-                            <Button variant="contained" color="secondary" href="#aboutus" className={classes.button}>
-                                About Us
-                        </Button>
-                        </Grid>
                     </Grid>
                 </Grid>
-                <Grid container id="aboutus" className={classes.aboutUs} justify="center" >
-                    <Grid item xs={12} sm={6} className={classes.aboutUsItem}>
-                        <MapIcon className={classes.aboutUsIcon} />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <h3>About Us</h3>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non eos aperiam labore consectetur maiores ea magni exercitationem
-                            similique laborum sed, unde, autem vel iure doloribus aliquid. Aspernatur explicabo consectetur consequatur non
-                            nesciunt debitis quos alias soluta, ratione, ipsa officia reiciendis.
-                            consequatur non nesciunt debitis quos alias soluta, ratione, ipsa officia reiciendis
-                    </p>
-                    </Grid>
-                </Grid>
-                <footer className={classes.footer}>
-                    <p>Lorem Ipsum &copy; 2020</p>
-                </footer>
-            </div>
+            </Grid>
+            {/*<Grid container id="aboutus" className={classes.aboutUs} justify="center">*/}
+            {/*    <Grid item xs={12} sm={6} className={classes.aboutUsItem}>*/}
+            {/*        <MapIcon className={classes.aboutUsIcon}/>*/}
+            {/*    </Grid>*/}
+            {/*    <Grid item xs={12} sm={6}>*/}
+            {/*        <h3>About Us</h3>*/}
+            {/*        <p>*/}
+            {/*            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non eos aperiam labore consectetur*/}
+            {/*            maiores ea magni exercitationem*/}
+            {/*            similique laborum sed, unde, autem vel iure doloribus aliquid. Aspernatur explicabo consectetur*/}
+            {/*            consequatur non*/}
+            {/*            nesciunt debitis quos alias soluta, ratione, ipsa officia reiciendis.*/}
+            {/*            consequatur non nesciunt debitis quos alias soluta, ratione, ipsa officia reiciendis*/}
+            {/*        </p>*/}
+            {/*    </Grid>*/}
+            {/*</Grid>*/}
+            {/*<footer className={classes.footer}>*/}
+            {/*    <p>Lorem Ipsum &copy; 2020</p>*/}
+            {/*</footer>*/}
+        </div>
     );
 }
 
