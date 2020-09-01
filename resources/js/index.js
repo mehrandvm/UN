@@ -31,7 +31,7 @@ const Index = () => {
     const login = useCallback(async (email, password) => {
         try {
             const res = await loginAPI(email, password);
-            setLoginToken(res.data.token);
+            setLoginToken(res.data.data.token);
         } catch (e) {
             if (e.response) {
                 throw new Error(e.response.data.message);
@@ -89,7 +89,5 @@ const Index = () => {
 }
 
 if (document.getElementById("index")) {
-    var csrf_token = document.getElementById("index").getAttribute("csrf_token");
-    var message = document.getElementById("index").getAttribute("index");
-    ReactDOM.render(<Index csrf_token={csrf_token} message={message}/>, document.getElementById("index"));
+    ReactDOM.render(<Index />, document.getElementById("index"));
 }
