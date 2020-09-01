@@ -10,6 +10,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import {withPermission} from "../../utils/with-premission/withPermission";
 
 const useStyles = makeStyles((theme) => ({
         container: {
@@ -42,7 +43,7 @@ const Panel = () => {
             <Header setLanguage={setLanguage}/>
             <Grid item xs={6} sm={3}>
                 <Link to="/panel/user" className={classes.link}>
-                    <Button variant="contained" color="primary" className={classes.button}>
+                    <Button variant="contained" color="secondary" className={classes.button}>
                         <PeopleIcon color="inherit"/>
                         <Typography>Define User</Typography>
                     </Button>
@@ -50,7 +51,7 @@ const Panel = () => {
             </Grid>
             <Grid item xs={6} sm={3}>
                 <Link to="/panel/role" className={classes.link}>
-                    <Button variant="contained" color="primary" className={classes.button}>
+                    <Button variant="contained" color="secondary" className={classes.button}>
                         <AssignmentIndIcon color="inherit"/>
                         <Typography>Define Role</Typography>
                     </Button>
@@ -58,7 +59,7 @@ const Panel = () => {
             </Grid>
             <Grid item xs={6} sm={3}>
                 <Link to="/panel/task" className={classes.link}>
-                    <Button variant="contained" color="primary" className={classes.button}>
+                    <Button variant="contained" color="secondary" className={classes.button}>
                         <AssignmentIcon color="inherit"/>
                         <Typography>Define Task</Typography>
                     </Button>
@@ -66,7 +67,7 @@ const Panel = () => {
             </Grid>
             <Grid item xs={6} sm={3}>
                 <Link to="/panel/dashboard" className={classes.link}>
-                    <Button variant="contained" color="primary" className={classes.button}>
+                    <Button variant="contained" color="secondary" className={classes.button}>
                         <DashboardIcon color="inherit"/>
                         <Typography>Dashboard</Typography>
                     </Button>
@@ -77,4 +78,4 @@ const Panel = () => {
     );
 }
 
-export default Panel
+export default (Panel)

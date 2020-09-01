@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
         position: 'absolute',
         top: 0,
         left: 0,
-        width: '100%'
+        width: '100%',
     },
     menuButton: {
         paddingRight: theme.spacing(1),
@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
     link: {
         textDecoration: 'none',
         color: 'inherit',
+    },
+    light: {},
+    dark: {
+        backgroundColor: 'rgb(0,0,0,0.6)',
     },
 }));
 
@@ -50,7 +54,7 @@ const Header = (props) => {
                 openDrawer={openDrawer}
                 closeDrawer={closeDrawer}
             /> */}
-            <AppBar position="static">
+            <AppBar position="static" className={props.isDark ? classes.dark : classes.light}>
                 <Toolbar>
                     {/* <IconButton edge="start" color="inherit" className={classes.menuButton} onClick={toggleDrawer}> */}
                     {/* <MenuIcon /> */}
