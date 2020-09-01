@@ -26,7 +26,18 @@ const createAxiosConfig = (axiosDefaultConfig) => {
 
 const axiosInstance = axios.create(createAxiosConfig(axiosDefaultConfigs));
 
-// export const deleteAxiosInstanceHeaders = (headerName: string) => {
+export const setAxiosHeader = (key, value) => {
+    axiosInstance.defaults.headers = {
+        ...axiosDefaultConfigs.headers,
+        [key]: value,
+    };
+};
+
+export const removeAxiosHeader = (key) => {
+    if (key in axiosInstance.defaults.headers) delete axiosInstance.defaults.headers[key];
+};
+
+// export const deleteAxiosInstanceHeaders = (headerName) => {
 //     delete axiosInstance.defaults.headers[headerName];
 // };
 

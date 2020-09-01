@@ -35,6 +35,16 @@ const data = {
     },
     'rightCharts': {
         '0': {
+            'title': 'All Stages',
+            'type': 'pie',
+            'dataset': {
+                'Stage One': 15,
+                'Stage Two': 35,
+                'Stage Three': 30,
+                'Stage Four': 20,
+            },
+        },
+        '1': {
             // 'title': 'Stage One',
             'type': 'bar',
             'labels': [
@@ -46,7 +56,7 @@ const data = {
                 ],
             },
         },
-        '1': {
+        '2': {
             // 'title': 'Stage Two',
             'type': 'bar',
             'labels': [
@@ -58,7 +68,7 @@ const data = {
                 ],
             },
         },
-        '2': {
+        '3': {
             // 'title': 'Stage Three',
             'type': 'bar',
             'labels': [
@@ -70,14 +80,16 @@ const data = {
                 ],
             },
         },
-        '3': {
-            'title': 'All Stages',
-            'type': 'pie',
-            'dataset': {
-                'Stage One': 15,
-                'Stage Two': 35,
-                'Stage Three': 30,
-                'Stage Four': 20,
+        '4': {
+            // 'title': 'Stage Three',
+            'type': 'bar',
+            'labels': [
+                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+            ],
+            'datasets': {
+                'Stage Four': [
+                    15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
+                ],
             },
         },
     },

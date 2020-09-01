@@ -1,25 +1,16 @@
-import React, {useState} from 'react';
-import {
-    Avatar,
-    Box,
-    Button,
-    Checkbox,
-    CssBaseline,
-    FormControlLabel,
-    Grid,
-    Link,
-    Paper,
-    TextField,
-    Typography
-} from '@material-ui/core';
+import React, {useContext, useState} from 'react';
+import {Avatar, Box, Button, CssBaseline, Grid, Link, Paper, Typography} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {makeStyles} from '@material-ui/core/styles';
 import construction from '../../../images/construction.jpg'
 import Header from '../header/Header';
 import theme from '../theme/theme';
-import axiosInstance from "../../API/AxiosConfig";
+import axiosInstance, {tokenTitle} from "../../apis/AxiosConfig";
 import {validateEmail, validatePassword} from "../../utils/validations/Validation";
 import FormTextField from "../form-textfield/FormTextField";
+import {LoginContext} from "../../contexts/login-context/LoginContext";
+import {Redirect} from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const Copyright = () => {
     return (
@@ -36,24 +27,28 @@ const Copyright = () => {
 
 const useStyles = makeStyles(() => ({
     root: {
-        height: '100%',
-        overflowX: 'hidden',
-    },
-    imageBox: {
         height: '100vh',
-    },
-    image: {
+        overflowX: 'hidden',
         backgroundRepeat: 'no-repeat',
         backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: '100%',
+        backgroundImage: `url(${construction})`,
+    },
+    login: {
+        backgroundColor: 'rgb(255,255,255,0.85)',
+        height: '500px',
+        marginTop: theme.spacing(12),
+        borderRadius: '48px',
         [theme.breakpoints.down('xs')]: {
-            display: 'none',
+            position: 'absolute',
+            top: 0,
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
         }
     },
     paper: {
-        margin: theme.spacing(12, 4),
+        margin: theme.spacing(6, 4),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -73,11 +68,14 @@ const useStyles = makeStyles(() => ({
 
 const Login = (props) => {
     const classes = useStyles();
+    const loginContext = useContext(LoginContext);
+
     const [language, setLanguage] = useState("en")
     const [email, setEmail] = useState("")
     const [emailError, setEmailError] = useState("")
     const [password, setPassword] = useState("")
     const [passwordError, setPasswordError] = useState("")
+    const [isAuthenticating, setIsAuthenticating] = useState(false)
 
     const handleChangeEmail = (e) => {
         const target = e.target;
@@ -89,31 +87,35 @@ const Login = (props) => {
         setPassword(target.value);
     };
 
-    const handleSignIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault();
-        const signInData = {
-            email: email,
-            password: password,
-        }
         setEmailError(validateEmail(email))
         setPasswordError(validatePassword(password))
-        if(!validateEmail(email) && !validatePassword(password)) {
-            axiosInstance.post('/user/login', signInData).then((res) => console.log(res));
+        if (!validateEmail(email) && !validatePassword(password)) {
+            setIsAuthenticating(true);
             axiosInstance.post('/user/profile').then((res) => {
                 console.log(res)
             });
+            try {
+                await loginContext.login(email, password);
+                return <Redirect to="/panel"/>
+                // axiosInstance.post('/user/login').then((res) => console.log(res));
+            } catch (e) {
+                console.error('Log: Authentication Error');
+                console.error(e);
+                setIsAuthenticating(false);
+                return <Redirect to="/panel"/>
+            }
         }
     }
 
     return (
         <React.Fragment>
-            <Header setLanguage={setLanguage}/>
+            <Header setLanguage={setLanguage} isDark={true}/>
             <Grid container component="main" className={classes.root}>
                 <CssBaseline/>
-                <Grid item xs={false} sm={4} md={7} className={classes.imageBox}>
-                    <img src={construction} className={classes.image}/>
-                </Grid>
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                <Grid item xs={12} sm={4} md={6}/>
+                <Grid item xs={12} sm={7} md={5} component={Paper} elevation={6} square className={classes.login}>
                     <div className={classes.paper}>
                         <Avatar className={classes.avatar}>
                             <LockOutlinedIcon/>
@@ -157,6 +159,7 @@ const Login = (props) => {
                             {/*  label="Remember me"*/}
                             {/*/>*/}
                             <Button
+                                disabled={isAuthenticating}
                                 type="submit"
                                 fullWidth
                                 variant="contained"
@@ -164,7 +167,7 @@ const Login = (props) => {
                                 className={classes.submit}
                                 onClick={handleSignIn}
                             >
-                                Sign In
+                                {isAuthenticating ? <CircularProgress/> : 'Sign In'}
                             </Button>
                             {/*<Grid container>*/}
                             {/*  <Grid item xs>*/}
@@ -184,6 +187,7 @@ const Login = (props) => {
                         </form>
                     </div>
                 </Grid>
+                <Grid item xs={false} sm={1} md={1}/>
             </Grid>
         </React.Fragment>
     );
