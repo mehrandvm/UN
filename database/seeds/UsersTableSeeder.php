@@ -43,6 +43,16 @@ class UsersTableSeeder extends Seeder
 		$admin->username = 'mahmoodian.b';
 		$admin->password = bcrypt('password');
 		$admin->save();
-        $admin->roles()->attach($admin_role);
+		$admin->roles()->attach($admin_role);
+		
+		$demo = new User();
+		$demo->f_name = 'Demo';
+		$demo->l_name = 'Demo';
+		$demo->phone_number = '+989121234567';
+		$demo->email = 'demo';
+		$demo->username = 'demo';
+		$demo->password = bcrypt('chakad');
+		$demo->save();
+        $demo->roles()->attach($admin_role);
     }
 }
