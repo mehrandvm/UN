@@ -16,7 +16,12 @@ class ManagementController extends Controller
 
     public function getPermissions(){
         $user = Auth::user(); 
+        foreach($user->permissions() as $permission){
+            dd($permission);
+        }
+        dd($user->permissions());
         return "all permissions";
+        
     }
 
     public function hasPermissions(String $permission_str){
