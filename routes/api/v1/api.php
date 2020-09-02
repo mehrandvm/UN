@@ -24,3 +24,10 @@ Route::prefix('user')->group(function () {
         Route::post('profile', 'api\v1\UserController@profile');
     });
 });
+
+Route::prefix('management')->group(function () {
+    Route::middleware(['auth:api'])->group(function () {
+        Route::get('permission', 'api\v1\ManagementController@getPermissions');
+        Route::get('permission/{id}', 'api\v1\ManagementController@hasPermissions');
+    });
+});
