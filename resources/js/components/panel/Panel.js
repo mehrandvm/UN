@@ -42,6 +42,14 @@ const Panel = () => {
         >
             <Header setLanguage={setLanguage}/>
             <Grid item xs={6} sm={3}>
+                <Link to="/panel/dashboard" className={classes.link}>
+                    <Button variant="contained" color="secondary" className={classes.button}>
+                        <DashboardIcon color="inherit"/>
+                        <Typography>Dashboard</Typography>
+                    </Button>
+                </Link>
+            </Grid>
+            <Grid item xs={6} sm={3}>
                 <Link to="/panel/user" className={classes.link}>
                     <Button variant="contained" color="secondary" className={classes.button}>
                         <PeopleIcon color="inherit"/>
@@ -65,15 +73,6 @@ const Panel = () => {
                     </Button>
                 </Link>
             </Grid>
-            <Grid item xs={6} sm={3}>
-                <Link to="/panel/dashboard" className={classes.link}>
-                    <Button variant="contained" color="secondary" className={classes.button}>
-                        <DashboardIcon color="inherit"/>
-                        <Typography>Dashboard</Typography>
-                    </Button>
-                </Link>
-            </Grid>
-
         </Grid>
     );
 }

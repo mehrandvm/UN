@@ -5,11 +5,10 @@ import {makeStyles} from '@material-ui/core/styles';
 import construction from '../../../images/construction.jpg'
 import Header from '../header/Header';
 import theme from '../theme/theme';
-import axiosInstance, {tokenTitle} from "../../apis/AxiosConfig";
 import {validateEmail, validatePassword} from "../../utils/validations/Validation";
 import FormTextField from "../form-textfield/FormTextField";
 import {LoginContext} from "../../contexts/login-context/LoginContext";
-import {Redirect} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const Copyright = () => {
@@ -69,7 +68,7 @@ const useStyles = makeStyles(() => ({
 const Login = (props) => {
     const classes = useStyles();
     const loginContext = useContext(LoginContext);
-
+    const history = useHistory()
     const [language, setLanguage] = useState("en")
     const [email, setEmail] = useState("")
     const [emailError, setEmailError] = useState("")
@@ -93,18 +92,13 @@ const Login = (props) => {
         setPasswordError(validatePassword(password))
         if (!validateEmail(email) && !validatePassword(password)) {
             setIsAuthenticating(true);
-            axiosInstance.post('/user/profile').then((res) => {
-                console.log(res)
-            });
             try {
                 await loginContext.login(email, password);
-                return <Redirect to="/panel"/>
-                // axiosInstance.post('/user/login').then((res) => console.log(res));
+                setIsAuthenticating(false);
+                history.push('/panel')
             } catch (e) {
-                console.error('Log: Authentication Error');
                 console.error(e);
                 setIsAuthenticating(false);
-                return <Redirect to="/panel"/>
             }
         }
     }
