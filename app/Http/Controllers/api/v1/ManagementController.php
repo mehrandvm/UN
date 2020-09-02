@@ -27,7 +27,7 @@ class ManagementController extends Controller
     public function hasPermissions(String $permission_str){
         $user = Auth::user(); 
         $permission = Permission::where('slug', $permission_str)->first();
-        if($user->hasPermissionTo($permission)){
+        if($permission && $user->hasPermissionTo($permission)){
             return response()->json([
                 'status_code' => $this->successStatus,
                 'status_message' => 'Success',
