@@ -11,6 +11,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import DivisionSelector from "../map/DivisionSelector";
+import {withPermission} from "../../utils/with-premission/withPermission";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -88,9 +89,6 @@ const Dashboard = () => {
                         spacing={2}
                     >
                         <Grid item xs={4}>
-                            <HazardSelector mapHazards={mapHazards} setMapHazards={setMapHazards} />
-                        </Grid>
-                        <Grid item xs={4}>
                             <FormControl variant="outlined" className={classes.formControl}>
                                 <InputLabel>Division Level</InputLabel>
                                 <Select
@@ -110,6 +108,9 @@ const Dashboard = () => {
                                 selectedDivision={selectedDivision}
                                 setSelectedDivision={setSelectedDivision}
                             />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <HazardSelector mapHazards={mapHazards} setMapHazards={setMapHazards} />
                         </Grid>
                         <Grid item xs={12}>
                             {mapParams ?
@@ -150,4 +151,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard
+export default withPermission(Dashboard)

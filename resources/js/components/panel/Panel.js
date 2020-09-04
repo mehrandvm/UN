@@ -77,4 +77,4 @@ const Panel = () => {
     );
 }
 
-export default (Panel)
+export default withPermission(Panel)

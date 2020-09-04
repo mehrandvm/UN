@@ -37,6 +37,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Header from "../header/Header";
 import {Grid} from "@material-ui/core";
 import {Link} from "react-router-dom";
+import {withPermission} from "../../utils/with-premission/withPermission";
 
 const values = {
     userRole: [
@@ -213,8 +214,8 @@ const EditColumnCell = (editProps) => {
     const classes = useStyles()
     return (
         <td className={classes.tableCell}>
-            <Link to={`/panel/user/details/${editProps.row.id}`}><IconButton><InfoIcon/></IconButton></Link>
-            <Link to={`/panel/user/edit/${editProps.row.id}`}><IconButton><EditIcon/></IconButton></Link>
+            <Link to={`/user/details/${editProps.row.id}`}><IconButton><InfoIcon/></IconButton></Link>
+            <Link to={`/user/edit/${editProps.row.id}`}><IconButton><EditIcon/></IconButton></Link>
             <IconButton onClick={deleteItem}><DeleteIcon/></IconButton>
         </td>
     );
@@ -224,7 +225,7 @@ const EditColumnHeaderCell = () => {
     const classes = useStyles()
     return (
         <th className={classes.tableCell}>
-            <Link to={`/panel/user/new`}><IconButton><AddIcon/></IconButton></Link>
+            <Link to={`/user/new`}><IconButton><AddIcon/></IconButton></Link>
         </th>
     )
 };
@@ -370,4 +371,4 @@ const User = () => {
 };
 
 
-export default User
+export default withPermission(User)
