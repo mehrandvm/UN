@@ -8,6 +8,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MapIcon from '@material-ui/icons/Map';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 const useStyles = makeStyles({
     list: {
@@ -22,8 +25,9 @@ const useStyles = makeStyles({
 const Sidebar = (props) => {
     const classes = useStyles();
     const sidebarItems = [
-        { title: "Home", link: "/", icon: <MapIcon /> },
-        { title: "Login", link: "/login", icon: <LocationOnIcon /> },
+        { title: "Dashboard", link: "/dashboard", icon: <DashboardIcon /> },
+        { title: "Users", link: "/user", icon: <SupervisorAccountIcon /> },
+        { title: "Roles", link: "/", icon: <AssignmentIndIcon /> },
     ]
     const list = () => (
         <div
