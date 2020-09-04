@@ -95,7 +95,7 @@ const Login = (props) => {
             try {
                 await loginContext.login(email, password);
                 setIsAuthenticating(false);
-                history.push('/panel')
+                history.push('/dashboard')
             } catch (e) {
                 console.error(e);
                 setIsAuthenticating(false);
@@ -105,7 +105,7 @@ const Login = (props) => {
 
     return (
         <React.Fragment>
-            <Header setLanguage={setLanguage} isDark={true}/>
+            <Header setLanguage={setLanguage} isDark={true} hideSidebar={true}/>
             <Grid container component="main" className={classes.root}>
                 <CssBaseline/>
                 <Grid item xs={12} sm={4} md={6}/>
