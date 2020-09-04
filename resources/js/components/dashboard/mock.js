@@ -9,20 +9,28 @@ const data = {
             },
             {
                 'type': 'image',
-                'url': 'http://194.5.195.33:8080/geoserver/wms',
+                'url': 'http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AKermanshah_villages&outputFormat=application%2Fjson',
                 'params': {
                     'LAYERS': 'Agri:shahrestan',
                 },
                 'serverType': 'geoserver',
             },
-            {
-                'type': 'image',
-                'url': 'http://194.5.195.33:8080/geoserver/wms',
-                'params': {
-                    'LAYERS': 'Agri:RedPalm',
-                },
-                'serverType': 'geoserver',
-            },
+            // {
+            //     'type': 'image',
+            //     'url': 'http://194.5.195.33:8080/geoserver/wms',
+            //     'params': {
+            //         'LAYERS': 'Agri:shahrestan',
+            //     },
+            //     'serverType': 'geoserver',
+            // },
+            // {
+            //     'type': 'image',
+            //     'url': 'http://194.5.195.33:8080/geoserver/wms',
+            //     'params': {
+            //         'LAYERS': 'Agri:RedPalm',
+            //     },
+            //     'serverType': 'geoserver',
+            // },
         ],
         'view': {
             'projection': 'EPSG:4326',
@@ -35,7 +43,7 @@ const data = {
     },
     'rightCharts': {
         '0': {
-            'title': 'All Stages',
+            // 'title': 'All Stages',
             'type': 'pie',
             'dataset': {
                 'Stage One': 15,
@@ -55,6 +63,7 @@ const data = {
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 0,
         },
         '2': {
             // 'title': 'Stage Two',
@@ -67,6 +76,7 @@ const data = {
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 1,
         },
         '3': {
             // 'title': 'Stage Three',
@@ -79,6 +89,7 @@ const data = {
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 2,
         },
         '4': {
             // 'title': 'Stage Three',
@@ -91,6 +102,7 @@ const data = {
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 3,
         },
     },
     'bottomCharts': {
