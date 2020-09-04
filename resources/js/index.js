@@ -37,6 +37,7 @@ const Index = () => {
                 throw new Error(e.response.data.message);
             } else {
                 throw new Error('network-error');
+                // TODO: add snackbar
             }
         }
     }, [setLoginToken]);
@@ -54,27 +55,27 @@ const Index = () => {
             <LoginContext.Provider value={{token, setToken: setLoginToken, login}}>
                 <Router>
                     <Switch>
-                        <Route exact path="/panel/user/details/:id">
+                        <Route exact path="/user/details/:id">
                             <UserForm mode={"details"}/>
                         </Route>
-                        <Route exact path="/panel/user/edit/:id">
+                        <Route exact path="/user/edit/:id">
                             <UserForm mode={"edit"}/>
                         </Route>
-                        <Route exact path="/panel/user/new">
+                        <Route exact path="/user/new">
                             <UserForm mode={"create"}/>
                         </Route>
-                        <Route exact path="/panel/user">
+                        <Route exact path="/user">
                             <User/>
                         </Route>
-                        <Route exact path="/panel/role">
+                        <Route exact path="/role">
                             <Role/>
                         </Route>
-                        <Route exact path="/panel/dashboard">
+                        <Route exact path="/dashboard">
                             <Dashboard/>
                         </Route>
-                        <Route exact path="/panel">
-                            <Panel/>
-                        </Route>
+                        {/*<Route exact path="/panel">*/}
+                        {/*    <Panel/>*/}
+                        {/*</Route>*/}
                         <Route exact path="/login">
                             <Login/>
                         </Route>
