@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Avatar, Box, Button, CssBaseline, Grid, Link, Paper, Typography} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {makeStyles} from '@material-ui/core/styles';
@@ -10,6 +10,8 @@ import FormTextField from "../form-textfield/FormTextField";
 import {LoginContext} from "../../contexts/login-context/LoginContext";
 import {useHistory} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {useSnackbar} from "notistack";
+import {tokenTitle} from "../../apis/AxiosConfig";
 
 const Copyright = () => {
     return (
@@ -69,12 +71,20 @@ const Login = (props) => {
     const classes = useStyles();
     const loginContext = useContext(LoginContext);
     const history = useHistory()
+    const {enqueueSnackbar} = useSnackbar();
     const [language, setLanguage] = useState("en")
     const [email, setEmail] = useState("")
     const [emailError, setEmailError] = useState("")
     const [password, setPassword] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const [isAuthenticating, setIsAuthenticating] = useState(false)
+
+    useEffect(() => {
+        if (localStorage.getItem(tokenTitle)) {
+            history.push('dashboard')
+            enqueueSnackbar('User verified',{variant:'success'})
+        }
+    }, [])
 
     const handleChangeEmail = (e) => {
         const target = e.target;
@@ -96,8 +106,10 @@ const Login = (props) => {
                 await loginContext.login(email, password);
                 setIsAuthenticating(false);
                 history.push('/dashboard')
+                enqueueSnackbar('Login successful', {variant: 'success'})
             } catch (e) {
-                console.error(e);
+                // console.error(e);
+                enqueueSnackbar('Invalid username or password', {variant: 'error'})
                 setIsAuthenticating(false);
             }
         }
