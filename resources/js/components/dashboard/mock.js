@@ -8,12 +8,16 @@ const data = {
                 'projection': 'EPSG:3857',
             },
             {
-                'type': 'image',
-                'url': 'http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AKermanshah_villages&outputFormat=application%2Fjson',
-                'params': {
-                    'LAYERS': 'Agri:shahrestan',
-                },
-                'serverType': 'geoserver',
+                'type': 'vector',
+                'url': 'static/village.json',
+            },
+            {
+                'type': 'vector',
+                'url': 'static/county.json',
+            },
+            {
+                'type': 'vector',
+                'url': 'static/national.json',
             },
             // {
             //     'type': 'image',
