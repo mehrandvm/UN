@@ -13,6 +13,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import {removeAxiosHeader, setAxiosHeader, tokenTitle} from "./apis/AxiosConfig";
 import {checkAuth, loginAPI} from "./apis/auth/authCheck";
 import {LoginContext} from "./contexts/login-context/LoginContext";
+import {SnackbarProvider} from 'notistack';
 
 const Index = () => {
     const [token, setToken] = React.useState(localStorage.getItem(tokenTitle) || null);
@@ -53,37 +54,39 @@ const Index = () => {
     return (
         <ThemeProvider theme={theme}>
             <LoginContext.Provider value={{token, setToken: setLoginToken, login}}>
-                <Router>
-                    <Switch>
-                        <Route exact path="/user/details/:id">
-                            <UserForm mode={"details"}/>
-                        </Route>
-                        <Route exact path="/user/edit/:id">
-                            <UserForm mode={"edit"}/>
-                        </Route>
-                        <Route exact path="/user/new">
-                            <UserForm mode={"create"}/>
-                        </Route>
-                        <Route exact path="/user">
-                            <User/>
-                        </Route>
-                        <Route exact path="/role">
-                            <Role/>
-                        </Route>
-                        <Route exact path="/dashboard">
-                            <Dashboard/>
-                        </Route>
-                        {/*<Route exact path="/panel">*/}
-                        {/*    <Panel/>*/}
-                        {/*</Route>*/}
-                        <Route exact path="/login">
-                            <Login/>
-                        </Route>
-                        <Route path="/">
-                            <Home/>
-                        </Route>
-                    </Switch>
-                </Router>
+                <SnackbarProvider maxSnack={3}>
+                    <Router>
+                        <Switch>
+                            <Route exact path="/user/details/:id">
+                                <UserForm mode={"details"}/>
+                            </Route>
+                            <Route exact path="/user/edit/:id">
+                                <UserForm mode={"edit"}/>
+                            </Route>
+                            <Route exact path="/user/new">
+                                <UserForm mode={"create"}/>
+                            </Route>
+                            <Route exact path="/user">
+                                <User/>
+                            </Route>
+                            <Route exact path="/role">
+                                <Role/>
+                            </Route>
+                            <Route exact path="/dashboard">
+                                <Dashboard/>
+                            </Route>
+                            {/*<Route exact path="/panel">*/}
+                            {/*    <Panel/>*/}
+                            {/*</Route>*/}
+                            <Route exact path="/login">
+                                <Login/>
+                            </Route>
+                            <Route path="/">
+                                <Home/>
+                            </Route>
+                        </Switch>
+                    </Router>
+                </SnackbarProvider>
             </LoginContext.Provider>
         </ThemeProvider>
     );
