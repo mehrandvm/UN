@@ -3,6 +3,7 @@ import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import nationalFeatureCollection from '../../../static/national.json'
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -12,7 +13,7 @@ function sleep(delay = 0) {
 
 const DivisionSelector = (props) => {
     const [open, setOpen] = React.useState(false);
-    // const [selectedDivision, setSelectedDivision] = React.useState([]);
+    const [options, setOptions] = React.useState([]);
     const {selectedDivision, setSelectedDivision} = props;
     const loading = open && selectedDivision.length === 0;
 
@@ -24,12 +25,13 @@ const DivisionSelector = (props) => {
         }
 
         (async () => {
-            const response = await Axios.get('https://country.register.gov.uk/records.json?page-size=5000');
+            // const response = await Axios.get('https://country.register.gov.uk/records.json?page-size=5000');
             await sleep(1e3); // For demo purposes.
-            const countries = await response.json();
+            // const countries = await response.json();
 
             if (active) {
-                setSelectedDivision(Object.keys(countries).map((key) => countries[key].item[0]));
+                setOptions(nationalFeatureCollection.features.map((feature) => feature.properties.province))
+                // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
             }
         })();
 
@@ -55,8 +57,8 @@ const DivisionSelector = (props) => {
                 setOpen(false);
             }}
             getOptionSelected={(option, value) => option.name === value.name}
-            getOptionLabel={(option) => option.name}
-            options={selectedDivision}
+            getOptionLabel={(option) => option}
+            options={options}
             loading={loading}
             renderInput={(params) => (
                 <TextField
