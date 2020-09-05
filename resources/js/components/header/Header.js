@@ -8,6 +8,9 @@ import habitatLogo from '../../../images/habitatLogo.png'
 import Sidebar from "./Sidebar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from '@material-ui/icons/Menu';
+import {tokenTitle} from "../../apis/AxiosConfig";
+import {useHistory} from "react-router-dom";
+import {useSnackbar} from "notistack";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,8 +50,15 @@ const Header = (props) => {
         }
         setDrawerOpen(!drawerOpen);
     };
+    const {enqueueSnackbar} = useSnackbar()
+    const history = useHistory()
     const openDrawer = () => setDrawerOpen(true)
     const closeDrawer = () => setDrawerOpen(false)
+    const handleLogout = () => {
+        localStorage.removeItem(tokenTitle)
+        history.push('/login')
+        enqueueSnackbar("You logged out",{variant:'info'})
+    }
     return (
         <div className={classes.root}>
             <Sidebar open={drawerOpen}
@@ -67,14 +77,14 @@ const Header = (props) => {
                     </Typography>
                     <Button onClick={() => props.setLanguage("en")} color="inherit">EN</Button>
                     <Button onClick={() => props.setLanguage("fa")} color="inherit">FA</Button>
-                    <form action="/logout" method="post">
-                        <input
-                            type="hidden"
-                            name="_token"
-                            value={props.csrf_token}
-                        />
-                        <Button type="submit" color="inherit">Logout</Button>
-                    </form>
+                    {/*<form action="/logout" method="post">*/}
+                    {/*    <input*/}
+                    {/*        type="hidden"*/}
+                    {/*        name="_token"*/}
+                    {/*        value={props.csrf_token}*/}
+                    {/*    />*/}
+                    <Button type="submit" color="inherit" onClick={handleLogout}>Logout</Button>
+                    {/*</form>*/}
                 </Toolbar>
             </AppBar>
         </div>
