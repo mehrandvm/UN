@@ -13,20 +13,26 @@ import {
     XYZ as XYZSource,
     ImageWMS as ImageWMS
 } from 'ol/source'
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import GeoJSON from "ol/format/GeoJSON";
 
 class MapFragment extends React.Component {
     constructor(props) {
         super(props)
         this.updateDimensions = this.updateDimensions.bind(this)
     }
+
     updateDimensions() {
         const h = window.innerHeight * this.props.height
-        this.setState({ height: h })
+        this.setState({height: h})
     }
+
     componentWillMount() {
         window.addEventListener('resize', this.updateDimensions)
         this.updateDimensions()
     }
+
     componentDidMount() {
         console.log(this.props)
         const map = new Map({
@@ -48,6 +54,13 @@ class MapFragment extends React.Component {
                                 serverType: layer.serverType,
                             })
                         })
+                    case 'vector':
+                        return new VectorLayer({
+                            source: new VectorSource({
+                                url: layer.url,
+                                format: new GeoJSON(),
+                            }),
+                        });
                     default:
                         break;
                 }
@@ -59,9 +72,11 @@ class MapFragment extends React.Component {
             })
         })
     }
+
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateDimensions)
     }
+
     render() {
         const style = {
             width: '100%',
@@ -71,10 +86,11 @@ class MapFragment extends React.Component {
         return (
             <Grid container>
                 <Grid item xs={12}>
-                    <div id='map' style={style} />
+                    <div id='map' style={style}/>
                 </Grid>
             </Grid>
         )
     }
 }
+
 export default MapFragment
