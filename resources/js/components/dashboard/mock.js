@@ -39,10 +39,10 @@ const data = {
         'view': {
             'projection': 'EPSG:4326',
             'center': {
-                'x': 55.3825708,
-                'y': 28.7258838,
+                'x': 0,
+                'y': 0,
             },
-            'zoom': '6',
+            'zoom': '1',
         },
     },
     'rightCharts': {
