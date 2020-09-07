@@ -4,6 +4,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import construction from '../../../images/construction.jpg'
 import MapIcon from '@material-ui/icons/Map';
 import Header from '../header/Header';
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     showcase: {
@@ -63,7 +64,7 @@ const Home = () => {
     const [language, setLanguage] = useState("en")
     return (
         <div>
-            <Header setLanguage={setLanguage} isDark={true}/>
+            <Header setLanguage={setLanguage} isDark={true} hideSidebar={true}/>
             <Grid container className={classes.showcase} alignItems="center">
                 <Grid item xs={12} className={classes.container}>
                     <Grid item xs={12} className={classes.text}>
@@ -73,12 +74,12 @@ const Home = () => {
                         <Typography variant='h6' className={classes.title}>UN Habitat</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <a href={'/login'} className={classes.link}>
+                        <Link to={'/login'} className={classes.link}>
                             <Button variant="contained" color="primary" className={classes.button}>
                                 Login
                             </Button>
-                        </a>
-                        <Button variant="contained" color="secondary" href="#aboutus" className={classes.button}>
+                        </Link>
+                        <Button variant="contained" color="secondary" className={classes.button}>
                             About Us
                         </Button>
                     </Grid>

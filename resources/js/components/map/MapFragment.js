@@ -2,6 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import 'ol/ol.css';
 import {
+    geom,
     Map,
     View
 } from 'ol'
@@ -13,24 +14,19 @@ import {
     XYZ as XYZSource,
     ImageWMS as ImageWMS
 } from 'ol/source'
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import GeoJSON from "ol/format/GeoJSON";
+import OlMap from 'ol/Map';
+import MultiPolygon from "ol/geom/MultiPolygon";
 
 class MapFragment extends React.Component {
     constructor(props) {
-        super(props)
-        this.updateDimensions = this.updateDimensions.bind(this)
-    }
-    updateDimensions() {
-        const h = window.innerHeight * this.props.height
-        this.setState({ height: h })
-    }
-    componentWillMount() {
-        window.addEventListener('resize', this.updateDimensions)
-        this.updateDimensions()
-    }
-    componentDidMount() {
-        console.log(this.props)
-        const map = new Map({
-            target: 'map',
+        super(props);
+
+        this.mapDivId = `map-${Math.random()}`;
+
+        this.map = new OlMap({
             layers: this.props.params.layers.map((layer, i) => {
                 switch (layer.type) {
                     case 'tile':
@@ -48,6 +44,13 @@ class MapFragment extends React.Component {
                                 serverType: layer.serverType,
                             })
                         })
+                    case 'vector':
+                        return new VectorLayer({
+                            source: new VectorSource({
+                                url: layer.url,
+                                format: new GeoJSON(),
+                            }),
+                        });
                     default:
                         break;
                 }
@@ -57,24 +60,107 @@ class MapFragment extends React.Component {
                 center: [this.props.params.view.center.x, this.props.params.view.center.y],
                 zoom: this.props.params.view.zoom
             })
-        })
+        });
     }
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateDimensions)
+
+    componentDidMount() {
+        this.map.setTarget(this.mapDivId);
     }
+
+    updateLayers(updateFunc) {
+        updateFunc()
+    }
+
     render() {
-        const style = {
-            width: '100%',
-            height: this.state.height,
-            backgroundColor: '#cccccc',
+        const turnNationalInvisible = () => this.map.getLayers().getArray()[1].setVisible(false)
+        const turnNationalVisible = () => this.map.getLayers().getArray()[1].setVisible(true)
+        const turnProvinceInvisible = () => this.map.getLayers().getArray()[2].setVisible(false)
+        const turnProvinceVisible = () => this.map.getLayers().getArray()[2].setVisible(true)
+        const turnCountyInvisible = () => this.map.getLayers().getArray()[3].setVisible(false)
+        const turnCountyVisible = () => this.map.getLayers().getArray()[3].setVisible(true)
+
+        const disableLayers = () => {
+            turnNationalInvisible();
+            turnProvinceInvisible();
+            turnCountyInvisible();
         }
+        const switchToNationalLayers = () => {
+            turnProvinceInvisible();
+            turnCountyInvisible();
+            turnNationalVisible();
+        }
+        const switchToProvinceLayers = () => {
+            turnNationalInvisible();
+            turnCountyInvisible();
+            turnProvinceVisible();
+        }
+        const switchToCountyLayers = () => {
+            turnNationalInvisible();
+            turnProvinceVisible();
+            turnCountyVisible();
+        }
+        const switchToVillageLayers = () => {
+            turnNationalInvisible();
+            turnProvinceInvisible();
+            turnCountyVisible();
+        }
+
+        const fitToNationalLayers = () => {
+            this.map.getView().animate({center: [53.6880, 32.4279]}, {zoom: 5})
+        }
+        const fitToProvinceLayers = () => {
+            const poly = new MultiPolygon(this.props.selectedProvince.geometry.coordinates)
+            this.map.getView().fit(poly.getExtent(),
+                {padding: [10, 10, 10, 10]})
+        }
+        const fitToCountyLayers = () => {
+            const poly = new MultiPolygon(this.props.selectedCounty.geometry.coordinates)
+            this.map.getView().fit(poly.getExtent(),
+                {padding: [10, 10, 10, 10]})
+        }
+        const fitToVillageLayers = () => {
+            console.log(this.props.selectedVillage.geometry)
+            const center = this.props.selectedVillage.geometry.coordinates
+            this.map.getView().animate({center: center}, {zoom: 13})
+        }
+
+        switch (this.props.divisionLevel) {
+            case("none"):
+                this.updateLayers(disableLayers)
+                break;
+            case("national"):
+                this.updateLayers(switchToNationalLayers)
+                this.updateLayers(fitToNationalLayers)
+                break;
+            case("province"):
+                this.updateLayers(switchToProvinceLayers)
+                this.updateLayers(fitToProvinceLayers)
+                break;
+            case("county"):
+                this.updateLayers(switchToCountyLayers)
+                this.updateLayers(fitToCountyLayers)
+                break;
+            case("village"):
+                this.updateLayers(switchToVillageLayers)
+                this.updateLayers(fitToVillageLayers)
+                break;
+            default:
+                break;
+        }
+
         return (
             <Grid container>
                 <Grid item xs={12}>
-                    <div id='map' style={style} />
+                    <div
+                        id={this.mapDivId}
+                        style={{
+                            height: '400px'
+                        }}
+                    />
                 </Grid>
             </Grid>
         )
     }
 }
+
 export default MapFragment

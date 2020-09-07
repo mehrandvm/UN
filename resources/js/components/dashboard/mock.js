@@ -8,34 +8,46 @@ const data = {
                 'projection': 'EPSG:3857',
             },
             {
-                'type': 'image',
-                'url': 'http://194.5.195.33:8080/geoserver/wms',
-                'params': {
-                    'LAYERS': 'Agri:shahrestan',
-                },
-                'serverType': 'geoserver',
+                'type': 'vector',
+                'url': 'static/national.json',
             },
             {
-                'type': 'image',
-                'url': 'http://194.5.195.33:8080/geoserver/wms',
-                'params': {
-                    'LAYERS': 'Agri:RedPalm',
-                },
-                'serverType': 'geoserver',
+                'type': 'vector',
+                'url': 'static/county.json',
             },
+            {
+                'type': 'vector',
+                'url': 'static/village.json',
+            },
+            // {
+            //     'type': 'image',
+            //     'url': 'http://194.5.195.33:8080/geoserver/wms',
+            //     'params': {
+            //         'LAYERS': 'Agri:shahrestan',
+            //     },
+            //     'serverType': 'geoserver',
+            // },
+            // {
+            //     'type': 'image',
+            //     'url': 'http://194.5.195.33:8080/geoserver/wms',
+            //     'params': {
+            //         'LAYERS': 'Agri:RedPalm',
+            //     },
+            //     'serverType': 'geoserver',
+            // },
         ],
         'view': {
             'projection': 'EPSG:4326',
             'center': {
-                'x': 55.3825708,
-                'y': 28.7258838,
+                'x': 0,
+                'y': 0,
             },
-            'zoom': '6',
+            'zoom': '1',
         },
     },
     'rightCharts': {
         '0': {
-            'title': 'All Stages',
+            // 'title': 'All Stages',
             'type': 'pie',
             'dataset': {
                 'Stage One': 15,
@@ -55,6 +67,7 @@ const data = {
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 0,
         },
         '2': {
             // 'title': 'Stage Two',
@@ -67,6 +80,7 @@ const data = {
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 1,
         },
         '3': {
             // 'title': 'Stage Three',
@@ -79,6 +93,7 @@ const data = {
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 2,
         },
         '4': {
             // 'title': 'Stage Three',
@@ -91,6 +106,7 @@ const data = {
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 3,
         },
     },
     'bottomCharts': {
