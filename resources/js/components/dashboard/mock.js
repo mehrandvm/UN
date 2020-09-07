@@ -9,7 +9,7 @@ const data = {
             },
             {
                 'type': 'vector',
-                'url': 'static/village.json',
+                'url': 'static/national.json',
             },
             {
                 'type': 'vector',
@@ -17,7 +17,7 @@ const data = {
             },
             {
                 'type': 'vector',
-                'url': 'static/national.json',
+                'url': 'static/village.json',
             },
             // {
             //     'type': 'image',
