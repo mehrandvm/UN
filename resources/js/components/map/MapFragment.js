@@ -2,6 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import 'ol/ol.css';
 import {
+    geom,
     Map,
     View
 } from 'ol'
@@ -17,6 +18,7 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 import OlMap from 'ol/Map';
+import MultiPolygon from "ol/geom/MultiPolygon";
 
 class MapFragment extends React.Component {
     constructor(props) {
@@ -65,7 +67,7 @@ class MapFragment extends React.Component {
         this.map.setTarget(this.mapDivId);
     }
 
-    updateLayers(updateFunc){
+    updateLayers(updateFunc) {
         updateFunc()
     }
 
@@ -77,11 +79,50 @@ class MapFragment extends React.Component {
         const turnCountyInvisible = () => this.map.getLayers().getArray()[3].setVisible(false)
         const turnCountyVisible = () => this.map.getLayers().getArray()[3].setVisible(true)
 
-        const disableLayers = () => {turnNationalInvisible();turnProvinceInvisible();turnCountyInvisible();}
-        const switchToNationalLayers = () => {turnProvinceInvisible();turnCountyInvisible();turnNationalVisible();}
-        const switchToProvinceLayers = () => {turnNationalInvisible();turnCountyInvisible();turnProvinceVisible();}
-        const switchToCountyLayers = () => {turnNationalInvisible();turnProvinceVisible();turnCountyVisible();}
-        const switchToVillageLayers = () => {turnNationalInvisible();turnProvinceInvisible();turnCountyVisible();}
+        const disableLayers = () => {
+            turnNationalInvisible();
+            turnProvinceInvisible();
+            turnCountyInvisible();
+        }
+        const switchToNationalLayers = () => {
+            turnProvinceInvisible();
+            turnCountyInvisible();
+            turnNationalVisible();
+        }
+        const switchToProvinceLayers = () => {
+            turnNationalInvisible();
+            turnCountyInvisible();
+            turnProvinceVisible();
+        }
+        const switchToCountyLayers = () => {
+            turnNationalInvisible();
+            turnProvinceVisible();
+            turnCountyVisible();
+        }
+        const switchToVillageLayers = () => {
+            turnNationalInvisible();
+            turnProvinceInvisible();
+            turnCountyVisible();
+        }
+
+        const fitToNationalLayers = () => {
+            this.map.getView().animate({center: [53.6880, 32.4279]}, {zoom: 5})
+        }
+        const fitToProvinceLayers = () => {
+            const poly = new MultiPolygon(this.props.selectedProvince.geometry.coordinates)
+            this.map.getView().fit(poly.getExtent(),
+                {padding: [10, 10, 10, 10]})
+        }
+        const fitToCountyLayers = () => {
+            const poly = new MultiPolygon(this.props.selectedCounty.geometry.coordinates)
+            this.map.getView().fit(poly.getExtent(),
+                {padding: [10, 10, 10, 10]})
+        }
+        const fitToVillageLayers = () => {
+            console.log(this.props.selectedVillage.geometry)
+            const center = this.props.selectedVillage.geometry.coordinates
+            this.map.getView().animate({center: center}, {zoom: 13})
+        }
 
         switch (this.props.divisionLevel) {
             case("none"):
@@ -89,15 +130,19 @@ class MapFragment extends React.Component {
                 break;
             case("national"):
                 this.updateLayers(switchToNationalLayers)
+                this.updateLayers(fitToNationalLayers)
                 break;
             case("province"):
                 this.updateLayers(switchToProvinceLayers)
+                this.updateLayers(fitToProvinceLayers)
                 break;
             case("county"):
                 this.updateLayers(switchToCountyLayers)
+                this.updateLayers(fitToCountyLayers)
                 break;
             case("village"):
                 this.updateLayers(switchToVillageLayers)
+                this.updateLayers(fitToVillageLayers)
                 break;
             default:
                 break;
