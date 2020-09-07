@@ -38,6 +38,10 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = () => {
     const [divisionLevel, setDivisionLevel] = useState("none") // none, national, province, county, village
+    const [selectedNation, setSelectedNation] = useState(null);
+    const [selectedProvince, setSelectedProvince] = useState(null);
+    const [selectedCounty, setSelectedCounty] = useState(null);
+    const [selectedVillage, setSelectedVillage] = useState(null);
     const [mapParams, setMapParams] = useState();
     const [mapTitle, setMapTitle] = useState('');
     const [mapRightStats, setMapRightStats] = useState([]);
@@ -83,13 +87,31 @@ const Dashboard = () => {
                         className={classes.mapContainer}
                         spacing={2}
                     >
-                        <DivisionSelectors divisionLevel={divisionLevel} setDivisionLevel={setDivisionLevel}/>
+                        <DivisionSelectors
+                            divisionLevel={divisionLevel}
+                            setDivisionLevel={setDivisionLevel}
+                            selectedNation={selectedNation}
+                            selectedProvince={selectedProvince}
+                            selectedCounty={selectedCounty}
+                            selectedVillage={selectedVillage}
+                            setSelectedNation={setSelectedNation}
+                            setSelectedProvince={setSelectedProvince}
+                            setSelectedCounty={setSelectedCounty}
+                            setSelectedVillage={setSelectedVillage}
+                        />
                         {/*<Grid item xs={3}>*/}
                         {/*    <HazardSelector mapHazards={mapHazards} setMapHazards={setMapHazards} />*/}
                         {/*</Grid>*/}
                         {mapParams ?
                             <Grid item xs={12}>
-                                <MapFragment params={mapParams} divisionLevel={divisionLevel}/>
+                                <MapFragment
+                                    params={mapParams}
+                                    divisionLevel={divisionLevel}
+                                    selectedNation={selectedNation}
+                                    selectedProvince={selectedProvince}
+                                    selectedCounty={selectedCounty}
+                                    selectedVillage={selectedVillage}
+                                />
                             </Grid>
                             : null}
                         {mapBottomStats.map((chart, i) => {
