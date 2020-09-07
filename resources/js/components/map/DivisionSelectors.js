@@ -8,11 +8,18 @@ import CountySelector from "./CountySelector";
 import VillageSelector from "./VillageSelector";
 
 const DivisionSelectors = (props) => {
-    const [selectedNation, setSelectedNation] = useState(null);
-    const [selectedProvince, setSelectedProvince] = useState(null);
-    const [selectedCounty, setSelectedCounty] = useState(null);
-    const [selectedVillage, setSelectedVillage] = useState(null);
-    const {divisionLevel, setDivisionLevel} = props
+    const {
+        divisionLevel,
+        setDivisionLevel,
+        selectedNation,
+        selectedProvince,
+        selectedCounty,
+        selectedVillage,
+        setSelectedNation,
+        setSelectedProvince,
+        setSelectedCounty,
+        setSelectedVillage,
+    } = props
     const [language, setLanguage] = useState("en")
 
     const clearNational = () => {
@@ -31,6 +38,10 @@ const DivisionSelectors = (props) => {
     const clearCounty = () => {
         setDivisionLevel("province")
         setSelectedVillage(null)
+    }
+
+    const clearVillage = () => {
+        setDivisionLevel("county")
     }
 
     return (
@@ -68,6 +79,7 @@ const DivisionSelectors = (props) => {
                     setSelectedDivision={setSelectedVillage}
                     divisionLevel={divisionLevel}
                     setDivisionLevel={setDivisionLevel}
+                    clearVillage={clearVillage}
                 />
             </Grid>
         </>
