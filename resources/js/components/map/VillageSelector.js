@@ -14,7 +14,7 @@ function sleep(delay = 0) {
 const VillageSelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
-    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel} = props;
+    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearVillage} = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
 
 
@@ -34,7 +34,7 @@ const VillageSelector = (props) => {
             // const countries = await response.json();
 
             if (active) {
-                setOptions(villageFeatureCollection.features.map((feature) => feature.id))
+                setOptions(villageFeatureCollection.features)
                 // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
             }
         })();
@@ -61,14 +61,15 @@ const VillageSelector = (props) => {
                 setOpen(false);
             }}
             getOptionSelected={(option, value) => option = value}
-            getOptionLabel={(option) => option}
+            getOptionLabel={(option) => option.id}
             options={options}
             loading={loading}
             disabled={isDisabled()}
             value={selectedDivision}
             onChange={(event, newValue) => {
                 setSelectedDivision(newValue)
-                setDivisionLevel("village")
+                if (newValue===null){clearVillage()}
+                else{setDivisionLevel("village")}
             }}
             renderInput={(params) => (
                 <TextField

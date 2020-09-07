@@ -33,7 +33,7 @@ const ProvinceSelector = (props) => {
             // const countries = await response.json();
 
             if (active) {
-                setOptions(nationalFeatureCollection.features.map((feature) => feature.properties.province))
+                setOptions(nationalFeatureCollection.features)
                 // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
             }
         })();
@@ -60,11 +60,11 @@ const ProvinceSelector = (props) => {
                 setOpen(false);
             }}
             getOptionSelected={(option, value) => option === value}
-            getOptionLabel={(option) => option}
+            getOptionLabel={(option) => option.properties.province}
             options={options}
             loading={loading}
             disabled={isDisabled()}
-            getOptionDisabled={(option) => option !== "Kermanshah"}
+            getOptionDisabled={(option) => option.properties.province !== "Kermanshah"}
             value={selectedDivision}
             onChange={(event, newValue) => {
                 setSelectedDivision(newValue)

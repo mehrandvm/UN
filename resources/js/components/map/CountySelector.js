@@ -36,7 +36,7 @@ const CountySelector = (props) => {
             if (active) {
                 // await axiosInstance.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson'
                 // ).then((res) => console.log(res))
-                setOptions(countyFeatureCollection.features.map((feature) => feature.properties.Name_En))
+                setOptions(countyFeatureCollection.features)
                 // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
             }
         })();
@@ -63,7 +63,7 @@ const CountySelector = (props) => {
                 setOpen(false);
             }}
             getOptionSelected={(option, value) => option === value}
-            getOptionLabel={(option) => option}
+            getOptionLabel={(option) => option.properties.Name_En}
             options={options}
             loading={loading}
             disabled={isDisabled()}
