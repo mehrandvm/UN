@@ -11,11 +11,14 @@ function sleep(delay = 0) {
     });
 }
 
-const DivisionSelector = (props) => {
+const ProvinceSelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
-    const {selectedDivision, setSelectedDivision} = props;
-    const loading = open && selectedDivision.length === 0;
+    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearProvince} = props;
+    const loading = open && (selectedDivision === null || selectedDivision.length === 0);
+
+    const isDisabled = () => divisionLevel === "none"
+    const handleProvinceChange = () => setDivisionLevel("province")
 
     React.useEffect(() => {
         let active = true;
@@ -42,7 +45,7 @@ const DivisionSelector = (props) => {
 
     React.useEffect(() => {
         if (!open) {
-            setSelectedDivision([]);
+            setOptions([]);
         }
     }, [open]);
 
@@ -56,14 +59,22 @@ const DivisionSelector = (props) => {
             onClose={() => {
                 setOpen(false);
             }}
-            getOptionSelected={(option, value) => option.name === value.name}
+            getOptionSelected={(option, value) => option === value}
             getOptionLabel={(option) => option}
             options={options}
             loading={loading}
+            disabled={isDisabled()}
+            getOptionDisabled={(option) => option !== "Kermanshah"}
+            value={selectedDivision}
+            onChange={(event, newValue) => {
+                setSelectedDivision(newValue)
+                if (newValue===null){clearProvince()}
+                else{setDivisionLevel("province")}
+            }}
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    label="Selected Division"
+                    label="Selected Province"
                     variant="outlined"
                     InputProps={{
                         ...params.InputProps,
@@ -80,4 +91,4 @@ const DivisionSelector = (props) => {
     );
 }
 
-export default DivisionSelector
+export default ProvinceSelector
