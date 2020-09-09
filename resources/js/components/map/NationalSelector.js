@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from "@material-ui/core/Button";
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -26,7 +27,7 @@ const NationalSelector = (props) => {
         }
 
         (async () => {
-            // const response = await Axios.get('https://country.register.gov.uk/records.json?page-size=5000');
+            const response = await Axios.get('https://country.register.gov.uk/records.json?page-size=5000');
             await sleep(1e3); // For demo purposes.
             // const countries = await response.json();
 
@@ -48,47 +49,7 @@ const NationalSelector = (props) => {
     }, [open]);
 
     return (
-        <Autocomplete
-            style={{width: '100%'}}
-            open={open}
-            onOpen={() => {
-                setOpen(true);
-            }}
-            onClose={() => {
-                setOpen(false);
-            }}
-            getOptionSelected={(option, value) => option === value}
-            getOptionLabel={(option) => option}
-            options={options}
-            loading={loading}
-            disabled={isDisabled()}
-            value={selectedDivision}
-            onChange={(event, newValue) => {
-                setSelectedDivision(newValue)
-                if (newValue===null){clearNational()}
-                else{setDivisionLevel("national")}
-            }}
-            inputValue={inputValue}
-            onInputChange={(event, newInputValue) => {
-                setInputValue(newInputValue);
-            }}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label="Selected Nation"
-                    variant="outlined"
-                    InputProps={{
-                        ...params.InputProps,
-                        endAdornment: (
-                            <React.Fragment>
-                                {loading ? <CircularProgress color="inherit" size={20}/> : null}
-                                {params.InputProps.endAdornment}
-                            </React.Fragment>
-                        ),
-                    }}
-                />
-            )}
-        />
+        <Button style={{height: '100%', width: '100%'}} onClick={clearNational} variant={'outlined'}>National View</Button>
     );
 }
 

@@ -18,6 +18,8 @@ import {SnackbarProvider} from 'notistack';
 const Index = () => {
     const [token, setToken] = React.useState(localStorage.getItem(tokenTitle) || null);
 
+    setAxiosHeader('Content-Type', `application/json`);
+
     const setLoginToken = useCallback((newToken) => {
         setToken(newToken);
         if (newToken) {

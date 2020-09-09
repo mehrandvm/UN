@@ -63,7 +63,7 @@ const CountySelector = (props) => {
                 setOpen(false);
             }}
             getOptionSelected={(option, value) => option === value}
-            getOptionLabel={(option) => option.properties.Name_En}
+            getOptionLabel={(option) => option.properties.F_SHAHREST}
             options={options}
             loading={loading}
             disabled={isDisabled()}
