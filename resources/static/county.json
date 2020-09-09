@@ -3184,25 +3184,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 2,
-                "SHAHRESTAN": "Ø§Ø³ÙØ§Ù Ø¢Ø¨Ø§Ø¯",
+                "SHAHRESTAN": "اسلام آباد",
                 "Markaz": "",
                 "Area": 2054.8663707,
                 "Hectares": 205486.63707,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 2.22731558504,
                 "SHAPE_Area": 0.199958684094,
-                "Stage1": 9593,
-                "Name_En": "IslamAbad Garb",
+                "Name_En": "",
                 "OBJECTID_1": 1,
-                "A_SHAHRST": "Ø§Ø³ÙØ§Ù Ø¢Ø¨Ø§Ø¯ ØºØ±Ø¨",
-                "Cnt_A_SHAH": 170,
-                "Sum_V_VMAS": 9593,
-                "Sum_V_NKHA": 11267,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 46.6808607132,
-                "y": 34.0263401587
+                "F_SHAHREST": "اسلام آباد غرب",
+                "Cnt_F_SHAH": 170,
+                "Sum_stage1": 2854,
+                "Sum_stage2": 1480,
+                "Sum_stage3": 704,
+                "Sum_stage4": 374
             }
         },
         {
@@ -6428,25 +6424,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 3,
-                "SHAHRESTAN": "Ø«ÙØ§Ø« Ø¨Ø§Ø¨Ø§Ø¬",
+                "SHAHRESTAN": "ثلاث باباج",
                 "Markaz": "",
                 "Area": 1670.04736681,
                 "Hectares": 167004.736681,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 2.33005423149,
                 "SHAPE_Area": 0.1637473181,
-                "Stage1": 4097,
-                "Name_En": "Salas babajani",
+                "Name_En": "",
                 "OBJECTID_1": 3,
-                "A_SHAHRST": "Ø«ÙØ§Ø« Ø¨Ø§Ø¨Ø§Ø¬Ø§ÙÙ",
-                "Cnt_A_SHAH": 169,
-                "Sum_V_VMAS": 4097,
-                "Sum_V_NKHA": 4405,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 46.0064037861,
-                "y": 34.7765736533
+                "F_SHAHREST": "ثلاث باباجاني",
+                "Cnt_F_SHAH": 169,
+                "Sum_stage1": 1064,
+                "Sum_stage2": 555,
+                "Sum_stage3": 267,
+                "Sum_stage4": 133
             }
         },
         {
@@ -9736,25 +9728,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 4,
-                "SHAHRESTAN": "Ø¬ÙØ§ÙØ±ÙØ¯",
+                "SHAHRESTAN": "جوانرود",
                 "Markaz": "",
                 "Area": 765.447967832,
                 "Hectares": 76544.7967832,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 1.94703063211,
                 "SHAPE_Area": 0.0751624681396,
-                "Stage1": 3523,
-                "Name_En": "Javanrood",
+                "Name_En": "",
                 "OBJECTID_1": 4,
-                "A_SHAHRST": "Ø¬ÙØ§ÙØ±ÙØ¯",
-                "Cnt_A_SHAH": 107,
-                "Sum_V_VMAS": 3523,
-                "Sum_V_NKHA": 3731,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 46.2832836649,
-                "y": 34.8528065841
+                "F_SHAHREST": "جوانرود",
+                "Cnt_F_SHAH": 107,
+                "Sum_stage1": 983,
+                "Sum_stage2": 478,
+                "Sum_stage3": 291,
+                "Sum_stage4": 138
             }
         },
         {
@@ -12084,25 +12072,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 5,
-                "SHAHRESTAN": "Ø¯Ø§ÙØ§ÙÙ",
+                "SHAHRESTAN": "دالاهو",
                 "Markaz": "",
                 "Area": 1866.92328499,
                 "Hectares": 186692.328499,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 1.88484275908,
                 "SHAPE_Area": 0.182326942498,
-                "Stage1": 6199,
-                "Name_En": "dalahoo",
+                "Name_En": "",
                 "OBJECTID_1": 5,
-                "A_SHAHRST": "Ø¯Ø§ÙØ§ÙÙ",
-                "Cnt_A_SHAH": 156,
-                "Sum_V_VMAS": 6199,
-                "Sum_V_NKHA": 7016,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 46.2429697041,
-                "y": 34.4042579937
+                "F_SHAHREST": "دالاهو",
+                "Cnt_F_SHAH": 156,
+                "Sum_stage1": 1812,
+                "Sum_stage2": 886,
+                "Sum_stage3": 480,
+                "Sum_stage4": 292
             }
         },
         {
@@ -15912,25 +15896,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 6,
-                "SHAHRESTAN": "Ø±ÙØ§ÙØ³Ø±",
+                "SHAHRESTAN": "روانسر",
                 "Markaz": "",
                 "Area": 1201.56968803,
                 "Hectares": 120156.968803,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 2.03534853358,
                 "SHAPE_Area": 0.117895169341,
-                "Stage1": 5201,
-                "Name_En": "Ravansar",
+                "Name_En": "",
                 "OBJECTID_1": 6,
-                "A_SHAHRST": "Ø±ÙØ§ÙØ³Ø±",
-                "Cnt_A_SHAH": 152,
-                "Sum_V_VMAS": 5201,
-                "Sum_V_NKHA": 5566,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 46.5896850619,
-                "y": 34.7397043955
+                "F_SHAHREST": "روانسر",
+                "Cnt_F_SHAH": 152,
+                "Sum_stage1": 1372,
+                "Sum_stage2": 633,
+                "Sum_stage3": 372,
+                "Sum_stage4": 198
             }
         },
         {
@@ -19056,25 +19036,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 7,
-                "SHAHRESTAN": "Ø³Ø±Ù¾Ù Ø°ÙØ§Ø¨",
+                "SHAHRESTAN": "سر پل ذهاب",
                 "Markaz": "",
                 "Area": 908.099778911,
                 "Hectares": 90809.9778911,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 2.06064044159,
                 "SHAPE_Area": 0.0887096780827,
-                "Stage1": 6336,
-                "Name_En": "SarPol Zahab",
+                "Name_En": "",
                 "OBJECTID_1": 7,
-                "A_SHAHRST": "Ø³Ø±Ù¾Ù Ø°ÙØ§Ø¨",
-                "Cnt_A_SHAH": 170,
-                "Sum_V_VMAS": 6336,
-                "Sum_V_NKHA": 7490,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 45.9161535859,
-                "y": 34.4823874396
+                "F_SHAHREST": "سر پل ذهاب",
+                "Cnt_F_SHAH": 170,
+                "Sum_stage1": 1749,
+                "Sum_stage2": 775,
+                "Sum_stage3": 363,
+                "Sum_stage4": 195
             }
         },
         {
@@ -22536,25 +22512,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 8,
-                "SHAHRESTAN": "Ø³ÙÙØ±",
+                "SHAHRESTAN": "سنقر",
                 "Markaz": "",
                 "Area": 2329.44396442,
                 "Hectares": 232944.396442,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 2.51175589044,
                 "SHAPE_Area": 0.229249742174,
-                "Stage1": 11361,
-                "Name_En": "Songhor",
+                "Name_En": "",
                 "OBJECTID_1": 8,
-                "A_SHAHRST": "Ø³ÙÙØ±",
-                "Cnt_A_SHAH": 226,
-                "Sum_V_VMAS": 11361,
-                "Sum_V_NKHA": 12606,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 47.5434257571,
-                "y": 34.8625782099
+                "F_SHAHREST": "سنقر",
+                "Cnt_F_SHAH": 226,
+                "Sum_stage1": 3187,
+                "Sum_stage2": 1541,
+                "Sum_stage3": 777,
+                "Sum_stage4": 423
             }
         },
         {
@@ -26368,25 +26340,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 9,
-                "SHAHRESTAN": "ØµØ­ÙÙ",
+                "SHAHRESTAN": "صحنه",
                 "Markaz": "",
                 "Area": 1470.30536763,
                 "Hectares": 147030.536763,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 2.71623816769,
                 "SHAPE_Area": 0.144187538739,
-                "Stage1": 8612,
-                "Name_En": "Sahneh",
+                "Name_En": "",
                 "OBJECTID_1": 9,
-                "A_SHAHRST": "ØµØ­ÙÙ",
-                "Cnt_A_SHAH": 200,
-                "Sum_V_VMAS": 8612,
-                "Sum_V_NKHA": 9773,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 47.5057809598,
-                "y": 34.5705225057
+                "F_SHAHREST": "صحنه",
+                "Cnt_F_SHAH": 200,
+                "Sum_stage1": 2024,
+                "Sum_stage2": 1109,
+                "Sum_stage3": 556,
+                "Sum_stage4": 276
             }
         },
         {
@@ -31284,25 +31252,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 10,
-                "SHAHRESTAN": "ÙØµØ± Ø´ÙØ±ÙÙ",
+                "SHAHRESTAN": "قصر شيرين",
                 "Markaz": "",
                 "Area": 2005.49362037,
                 "Hectares": 200549.362037,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 3.29091419049,
                 "SHAPE_Area": 0.194936208724,
-                "Stage1": 625,
-                "Name_En": "Gasr Shirian",
+                "Name_En": "",
                 "OBJECTID_1": 10,
-                "A_SHAHRST": "ÙØµØ± Ø´ÙØ±ÙÙ",
-                "Cnt_A_SHAH": 36,
-                "Sum_V_VMAS": 625,
-                "Sum_V_NKHA": 700,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 45.6479938039,
-                "y": 34.1093017846
+                "F_SHAHREST": "قصر شيرين",
+                "Cnt_F_SHAH": 36,
+                "Sum_stage1": 182,
+                "Sum_stage2": 79,
+                "Sum_stage3": 31,
+                "Sum_stage4": 20
             }
         },
         {
@@ -39156,25 +39120,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 11,
-                "SHAHRESTAN": "ÙØ±ÙØ§ÙØ´Ø§Ù",
+                "SHAHRESTAN": "كرمانشاه",
                 "Markaz": "",
                 "Area": 5798.15128199,
                 "Hectares": 579815.128199,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 4.83187458744,
                 "SHAPE_Area": 0.566348090584,
-                "Stage1": 23902,
-                "Name_En": "Kermanshah",
+                "Name_En": "",
                 "OBJECTID_1": 11,
-                "A_SHAHRST": "ÙØ±ÙØ§ÙØ´Ø§Ù",
-                "Cnt_A_SHAH": 823,
-                "Sum_V_VMAS": 23902,
-                "Sum_V_NKHA": 28261,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 47.0110877235,
-                "y": 34.2991011271
+                "F_SHAHREST": "كرمانشاه",
+                "Cnt_F_SHAH": 823,
+                "Sum_stage1": 7194,
+                "Sum_stage2": 3677,
+                "Sum_stage3": 1687,
+                "Sum_stage4": 827
             }
         },
         {
@@ -41328,25 +41288,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 12,
-                "SHAHRESTAN": "ÙÙÚ¯Ø§ÙØ±",
+                "SHAHRESTAN": "كنگاور",
                 "Markaz": "",
                 "Area": 891.29992896,
                 "Hectares": 89129.992896,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 1.4830128043,
                 "SHAPE_Area": 0.0873592712535,
-                "Stage1": 6214,
-                "Name_En": "Kangavar",
+                "Name_En": "",
                 "OBJECTID_1": 12,
-                "A_SHAHRST": "ÙÙÚ¯Ø§ÙØ±",
-                "Cnt_A_SHAH": 100,
-                "Sum_V_VMAS": 6214,
-                "Sum_V_NKHA": 7272,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 47.9160853948,
-                "y": 34.4771695619
+                "F_SHAHREST": "كنگاور",
+                "Cnt_F_SHAH": 100,
+                "Sum_stage1": 1874,
+                "Sum_stage2": 963,
+                "Sum_stage3": 440,
+                "Sum_stage4": 230
             }
         },
         {
@@ -44132,25 +44088,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 13,
-                "SHAHRESTAN": "ÙØ±Ø³ÙÙ",
+                "SHAHRESTAN": "هرسين",
                 "Markaz": "",
                 "Area": 1004.57097235,
                 "Hectares": 100457.097235,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 1.93977314057,
                 "SHAPE_Area": 0.0982482808421,
-                "Stage1": 5246,
-                "Name_En": "Harsin",
+                "Name_En": "",
                 "OBJECTID_1": 14,
-                "A_SHAHRST": "ÙØ±Ø³ÙÙ",
-                "Cnt_A_SHAH": 120,
-                "Sum_V_VMAS": 5246,
-                "Sum_V_NKHA": 6657,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 47.4556342581,
-                "y": 34.3473141667
+                "F_SHAHREST": "هرسين",
+                "Cnt_F_SHAH": 120,
+                "Sum_stage1": 1713,
+                "Sum_stage2": 957,
+                "Sum_stage3": 561,
+                "Sum_stage4": 278
             }
         },
         {
@@ -46788,25 +46740,21 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 14,
-                "SHAHRESTAN": "Ù¾Ø§ÙÙ",
+                "SHAHRESTAN": "پاوه",
                 "Markaz": "",
                 "Area": 805.139703786,
                 "Hectares": 80513.9703786,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 1.80569111109,
                 "SHAPE_Area": 0.0792576001403,
-                "Stage1": 4496,
-                "Name_En": "Paveh",
+                "Name_En": "",
                 "OBJECTID_1": 2,
-                "A_SHAHRST": "Ù¾Ø§ÙÙ",
-                "Cnt_A_SHAH": 48,
-                "Sum_V_VMAS": 4496,
-                "Sum_V_NKHA": 4825,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 46.2581116102,
-                "y": 35.0631679633
+                "F_SHAHREST": "پاوه",
+                "Cnt_F_SHAH": 48,
+                "Sum_stage1": 1138,
+                "Sum_stage2": 637,
+                "Sum_stage3": 305,
+                "Sum_stage4": 152
             }
         },
         {
@@ -51120,32 +51068,28 @@
             "geometry_name": "the_geom",
             "properties": {
                 "OBJECTID": 15,
-                "SHAHRESTAN": "Ú¯ÙÙØ§ÙØºØ±Ø¨",
+                "SHAHRESTAN": "گيلانغرب",
                 "Markaz": "",
                 "Area": 2237.91007717,
                 "Hectares": 223791.007717,
-                "Ostan": "Ú©Ø±ÙØ§ÙØ´Ø§Ù",
+                "Ostan": "کرمانشاه",
                 "SHAPE_Leng": 2.96924465286,
                 "SHAPE_Area": 0.217733624501,
-                "Stage1": 7012,
-                "Name_En": "Gilan Garb",
+                "Name_En": "",
                 "OBJECTID_1": 13,
-                "A_SHAHRST": "Ú¯ÙÙØ§ÙØºØ±Ø¨",
-                "Cnt_A_SHAH": 211,
-                "Sum_V_VMAS": 7012,
-                "Sum_V_NKHA": 8134,
-                "Stage2": 0,
-                "stage3": 0,
-                "stage4": 0,
-                "x": 46.023220657,
-                "y": 34.1223253491
+                "F_SHAHREST": "گيلانغرب",
+                "Cnt_F_SHAH": 211,
+                "Sum_stage1": 1900,
+                "Sum_stage2": 920,
+                "Sum_stage3": 461,
+                "Sum_stage4": 265
             }
         }
     ],
     "totalFeatures": 14,
     "numberMatched": 14,
     "numberReturned": 14,
-    "timeStamp": "2020-09-04T19:32:59.603Z",
+    "timeStamp": "2020-09-08T10:19:47.119Z",
     "crs": {
         "type": "name",
         "properties": {
