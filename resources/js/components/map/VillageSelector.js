@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import villageFeatureCollection from '../../../static/village.json'
+import axiosInstance from "../../apis/AxiosConfig";
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -14,7 +15,7 @@ function sleep(delay = 0) {
 const VillageSelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
-    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearVillage} = props;
+    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearVillage, selectedCounty} = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
 
 
@@ -29,12 +30,14 @@ const VillageSelector = (props) => {
         }
 
         (async () => {
-            // const response = await Axios.get('https://country.register.gov.uk/records.json?page-size=5000');
-            await sleep(1e3); // For demo purposes.
-            // const countries = await response.json();
+            const response = await axiosInstance.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson'
+            ).then((res)=>{
+                setOptions(res.data.features.filter((feature)=>feature.properties.F_SHAHREST === selectedCounty.properties.F_SHAHREST))
+            });
+
 
             if (active) {
-                setOptions(villageFeatureCollection.features)
+                // setOptions(villageFeatureCollection.features)
                 // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
             }
         })();
@@ -61,7 +64,7 @@ const VillageSelector = (props) => {
                 setOpen(false);
             }}
             getOptionSelected={(option, value) => option = value}
-            getOptionLabel={(option) => option.id}
+            getOptionLabel={(option) => option.properties.V_ABADI}
             options={options}
             loading={loading}
             disabled={isDisabled()}
