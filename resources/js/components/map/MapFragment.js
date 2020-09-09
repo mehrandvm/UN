@@ -2,6 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import 'ol/ol.css';
 import {
+    geom,
     Map,
     View
 } from 'ol'
@@ -13,24 +14,207 @@ import {
     XYZ as XYZSource,
     ImageWMS as ImageWMS
 } from 'ol/source'
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import GeoJSON from "ol/format/GeoJSON";
+import OlMap from 'ol/Map';
+import MultiPolygon from "ol/geom/MultiPolygon";
+import Style from "ol/style/Style";
+import Fill from "ol/style/Fill";
+import Text from "ol/style/Text";
+import Stroke from "ol/style/Stroke";
+import StageRadioGroup from "./StageRadioGroup";
+import Circle from "ol/geom/Circle";
+import HazardSelector from "./HazardSelector";
+import CircleStyle from "ol/style/Circle";
+import axiosInstance from "../../apis/AxiosConfig";
+import {log2} from "ol/math";
+import countyFeatureList from '../../../static/village.json'
+
+const stylePointDefault = new Style({
+    image: new CircleStyle({
+        radius: 5,
+        fill: new Fill({color: '#FFFFFF'}),
+        stroke: new Stroke({color: '#3399CC', width: 1.25}),
+    }),
+})
+
+const stylePoint0 = new Style({
+    image: new CircleStyle({
+        radius: 3,
+        fill: new Fill({color: 'rgb(255,0,0)'}),
+        stroke: new Stroke({color: '#000000', width: 0}),
+    }),
+})
+
+const stylePoint1 = new Style({
+    image: new CircleStyle({
+        radius: 3,
+        fill: new Fill({color: 'rgb(255,133,0)'}),
+        stroke: new Stroke({color: '#000000', width: 0}),
+    }),
+})
+
+const stylePoint2 = new Style({
+    image: new CircleStyle({
+        radius: 3,
+        fill: new Fill({color: 'rgb(255,255,0)'}),
+        stroke: new Stroke({color: '#000000', width: 0}),
+    }),
+})
+
+const stylePoint3 = new Style({
+    image: new CircleStyle({
+        radius: 3,
+        fill: new Fill({color: 'rgb(133,255,0)'}),
+        stroke: new Stroke({color: '#000000', width: 0}),
+    }),
+})
+
+const stylePoint4 = new Style({
+    image: new CircleStyle({
+        radius: 3,
+        fill: new Fill({color: 'rgb(0,255,0)'}),
+        stroke: new Stroke({color: '#000000', width: 0}),
+    }),
+})
+
+const styleDefault = new Style({
+    fill: new Fill({
+        color: 'rgb(255,255,255,0.6)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(255,0,0,0.6)'
+    })
+})
+
+const style0 = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(225,225,225,0)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
+
+const style0_alt = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(232,16,19,0.6)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
+
+const style1 = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(248,140,50,0.6)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
+
+const style2 = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(250,250,100,0.6)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
+
+const style3 = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(161,193,156,0.6)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
+
+const style4 = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(40,146,196,0.6)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
 
 class MapFragment extends React.Component {
     constructor(props) {
-        super(props)
-        this.updateDimensions = this.updateDimensions.bind(this)
-    }
-    updateDimensions() {
-        const h = window.innerHeight * this.props.height
-        this.setState({ height: h })
-    }
-    componentWillMount() {
-        window.addEventListener('resize', this.updateDimensions)
-        this.updateDimensions()
-    }
-    componentDidMount() {
-        console.log(this.props)
-        const map = new Map({
-            target: 'map',
+        super(props);
+
+        this.mapDivId = `map-${Math.random()}`;
+
+        this.map = new OlMap({
             layers: this.props.params.layers.map((layer, i) => {
                 switch (layer.type) {
                     case 'tile':
@@ -48,6 +232,14 @@ class MapFragment extends React.Component {
                                 serverType: layer.serverType,
                             })
                         })
+                    case 'vector':
+                        return new VectorLayer({
+                            source: new VectorSource({
+                                url: layer.url,
+                                format: new GeoJSON(),
+                            }),
+                            // style: (feature) => this.getStyleBasedOnStage(feature)
+                        });
                     default:
                         break;
                 }
@@ -57,24 +249,290 @@ class MapFragment extends React.Component {
                 center: [this.props.params.view.center.x, this.props.params.view.center.y],
                 zoom: this.props.params.view.zoom
             })
-        })
+        });
     }
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateDimensions)
+
+    returnKhaneva(feature) {
+        let SUM_NKHANEVA = 0
+            const selectedVillages = countyFeatureList.features.filter((village)=> {
+                return village.properties.F_SHAHREST === feature.get('F_SHAHREST')
+            })
+            selectedVillages.map((filteredVillage)=>{
+                SUM_NKHANEVA += filteredVillage.properties.V_NKHANEVA
+            })
+        return SUM_NKHANEVA
     }
-    render() {
-        const style = {
-            width: '100%',
-            height: this.state.height,
-            backgroundColor: '#cccccc',
+
+    getStyleBasedOnStage(feature) {
+        if (this.props.divisionLevel === "national") {
+            const SUM_Stage = feature.get(`SUM_Stage${this.props.stageNumber}`);
+            if (SUM_Stage <= 2500 && SUM_Stage >= 0) {
+                return style0(feature.get('province')+"\n"+SUM_Stage)
+            } else if (SUM_Stage <= 10000 && SUM_Stage > 2500) {
+                return style1(feature.get('province')+"\n"+SUM_Stage)
+            } else if (SUM_Stage <= 20000 && SUM_Stage > 10000) {
+                return style2(feature.get('province')+"\n"+SUM_Stage)
+            } else if (SUM_Stage <= 30000 && SUM_Stage > 20000) {
+                return style3(feature.get('province')+"\n"+SUM_Stage)
+            } else if (SUM_Stage > 30000) {
+                return style4(feature.get('province')+"\n"+SUM_Stage)
+            } else {
+                return styleDefault
+            }
+        } else if (this.props.divisionLevel === "province") {
+            const Sum_Stage = feature.get(`Sum_stage${this.props.stageNumber}`);
+
+            const SUM_NKHANEVA = this.returnKhaneva(feature)
+
+            const SUM_Stage = Sum_Stage / SUM_NKHANEVA
+            const percentage = parseInt(SUM_Stage*1000,10)/10
+
+            if (SUM_Stage <= 0.10 && SUM_Stage >= 0) {
+                return style0_alt(feature.get('F_SHAHREST')+'\n'+percentage+"%")
+            } else if (SUM_Stage <= 0.20 && SUM_Stage > 0.10) {
+                return style1(feature.get('F_SHAHREST')+'\n'+percentage+"%")
+            } else if (SUM_Stage <= 0.30 && SUM_Stage > 0.20) {
+                return style2(feature.get('F_SHAHREST')+'\n'+percentage+"%")
+            } else if (SUM_Stage <= 0.40 && SUM_Stage > 0.30) {
+                return style3(feature.get('F_SHAHREST')+'\n'+percentage+"%")
+            } else if (SUM_Stage > 0.40) {
+                return style4(feature.get('F_SHAHREST')+'\n'+percentage+"%")
+            } else {
+                return styleDefault
+            }
+        } else if (this.props.divisionLevel === "county") {
+            if (feature.getGeometry().getType() === "MultiPolygon") {
+                // const SUM_Stage = feature.get(`Sum_stage${this.props.stageNumber}`);
+                // if (SUM_Stage <= 625 && SUM_Stage > 0) {
+                //     return style0_alt
+                // } else if (SUM_Stage <= 4496 && SUM_Stage > 625) {
+                //     return style1
+                // } else if (SUM_Stage <= 7012 && SUM_Stage > 4496) {
+                //     return style2
+                // } else if (SUM_Stage <= 11361 && SUM_Stage > 7012) {
+                //     return style3
+                // } else if (SUM_Stage > 11361) {
+                //     return style4
+                return style0('')
+            } else if (feature.getGeometry().getType() === "Point") {
+                const stage = feature.get(`stage${this.props.stageNumber}`);
+                const V_NKHANEVA = feature.get(`V_NKHANEVA`);
+                const SUM_Stage = stage / V_NKHANEVA
+                if (SUM_Stage <= 0.20 && SUM_Stage >= 0) {
+                    return stylePoint0
+                } else if (SUM_Stage <= 0.40 && SUM_Stage > 0.20) {
+                    return stylePoint1
+                } else if (SUM_Stage <= 0.60 && SUM_Stage > 0.40) {
+                    return stylePoint2
+                } else if (SUM_Stage <= 0.80 && SUM_Stage > 0.60) {
+                    return stylePoint3
+                } else if (SUM_Stage > 0.80) {
+                    return stylePoint4
+                } else {
+                    return stylePointDefault
+                }
+            } else {
+                return style0('')
+            }
+        } else if (this.props.divisionLevel === "village") {
+            if (feature.getGeometry().getType() === "MultiPolygon") {
+                // const SUM_Stage = feature.get(`Sum_stage${this.props.stageNumber}`);
+                // if (SUM_Stage <= 625 && SUM_Stage > 0) {
+                //     return style0_alt
+                // } else if (SUM_Stage <= 4496 && SUM_Stage > 625) {
+                //     return style1
+                // } else if (SUM_Stage <= 7012 && SUM_Stage > 4496) {
+                //     return style2
+                // } else if (SUM_Stage <= 11361 && SUM_Stage > 7012) {
+                //     return style3
+                // } else if (SUM_Stage > 11361) {
+                //     return style4
+                return style0('')
+            } else if (feature.getGeometry().getType() === "Point") {
+                const stage = feature.get(`stage${this.props.stageNumber}`);
+                const V_NKHANEVA = feature.get(`V_NKHANEVA`);
+                const SUM_Stage = stage / V_NKHANEVA
+                if (SUM_Stage <= 0.20 && SUM_Stage >= 0) {
+                    return stylePoint0
+                } else if (SUM_Stage <= 0.40 && SUM_Stage > 0.20) {
+                    return stylePoint1
+                } else if (SUM_Stage <= 0.60 && SUM_Stage > 0.40) {
+                    return stylePoint2
+                } else if (SUM_Stage <= 0.80 && SUM_Stage > 0.60) {
+                    return stylePoint3
+                } else if (SUM_Stage > 0.80) {
+                    return stylePoint4
+                } else {
+                    return stylePointDefault
+                }
+            } else {
+                return style0('')
+            }
         }
+    }
+
+    componentDidMount() {
+        this.map.setTarget(this.mapDivId);
+    }
+
+    componentDidUpdate(oldProps) {
+        const newProps = this.props
+        if (oldProps.divisionLevel !== newProps.divisionLevel) {
+            this.updateView()
+        }
+    }
+
+    updateView() {
+        switch (this.props.divisionLevel) {
+            case("national"):
+                this.map.getView().animate({center: [53.6880, 32.4279]}, {zoom: 5})
+                break;
+            case("province"):
+                const poly = new MultiPolygon(this.props.selectedProvince.geometry.coordinates)
+                this.map.getView().fit(poly.getExtent(),
+                    {padding: [10, 10, 10, 10]})
+                break;
+            case("county"):
+                const poly2 = new MultiPolygon(this.props.selectedCounty.geometry.coordinates)
+                this.map.getView().fit(poly2.getExtent(),
+                    {padding: [10, 10, 10, 10]})
+                break;
+            case("village"):
+                const center = this.props.selectedVillage.geometry.coordinates
+                this.map.getView().animate({center: center}, {zoom: 13})
+                break;
+            default:
+                break;
+        }
+    }
+
+    updateLayers(updateFunc) {
+        updateFunc()
+    }
+
+    render() {
+        const turnNationalInvisible = () => this.map.getLayers().getArray()[1].setVisible(false)
+        const turnNationalVisible = () => this.map.getLayers().getArray()[1].setVisible(true)
+        const turnProvinceInvisible = () => this.map.getLayers().getArray()[2].setVisible(false)
+        const turnProvinceVisible = () => this.map.getLayers().getArray()[2].setVisible(true)
+        const turnCountyInvisible = () => this.map.getLayers().getArray()[3].setVisible(false)
+        const turnCountyVisible = () => this.map.getLayers().getArray()[3].setVisible(true)
+
+        const turnFloodVisible = () => this.map.getLayers().getArray()[4].setOpacity(0.6)
+        const turnFloodInVisible = () => this.map.getLayers().getArray()[4].setOpacity(0)
+        const turnSeismicVisible = () => this.map.getLayers().getArray()[5].setOpacity(0.6)
+        const turnSeismicInVisible = () => this.map.getLayers().getArray()[5].setOpacity(0)
+
+        const handleHazards = () => {
+            if (this.props.mapHazards.floodHazard) {
+                turnFloodVisible()
+            } else {
+                turnFloodInVisible()
+            }
+            if (this.props.mapHazards.seismicHazard) {
+                turnSeismicVisible()
+            } else {
+                turnSeismicInVisible()
+            }
+        }
+        const switchToNationalLayers = () => {
+            turnProvinceInvisible();
+            turnCountyInvisible();
+            turnNationalVisible();
+        }
+        const switchToProvinceLayers = () => {
+            turnNationalInvisible();
+            turnCountyInvisible();
+            turnProvinceVisible();
+        }
+        const switchToCountyLayers = () => {
+            turnNationalInvisible();
+            turnProvinceVisible();
+            turnCountyVisible();
+        }
+        const switchToVillageLayers = () => {
+            turnNationalInvisible();
+            turnProvinceInvisible();
+            turnCountyVisible();
+        }
+
+        const fitToNationalLayers = () => {
+            this.map.getView().animate({center: [53.6880, 32.4279]}, {zoom: 5})
+        }
+        const fitToProvinceLayers = () => {
+            const poly = new MultiPolygon(this.props.selectedProvince.geometry.coordinates)
+            this.map.getView().fit(poly.getExtent(),
+                {padding: [10, 10, 10, 10]})
+        }
+        const fitToCountyLayers = () => {
+            const poly = new MultiPolygon(this.props.selectedCounty.geometry.coordinates)
+            this.map.getView().fit(poly.getExtent(),
+                {padding: [10, 10, 10, 10]})
+        }
+        const fitToVillageLayers = () => {
+            const center = this.props.selectedVillage.geometry.coordinates
+            this.map.getView().animate({center: center}, {zoom: 13})
+        }
+
+        this.updateLayers(handleHazards)
+
+        switch (this.props.divisionLevel) {
+            case("national"):
+                this.updateLayers(switchToNationalLayers)
+                // this.updateLayers(fitToNationalLayers)
+                break;
+            case("province"):
+                this.updateLayers(switchToProvinceLayers)
+                // this.updateLayers(fitToProvinceLayers)
+                break;
+            case("county"):
+                this.updateLayers(switchToCountyLayers)
+                // this.updateLayers(fitToCountyLayers)
+                break;
+            case("village"):
+                this.updateLayers(switchToVillageLayers)
+                this.updateLayers(fitToVillageLayers)
+                break;
+            default:
+                break;
+        }
+
+        const updateAllLayersStyle = () => {
+            const updateStyle = (feature) => this.getStyleBasedOnStage(feature)
+            if (this.props.divisionLevel === "national") {
+                this.map.getLayers().getArray()[1].setStyle(updateStyle)
+            } else if (this.props.divisionLevel === "province") {
+                this.map.getLayers().getArray()[2].setStyle(updateStyle)
+            } else if (this.props.divisionLevel === "county") {
+                this.map.getLayers().getArray()[2].setStyle(updateStyle)
+                this.map.getLayers().getArray()[3].setStyle(updateStyle)
+            } else if (this.props.divisionLevel === "village") {
+                this.map.getLayers().getArray()[2].setStyle(updateStyle)
+                this.map.getLayers().getArray()[3].setStyle(updateStyle)
+            }
+        }
+        updateAllLayersStyle()
         return (
             <Grid container>
-                <Grid item xs={12}>
-                    <div id='map' style={style} />
+                <Grid item xs={12} style={{position: 'relative'}}>
+                    <div
+                        id={this.mapDivId}
+                        style={{
+                            height: '400px'
+                        }}
+                    />
+                    <div style={{position: 'absolute', bottom: 0, left: 0}}>
+                        <StageRadioGroup stageNumber={this.props.stageNumber}
+                                         setStageNumber={this.props.setStageNumber}/>
+                    </div>
+                    <div style={{position: 'absolute', bottom: 0, right: 0}}>
+                        <HazardSelector hazards={this.props.mapHazards}
+                                        setHazards={this.props.setMapHazards}/>
+                    </div>
                 </Grid>
             </Grid>
         )
     }
 }
+
 export default MapFragment

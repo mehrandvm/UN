@@ -8,18 +8,30 @@ const data = {
                 'projection': 'EPSG:3857',
             },
             {
+                'type': 'vector',
+                'url': 'http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AOstan&outputFormat=application%2Fjson',
+            },
+            {
+                'type': 'vector',
+                'url': 'http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AShahrestan&outputFormat=application%2Fjson',
+            },
+            {
+                'type': 'vector',
+                'url': 'http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson',
+            },
+            {
                 'type': 'image',
-                'url': 'http://194.5.195.33:8080/geoserver/wms',
+                'url': 'http://194.5.188.215:8080/geoserver/wms',
                 'params': {
-                    'LAYERS': 'Agri:shahrestan',
+                    'LAYERS': 'UN:K_Flood',
                 },
                 'serverType': 'geoserver',
             },
             {
                 'type': 'image',
-                'url': 'http://194.5.195.33:8080/geoserver/wms',
+                'url': 'http://194.5.188.215:8080/geoserver/wms',
                 'params': {
-                    'LAYERS': 'Agri:RedPalm',
+                    'LAYERS': 'UN:K_Seismic',
                 },
                 'serverType': 'geoserver',
             },
@@ -27,15 +39,15 @@ const data = {
         'view': {
             'projection': 'EPSG:4326',
             'center': {
-                'x': 55.3825708,
-                'y': 28.7258838,
+                'x': 53.6880,
+                'y': 32.4279,
             },
-            'zoom': '6',
+            'zoom': '5',
         },
     },
     'rightCharts': {
         '0': {
-            'title': 'All Stages',
+            // 'title': 'All Stages',
             'type': 'pie',
             'dataset': {
                 'Stage One': 15,
@@ -48,63 +60,68 @@ const data = {
             // 'title': 'Stage One',
             'type': 'bar',
             'labels': [
-                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+                'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
             ],
             'datasets': {
                 'Stage One': [
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 0,
         },
         '2': {
             // 'title': 'Stage Two',
             'type': 'bar',
             'labels': [
-                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+                'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
             ],
             'datasets': {
                 'Stage Two': [
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 1,
         },
         '3': {
             // 'title': 'Stage Three',
             'type': 'bar',
             'labels': [
-                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+                'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
             ],
             'datasets': {
                 'Stage Three': [
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 2,
         },
         '4': {
             // 'title': 'Stage Three',
             'type': 'bar',
             'labels': [
-                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+                'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
             ],
             'datasets': {
                 'Stage Four': [
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 3,
         },
     },
     'bottomCharts': {
         '0': {
             // 'title': 'Stage One',
-            'type': 'bar',
+            'type': 'line',
             'labels': [
-                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+                'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
             ],
             'datasets': {
                 'Past Year Progress by Month': [
                     15, 18, 20, 25, 30, 40, 45, 50, 55, 60, 70, 80,
                 ],
             },
+            'theme': 4
         },
     },
 };
