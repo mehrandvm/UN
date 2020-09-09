@@ -23,7 +23,7 @@ const DivisionSelectors = (props) => {
     const [language, setLanguage] = useState("en")
 
     const clearNational = () => {
-        setDivisionLevel("none")
+        setDivisionLevel("national")
         setSelectedProvince(null)
         setSelectedCounty(null)
         setSelectedVillage(null)
@@ -80,6 +80,7 @@ const DivisionSelectors = (props) => {
                     divisionLevel={divisionLevel}
                     setDivisionLevel={setDivisionLevel}
                     clearVillage={clearVillage}
+                    selectedCounty={selectedCounty}
                 />
             </Grid>
         </>
