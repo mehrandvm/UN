@@ -35,15 +35,45 @@ class UsersTableSeeder extends Seeder
 		$agent2->save();
 		$agent2->roles()->attach($agent_role);
 
+		$agent3 = new User();
+		$agent3->f_name = 'Mehran';
+		$agent3->l_name = 'Daneshvar';
+		$agent3->phone_number = '+989212759133';
+		$agent3->email = '"amir.daneshvarmoein@gmail.com"';
+		$agent3->username = 'MehranDVM';
+		$agent3->password = bcrypt('12345678');
+		$agent3->save();
+		$agent3->roles()->attach($agent_role);
+
 		$admin = new User();
 		$admin->f_name = 'Behnam';
 		$admin->l_name = 'Mahmoodian';
 		$admin->phone_number = '+989121350736';
 		$admin->email = 'bm.ir1967@gmail.com';
 		$admin->username = 'mahmoodian.b';
-		$admin->password = bcrypt('password');
+		$admin->password = bcrypt('chakad@2020');
 		$admin->save();
 		$admin->roles()->attach($admin_role);
+		
+		$coordinator1 = new User();
+		$coordinator1->f_name = 'Srinivasa';
+		$coordinator1->l_name = 'Popuri';
+		$coordinator1->phone_number = '+123456789';
+		$coordinator1->email = 'srinivasa.popuri@un.org';
+		$coordinator1->username = 'srinivasa';
+		$coordinator1->password = bcrypt('chakad2020');
+		$coordinator1->save();
+		$coordinator1->roles()->attach($admin_role);
+
+		$coordinator2 = new User();
+		$coordinator2->f_name = 'Soma';
+		$coordinator2->l_name = 'Ahmadi';
+		$coordinator2->phone_number = '+123456789';
+		$coordinator2->email = 'soma.ahmadi@un.org';
+		$coordinator2->username = 's.ahmadi';
+		$coordinator2->password = bcrypt('chakad2020');
+		$coordinator2->save();
+		$coordinator2->roles()->attach($admin_role);
 		
 		$demo = new User();
 		$demo->f_name = 'Demo';
