@@ -37,8 +37,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Dashboard = () => {
-    const [divisionLevel, setDivisionLevel] = useState("none") // none, national, province, county, village
-    const [selectedNation, setSelectedNation] = useState(null);
+    const [stageNumber, setStageNumber] = useState('1')
+    const [divisionLevel, setDivisionLevel] = useState("national") // national, province, county, village
+    const [selectedNation, setSelectedNation] = useState("Iran");
     const [selectedProvince, setSelectedProvince] = useState(null);
     const [selectedCounty, setSelectedCounty] = useState(null);
     const [selectedVillage, setSelectedVillage] = useState(null);
@@ -48,9 +49,8 @@ const Dashboard = () => {
     const [mapBottomStats, setMapBottomStats] = useState([]);
     const [mapDivisionLevel, setMapDivisionLevel] = useState(1);
     const [mapHazards, setMapHazards] = useState({
-        hazardOne: false,
-        hazardTwo: false,
-        hazardThree: false,
+        seismicHazard: false,
+        floodHazard: false,
     });
     useEffect(() => {
         const mapData = data;
@@ -111,13 +111,25 @@ const Dashboard = () => {
                                     selectedProvince={selectedProvince}
                                     selectedCounty={selectedCounty}
                                     selectedVillage={selectedVillage}
+                                    stageNumber={stageNumber}
+                                    setStageNumber={setStageNumber}
+                                    mapHazards={mapHazards}
+                                    setMapHazards={setMapHazards}
                                 />
                             </Grid>
                             : null}
                         {mapBottomStats.map((chart, i) => {
                                 return (
                                     <Grid item xs={12} key={i}>
-                                        <ChartSelector chart={chart}/>
+                                        <ChartSelector
+                                            chart={chart}
+                                            divisionLevel={divisionLevel}
+                                            selectedNation={selectedNation}
+                                            selectedProvince={selectedProvince}
+                                            selectedCounty={selectedCounty}
+                                            selectedVillage={selectedVillage}
+                                            stageNumber={stageNumber}
+                                        />
                                     </Grid>
                                 )
                             }
@@ -136,7 +148,15 @@ const Dashboard = () => {
                         {mapRightStats.map((chart, i) => {
                                 return (
                                     <Grid item xs={12} sm={6} md={12} key={i}>
-                                        <ChartSelector chart={chart}/>
+                                        <ChartSelector
+                                            chart={chart}
+                                            divisionLevel={divisionLevel}
+                                            selectedNation={selectedNation}
+                                            selectedProvince={selectedProvince}
+                                            selectedCounty={selectedCounty}
+                                            selectedVillage={selectedVillage}
+                                            stageNumber={stageNumber}
+                                        />
                                     </Grid>
                                 )
                             }
