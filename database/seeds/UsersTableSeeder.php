@@ -38,7 +38,7 @@ class UsersTableSeeder extends Seeder
 		$agent3 = new User();
 		$agent3->f_name = 'Mehran';
 		$agent3->l_name = 'Daneshvar';
-		$agent3->phone_number = '+989212759133';
+		$agent3->phone_number = '+989911927936';
 		$agent3->email = '"amir.daneshvarmoein@gmail.com"';
 		$agent3->username = 'MehranDVM';
 		$agent3->password = bcrypt('12345678');
@@ -68,7 +68,7 @@ class UsersTableSeeder extends Seeder
 		$coordinator2 = new User();
 		$coordinator2->f_name = 'Soma';
 		$coordinator2->l_name = 'Ahmadi';
-		$coordinator2->phone_number = '+123456789';
+		$coordinator2->phone_number = '+98123456789';
 		$coordinator2->email = 'soma.ahmadi@un.org';
 		$coordinator2->username = 's.ahmadi';
 		$coordinator2->password = bcrypt('chakad2020');

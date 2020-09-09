@@ -39,4 +39,33 @@ class ManagementController extends Controller
             ]);
         }
     }
+
+    public function getAllUsers(){
+        $user = Auth::user(); 
+
+        $data = User::all();
+        return response()->json([
+            'status_code' => $this->successStatus,
+            'status_message' => 'Success',
+            'data' => $data
+        ]);
+
+
+        // $permission = Permission::where('slug', "manage-users")->first();
+        // if($user->hasPermissionTo($permission)){
+        //     $data = User::all();
+        //     return response()->json([
+        //         'status_code' => $this->successStatus,
+        //         'status_message' => 'Success',
+        //         'data' =>[
+        //             $data
+        //         ]
+        //     ]);
+        // }else{
+        //     return response()->json([
+        //         'status_code' => $this->forbiddenStatus,
+        //         'status_message' => 'Forbidden',
+        //     ]);
+        // }
+    }
 }
