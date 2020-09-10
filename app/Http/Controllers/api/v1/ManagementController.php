@@ -45,11 +45,17 @@ class ManagementController extends Controller
     public function getAllUsers(){
         $user = Auth::user(); 
 
-        $data = User::all();
+        $users = User::all();
+        foreach($users as $u){
+            foreach ($u->getUserRoles() as $role) {
+                $roles[] = $role->getInfo();
+            }
+            $u['roles'] = $roles;
+        }
         return response()->json([
             'status_code' => $this->successStatus,
             'status_message' => 'Success',
-            'data' => $data
+            'data' => $users
         ]);
 
 
@@ -73,12 +79,23 @@ class ManagementController extends Controller
     
     public function getUser($userId){
         $user = Auth::user(); 
-        $data = User::find($userId);
-        return response()->json([
-            'status_code' => $this->successStatus,
-            'status_message' => 'Success',
-            'data' => $data
-        ]);
+        $target = User::find($userId);
+        foreach ($target->getUserRoles() as $role) {
+            $roles[] = $role->getInfo();
+        }
+        $target['roles'] = $roles;
+        if ($target) {
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'Success',
+                'data' => $target
+            ]);
+        }else{
+            return response()->json([
+                'status_code' => $this->notFoundStatus,
+                'status_message' => 'Can\'t Kill the Dead :)',
+            ]);
+        }
     }
 
     public function addUser(Request $request){
@@ -123,7 +140,7 @@ class ManagementController extends Controller
         }else{
             return response()->json([
                 'status_code' => $this->notFoundStatus,
-                'status_message' => 'Can\'t Kill the Dead :)',
+                'status_message' => 'User not found',
             ]);
         }
     }
