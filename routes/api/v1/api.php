@@ -29,5 +29,9 @@ Route::prefix('management')->group(function () {
     Route::middleware(['auth:api'])->group(function () {
         Route::get('permission/{id}', 'api\v1\ManagementController@hasPermissions');
         Route::get('users', 'api\v1\ManagementController@getAllUsers');
+        Route::post('users', 'api\v1\ManagementController@addUser');
+        Route::get('users/{id}', 'api\v1\ManagementController@getUser');
+        Route::post('users/{id}', 'api\v1\ManagementController@updateUser');
+        Route::delete('users/{id}', 'api\v1\ManagementController@deleteUser');
     });
 });

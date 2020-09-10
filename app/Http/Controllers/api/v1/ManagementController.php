@@ -7,19 +7,21 @@ use Illuminate\Http\Request;
 use App\User; 
 use App\Permission;
 use Illuminate\Support\Facades\Auth; 
+use Validator;
 
 
 class ManagementController extends Controller
 {
     public $successStatus = 200;
     public $forbiddenStatus = 403;
+    public $notFoundStatus = 404;
+    public $badRequestStatus = 404;
 
     public function getPermissions(){
         $user = Auth::user(); 
         foreach($user->permissions() as $permission){
             dd($permission);
         }
-        dd($user->permissions());
         return "all permissions";
         
     }
@@ -67,5 +69,80 @@ class ManagementController extends Controller
         //         'status_message' => 'Forbidden',
         //     ]);
         // }
+    }
+    
+    public function getUser($userId){
+        $user = Auth::user(); 
+        $data = User::find($userId);
+        return response()->json([
+            'status_code' => $this->successStatus,
+            'status_message' => 'Success',
+            'data' => $data
+        ]);
+    }
+
+    public function addUser(Request $request){
+        $user = Auth::user(); 
+        
+        $validator = Validator::make($request->all(),[ 
+            'f_name' => 'required', 
+            'l_name' => 'required', 
+            'username' => 'required', 
+            'phone_number' => 'required',
+            'email' => 'required|email', 
+            'password' => 'required', 
+            'c_password' => 'required|same:password', 
+        ]);
+        if ($validator->fails()) { 
+            return response()->json([
+                'status_code' => $this->badRequestStatus,
+                'status_message' => 'Bad request',
+                'error'=>$validator->errors()
+            ]);          
+        }else{
+            $input = $request->all(); 
+            $input['password'] = bcrypt($input['password']); 
+            $target = User::create($input);
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'New User Successfully Created',
+            ]);
+        }
+    }
+
+    public function updateUser(Request $request, $userId){
+        $user = Auth::user(); 
+        $target = User::find($userId);
+        if ($target) {
+            $target->update($request->all());
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'User Successfully Updated',
+                'updated' => $request->all()
+            ]);
+        }else{
+            return response()->json([
+                'status_code' => $this->notFoundStatus,
+                'status_message' => 'Can\'t Kill the Dead :)',
+            ]);
+        }
+    }
+
+    public function deleteUser($userId){
+        $user = Auth::user(); 
+        $target = User::find($userId);
+        if ($target) {
+            $target->delete();
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'New User Successfully Deleted',
+            ]);
+        }else{
+            return response()->json([
+                'status_code' => $this->notFoundStatus,
+                'status_message' => 'Can\'t Kill the Dead :)',
+            ]);
+        }
+        
     }
 }

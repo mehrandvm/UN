@@ -39,7 +39,7 @@ class UsersTableSeeder extends Seeder
 		$agent3->f_name = 'Mehran';
 		$agent3->l_name = 'Daneshvar';
 		$agent3->phone_number = '+989911927936';
-		$agent3->email = '"amir.daneshvarmoein@gmail.com"';
+		$agent3->email = 'amir.daneshvarmoein@gmail.com';
 		$agent3->username = 'MehranDVM';
 		$agent3->password = bcrypt('12345678');
 		$agent3->save();
