@@ -28,7 +28,7 @@ const Sidebar = (props) => {
         { title: "Home", link: "/", icon: <HomeIcon /> },
         { title: "Dashboard", link: "/dashboard", icon: <DashboardIcon /> },
         { title: "Users", link: "/user", icon: <SupervisorAccountIcon /> },
-        { title: "Roles", link: "/", icon: <AssignmentIndIcon /> },
+        // { title: "Roles", link: "/", icon: <AssignmentIndIcon /> },
     ]
     const list = () => (
         <div
