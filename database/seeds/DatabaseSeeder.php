@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CountrySubdivisionSeeder::class);
         $this->call(BuildingsTableSeeder::class);
         $this->call(BuildingVisitTaskTableSeeder::class);
+        $this->call(CountrySubdivisionVisitTasksTableSeeder::class);
     }
 }
