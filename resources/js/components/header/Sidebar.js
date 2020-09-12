@@ -11,6 +11,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 const useStyles = makeStyles({
     list: {
@@ -28,7 +29,8 @@ const Sidebar = (props) => {
         { title: "Home", link: "/", icon: <HomeIcon /> },
         { title: "Dashboard", link: "/dashboard", icon: <DashboardIcon /> },
         { title: "Users", link: "/user", icon: <SupervisorAccountIcon /> },
-        // { title: "Roles", link: "/", icon: <AssignmentIndIcon /> },
+        { title: "Tasks", link: "/task", icon: <AssignmentIcon /> },
+        { title: "My tasks", link: "/mytasks", icon: <AssignmentIndIcon /> },
     ]
     const list = () => (
         <div
