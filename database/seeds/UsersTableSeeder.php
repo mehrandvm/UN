@@ -79,7 +79,7 @@ class UsersTableSeeder extends Seeder
 		$demo->f_name = 'Demo';
 		$demo->l_name = 'Demo';
 		$demo->phone_number = '+989121234567';
-		$demo->email = 'demo';
+		$demo->email = 'demo@chakadmap.ir';
 		$demo->username = 'demo';
 		$demo->password = bcrypt('chakad');
 		$demo->save();

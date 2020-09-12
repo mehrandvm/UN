@@ -15,8 +15,8 @@ class CreateCountrySubdivisionTypesTable extends Migration
     {
         Schema::create('country_subdivision_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('parent_id')->nullable()->after('id');
-            $table->foreign('parent_id')->references('id')->on('country_subdivision_type');
+            $table->unsignedInteger('parent_id')->nullable();
+            $table->foreign('parent_id')->references('id')->on('country_subdivision_types');
             $table->string('type_name');
             $table->timestamps();
         });
