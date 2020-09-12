@@ -36,7 +36,9 @@ class TaskController extends Controller
                 array(
                     'agent_id' => $request->agent_id,
                     'country_subdivision_id' => $request->country_subdivision_id,
-                    'assigned_by' => $user->id
+                    'assigned_by' => $user->id,
+                    'created_at' => new \DateTime(),
+                    'updated_at' => new \DateTime()
                 )
             );
             return response()->json([
