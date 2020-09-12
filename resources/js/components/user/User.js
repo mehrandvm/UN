@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     EditingState,
     IntegratedPaging,
@@ -38,6 +38,11 @@ import Header from "../header/Header";
 import {Grid} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import {withPermission} from "../../utils/with-premission/withPermission";
+import axiosInstance from "../../apis/AxiosConfig";
+import Typography from "@material-ui/core/Typography";
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const values = {
     userRole: [
@@ -49,47 +54,12 @@ const values = {
     ],
 }
 
-const data = [
-    {
-        id: 0,
-        firstName: "Mehran",
-        lastName: "Daneshvar",
-        userName: "mehrandvm",
-        userRole: "National Admin",
-    },
-    {
-        id: 1,
-        firstName: "Hamid",
-        lastName: "Nazemi",
-        userName: "hamid_nzm",
-        userRole: "State Reconstruction Headquarter",
-    },
-    {
-        id: 2,
-        firstName: "Mahdi",
-        lastName: "Mahmoodian",
-        userName: "triple_m",
-        userRole: "County",
-    },
-    {
-        id: 3,
-        firstName: "John",
-        lastName: "Doe",
-        userName: "johndoe",
-        userRole: "Damage Assessor",
-    },
-    {
-        id: 4,
-        firstName: "Jane",
-        lastName: "Doe",
-        userName: "janedoe",
-        userRole: "Experienced Damage Assessor",
-    },
-]
+const data = []
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        overflowX: "hidden"
+        overflowX: "hidden",
+        position: "relative",
     },
     chartContainer: {
         width: '100%',
@@ -100,7 +70,23 @@ const useStyles = makeStyles((theme) => ({
         borderBottom: '1px solid rgba(224, 224, 224, 1)',
         borderRight: '1px solid rgba(224, 224, 224, 1)',
         textAlign: 'center',
-    }
+    },
+    tableTitle: {
+        padding: 8,
+    },
+    loadingContainer: {
+        zIndex: 2,
+        position: 'absolute',
+        margin: 'auto',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(255,255,255,0.6)',
+    },
+    loading: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+    },
 }));
 
 const AddButton = ({onExecute}) => (
@@ -202,24 +188,6 @@ const EditCell = (props) => {
 
 const getRowId = row => row.id;
 
-const EditColumnCell = (editProps) => {
-    const deleteItem = () => {
-        // TODO: replace with MUI pop up
-        if (window.confirm('Are you sure you want to delete this row?')) {
-            // props.deleteEntity(editProps.row.id).then(() => {
-            //     updateTable();
-            // }).catch(() => SnackbarUtil.error('err'));
-        }
-    };
-    const classes = useStyles()
-    return (
-        <td className={classes.tableCell}>
-            <Link to={`/user/details/${editProps.row.id}`}><IconButton><InfoIcon/></IconButton></Link>
-            <Link to={`/user/edit/${editProps.row.id}`}><IconButton><EditIcon/></IconButton></Link>
-            <IconButton onClick={deleteItem}><DeleteIcon/></IconButton>
-        </td>
-    );
-};
 
 const EditColumnHeaderCell = () => {
     const classes = useStyles()
@@ -234,17 +202,22 @@ const User = () => {
     const classes = useStyles();
     const [language, setLanguage] = useState("en")
     const [columns] = useState([
-        {name: 'firstName', title: 'First Name'},
-        {name: 'lastName', title: 'Last Name'},
-        {name: 'userName', title: 'User Name'},
-        {name: 'userRole', title: 'User Role'},
+        {name: 'f_name', title: 'First Name'},
+        {name: 'l_name', title: 'Last Name'},
+        {name: 'username', title: 'User Name'},
+        {name: 'roles', title: 'User Role'},
+        {name: 'email', title: 'Email'},
+        {name: 'phone_number', title: 'Phone Number'},
     ]);
     const [rows, setRows] = useState(data);
+    const [loading, setLoading] = useState(false);
     const [tableColumnExtensions] = useState([
-        {columnName: 'firstName', width: 200},
-        {columnName: 'lastName', width: 200},
-        {columnName: 'userName', width: 180},
-        {columnName: 'userRole', width: 200},
+        {columnName: 'f_name', width: 200},
+        {columnName: 'l_name', width: 200},
+        {columnName: 'username', width: 180},
+        {columnName: 'roles', width: 200},
+        {columnName: 'email', width: 200},
+        {columnName: 'phone_number', width: 200},
     ]);
     const [sorting, getSorting] = useState([]);
     const [editingRowIds, getEditingRowIds] = useState([]);
@@ -253,12 +226,58 @@ const User = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [pageSize, setPageSize] = useState(0);
     const [pageSizes] = useState([5, 10, 0]);
-    const [columnOrder, setColumnOrder] = useState(['firstName', 'lastName', 'userName', 'userRole']);
+    const [columnOrder, setColumnOrder] = useState([]);
     const [leftFixedColumns] = useState([TableEditColumn.COLUMN_TYPE]);
     const [totalSummaryItems] = useState([
         {columnName: 'discount', type: 'avg'},
         {columnName: 'amount', type: 'sum'},
     ]);
+
+    const EditColumnCell = (editProps) => {
+        const deleteItem = () => {
+            // TODO: replace with MUI pop up
+            if (window.confirm('Are you sure you want to delete this row?')) {
+                axiosInstance.delete(`/management/users/${editProps.row.id}`).then((res) => {
+                    console.log(res)
+                }).catch((e)=>{
+                    console.error(e)
+                })
+                fetchRows()
+                // props.deleteEntity(editProps.row.id).then(() => {
+                //     updateTable();
+                // }).catch(() => SnackbarUtil.error('err'));
+            }
+        };
+        const classes = useStyles()
+        return (
+            <td className={classes.tableCell}>
+                <Link to={`/user/details/${editProps.row.id}`}><IconButton disabled><PostAddIcon/></IconButton></Link>
+                <Link to={`/user/edit/${editProps.row.id}`}><IconButton><EditIcon/></IconButton></Link>
+                <IconButton onClick={deleteItem}><DeleteIcon/></IconButton>
+            </td>
+        );
+    };
+
+    const fetchRows = () => {
+        setLoading(true)
+        axiosInstance.get('/management/users').then((res) => {
+            const dat = res.data.data.map((dataRow) => {
+                if (dataRow.roles.length !== 0) {
+                    return {...dataRow, roles: dataRow.roles[0].name}
+                } else {
+                    return dataRow
+                }
+            })
+            setRows(dat)
+            setLoading(false)
+        }).catch((e)=>{
+            console.error(e)
+        })
+    }
+
+    useEffect(() => {
+        fetchRows()
+    }, [])
 
     const changeAddedRows = value => setAddedRows(
         value.map(row => (Object.keys(row).length ? row : {
@@ -268,17 +287,6 @@ const User = () => {
             userRole: values.userRole[0],
         })),
     );
-
-    const deleteRows = (deletedIds) => {
-        const rowsForDelete = rows.slice();
-        deletedIds.forEach((rowId) => {
-            const index = rowsForDelete.findIndex(row => row.id === rowId);
-            if (index > -1) {
-                rowsForDelete.splice(index, 1);
-            }
-        });
-        return rowsForDelete;
-    };
 
     const commitChanges = ({added, changed, deleted}) => {
         let changedRows;
@@ -296,15 +304,21 @@ const User = () => {
         //     changedRows = rows.map(row => (changed[row.id] ? {...row, ...changed[row.id]} : row));
         // }
         if (deleted) {
-            changedRows = deleteRows(deleted);
+            // changedRows = deleteRows(deleted);
         }
-        setRows(changedRows);
+        // setRows(changedRows);
     };
     console.log(rows)
     return (
         <div className={classes.container}>
             <Header setLanguage={setLanguage}/>
             <Grid container className={classes.chartContainer} alignItems="center">
+                <Grid item className={classes.tableTitle}>
+                    <Link to={'/dashboard'}><IconButton><ArrowBackIcon/></IconButton></Link>
+                </Grid>
+                <Grid item className={classes.tableTitle}>
+                    <Typography variant={'h5'}>Users Table</Typography>
+                </Grid>
                 <Paper>
                     <DevGrid
                         rows={rows}
@@ -363,6 +377,8 @@ const User = () => {
                         <PagingPanel
                             pageSizes={pageSizes}
                         />
+                        <div className={loading ? classes.loadingContainer : ''} />
+                        {loading && <CircularProgress size={50} className={classes.loading} />}
                     </DevGrid>
                 </Paper>
             </Grid>
