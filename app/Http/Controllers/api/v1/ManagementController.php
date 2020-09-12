@@ -8,7 +8,7 @@ use App\User;
 use App\Permission;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
-
+use App\Role;
 
 class ManagementController extends Controller
 {
@@ -109,6 +109,7 @@ class ManagementController extends Controller
             'email' => 'required|email', 
             'password' => 'required', 
             'c_password' => 'required|same:password', 
+            'role_slug' => 'required'
         ]);
         if ($validator->fails()) { 
             return response()->json([
@@ -120,6 +121,8 @@ class ManagementController extends Controller
             $input = $request->all(); 
             $input['password'] = bcrypt($input['password']); 
             $target = User::create($input);
+            $role = Role::where('slug', $request->role_slug);
+            $target->roles()->attach($role);
             return response()->json([
                 'status_code' => $this->successStatus,
                 'status_message' => 'New User Successfully Created',
