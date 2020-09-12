@@ -39,5 +39,17 @@ class CountrySubdivisionSeeder extends Seeder
             $subdivision->save();
         }
         fclose($csv);
+
+        $ezgeleh = new CountrySubdivision;
+        $ezgeleh->subdivision_name = "ازگله";
+        $ezgeleh->amar_village_code = "05120001";
+        $ezgeleh->household_count = 421;
+        $ezgeleh->population_count = 1809;
+        $ezgeleh->females_count = 804;
+        $ezgeleh->males_count = 1005;
+        $ezgeleh->type = 4;
+        $parent = CountrySubdivision::where('amar_village_code', "0512")->first();
+        $ezgeleh->parent_id = $parent->id;
+        $ezgeleh->save();
     }
 }
