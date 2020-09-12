@@ -16,7 +16,7 @@ class CreateCountrySubdivisionsTable extends Migration
         Schema::create('country_subdivisions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('subdivision_name');
-            $table->integer('amar_village_code');
+            $table->string('amar_village_code')->unique();
             $table->integer('household_count')->nullable();
             $table->integer('population_count')->nullable();
             $table->integer('females_count')->nullable();
@@ -49,7 +49,7 @@ class CreateCountrySubdivisionsTable extends Migration
             $table->foreign('parent_id')->references('id')->on('country_subdivisions');
 
             // $table->polygon('area')->nullable();
-            $table->unsignedInteger('controlled_by_admin');
+            $table->unsignedInteger('controlled_by_admin')->nullable();
             $table->foreign('controlled_by_admin')->references('id')->on('users');
             $table->timestamps();
         });
