@@ -44,6 +44,8 @@ import PostAddIcon from '@material-ui/icons/PostAdd';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import GetAppIcon from '@material-ui/icons/GetApp';
+import BankLetter from "../bank-letter/BankLetter";
+import {BlobProvider} from '@react-pdf/renderer';
 
 const values = {
     userRole: [
@@ -87,6 +89,12 @@ const useStyles = makeStyles((theme) => ({
         position: 'absolute',
         top: '50%',
         left: '50%',
+    },
+    link: {
+        textDecoration: 'none',
+    },
+    button: {
+        width: 170
     },
 }));
 
@@ -199,7 +207,7 @@ const EditColumnHeaderCell = () => {
     )
 };
 
-const MyTasks = () => {
+const MyTasks = (props) => {
     const classes = useStyles();
     const [language, setLanguage] = useState("en")
     const [columns] = useState([
@@ -233,12 +241,15 @@ const MyTasks = () => {
     ]);
 
     const EditColumnCell = (editProps) => {
+        const [getFactor, setGetFactor] = useState(false);
+        const [userName, setUserName] = useState('')
+        const [userId, setUserId] = useState('')
         const deleteItem = () => {
             // TODO: replace with MUI pop up
             if (window.confirm('Are you sure you want to delete this row?')) {
                 axiosInstance.delete(`/management/tasks/${editProps.row.id}`).then((res) => {
                     console.log(res)
-                }).catch((e)=>{
+                }).catch((e) => {
                     console.error(e)
                 })
                 fetchRows()
@@ -247,6 +258,13 @@ const MyTasks = () => {
                 // }).catch(() => SnackbarUtil.error('err'));
             }
         };
+        const getData = async () => {
+            await axiosInstance.get(`management/persons/${editProps.row.building_id}`).then((res) => {
+                setUserId(`${res.data.data.id}`)
+                setUserName(res.data.data.name)
+            })
+        }
+        getData()
         const classes = useStyles()
         return (
             <td className={classes.tableCell}>
@@ -255,7 +273,39 @@ const MyTasks = () => {
                 {/*</Link>*/}
                 {/*<Link to={`/task/edit/${editProps.row.id}`}><IconButton><EditIcon/></IconButton></Link>*/}
                 {/*<IconButton onClick={deleteItem} disabled><DeleteIcon/></IconButton>*/}
-                <Button variant={'outlined'}><GetAppIcon/>Export Letter</Button>
+                {userName && userId ?
+                    <Button variant={'outlined'} onClick={() => setGetFactor(true)} className={classes.button}>
+                        {getFactor
+                            ? (
+                                <BlobProvider
+                                    document={<BankLetter userName={userName}
+                                                          userId={userId}
+                                                          loanNumber={'12000000'}
+                                                          stageNumber={editProps.row.stage_number}
+                                    />}>
+                                    {({url, loading, error}) => {
+                                        if (loading) {
+                                            return (<CircularProgress size={20} className={classes.progress}/>);
+                                        }
+                                        if (!loading && url) {
+                                            return (
+                                                <a href={url} download className={classes.link}>
+                                                    download letter
+                                                </a>
+                                            );
+                                        }
+                                        if (error) {
+                                            console.error(error);
+                                            return <p>An error occurred</p>;
+                                        }
+                                        setGetFactor(false);
+                                        return null
+                                    }}
+                                </BlobProvider>
+                            )
+                            : <><GetAppIcon/> Export Letter</>}
+                    </Button>
+                    : <CircularProgress size={20} className={classes.progress}/>}
             </td>
         );
     };
@@ -264,19 +314,20 @@ const MyTasks = () => {
         setLoading(true)
         axiosInstance.get('/management/tasks/building').then((res) => {
             const dat = res.data.data.map((dataRow, i) => {
-                    const newRow = {
-                        id: i,
-                        agent: dataRow.agent.f_name + " " + dataRow.agent.l_name,
-                        building_lat: dataRow.buidling.lat,
-                        building_long: dataRow.buidling.long,
-                        building_location: dataRow.subdivision.subdivision_name,
-                        stage_number: dataRow.stage_number,
-                    }
-                    return newRow
+                const newRow = {
+                    id: i,
+                    agent: dataRow.agent.f_name + " " + dataRow.agent.l_name,
+                    building_id: dataRow.buidling.id,
+                    building_lat: dataRow.buidling.lat,
+                    building_long: dataRow.buidling.long,
+                    building_location: dataRow.subdivision.subdivision_name,
+                    stage_number: dataRow.stage_number,
+                }
+                return newRow
             })
             setRows(dat)
             setLoading(false)
-        }).catch((e)=>{
+        }).catch((e) => {
             console.error(e)
         })
     }
@@ -286,7 +337,7 @@ const MyTasks = () => {
     const checkPermission = async () => {
         await axiosInstance.get('/management/permission/manage-tasks').then((res) => {
             if (res.data.status_code === 200) history.push('/')
-        }).catch((e)=>{
+        }).catch((e) => {
             console.error(e)
         })
     }
@@ -325,7 +376,7 @@ const MyTasks = () => {
         }
         // setRows(changedRows);
     };
-    console.log(rows)
+
     return (
         <div className={classes.container}>
             <Header setLanguage={setLanguage}/>
@@ -394,8 +445,8 @@ const MyTasks = () => {
                         <PagingPanel
                             pageSizes={pageSizes}
                         />
-                        <div className={loading ? classes.loadingContainer : ''} />
-                        {loading && <CircularProgress size={50} className={classes.loading} />}
+                        <div className={loading ? classes.loadingContainer : ''}/>
+                        {loading && <CircularProgress size={50} className={classes.loading}/>}
                     </DevGrid>
                 </Paper>
             </Grid>
