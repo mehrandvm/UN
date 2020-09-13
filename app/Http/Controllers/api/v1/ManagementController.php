@@ -121,7 +121,7 @@ class ManagementController extends Controller
             $input = $request->all(); 
             $input['password'] = bcrypt($input['password']); 
             $target = User::create($input);
-            $role = Role::where('slug', $request->role_slug);
+            $role = Role::where('slug', $request->role_slug)->first();
             $target->roles()->attach($role);
             return response()->json([
                 'status_code' => $this->successStatus,
