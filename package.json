@@ -32,6 +32,7 @@
         "@material-ui/icons": "^4.9.1",
         "@material-ui/lab": "^4.0.0-alpha.56",
         "@material-ui/styles": "^4.10.0",
+        "@react-pdf/renderer": "^1.6.11",
         "chart.js": "^2.9.3",
         "notistack": "^1.0.0",
         "ol": "^6.4.3",
