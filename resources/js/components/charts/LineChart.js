@@ -16,6 +16,7 @@ const returnData = (data,) => {
         labels: data.labels,
         datasets: Object.values(data.datasets).map((dataset, i) => {
             return {
+                fill: false,
                 label: Object.keys(data.datasets)[i],
                 backgroundColor: returnLineChartBackgroundColor(i, data.theme),
                 borderColor: returnLineChartColor(i, data.theme),

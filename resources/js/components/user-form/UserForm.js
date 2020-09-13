@@ -91,7 +91,17 @@ const UserForm = (props) => {
     const params = useParams()
     const history = useHistory()
     const {enqueueSnackbar} = useSnackbar()
+
+    const checkPermission = () => {
+        axiosInstance.get('/management/permission/manage-users').then((res) => {
+            if (res.data.status_code !== 200) history.push('/')
+        }).catch((e)=>{
+            console.error(e)
+        })
+    }
+
     useEffect(() => {
+        checkPermission()
         if (params.id) {
             setFormMode("edit")
             axiosInstance.get(`/management/users/${params.id}`).then((res) => {
@@ -133,7 +143,7 @@ const UserForm = (props) => {
             return
         }
         if (formMode === 'create') {
-            user['role-slug'] = user.roles
+            user.role_slug = user.roles
             // delete user.roles
             axiosInstance.post(`/management/users`, user).then((res) => {
                 console.log(res)
@@ -147,7 +157,7 @@ const UserForm = (props) => {
                 enqueueSnackbar('An error occurred', {variant: "error"})
             })
         } else if (formMode === "edit") {
-            user['role-slug'] = user.roles
+            user.role_slug = user.roles
             // delete user.roles
             axiosInstance.post(`/management/users/${params.id}`, user).then((res) => {
                 console.log(res)
@@ -295,8 +305,8 @@ const UserForm = (props) => {
                                 <MenuItem value={""}>
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={'Admin'}>Admin</MenuItem>
-                                <MenuItem value={'Agent'}>Agent</MenuItem>
+                                <MenuItem value={'admin'}>Admin</MenuItem>
+                                <MenuItem value={'agent'}>Agent</MenuItem>
                                 {/*<MenuItem value={1}>State Reconstruction Headquarter</MenuItem>*/}
                                 {/*<MenuItem value={2}>County</MenuItem>*/}
                                 {/*<MenuItem value={3}>Experienced Damage Assessor</MenuItem>*/}

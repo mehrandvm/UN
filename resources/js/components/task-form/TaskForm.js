@@ -101,7 +101,17 @@ const TaskForm = (props) => {
     const params = useParams()
     const history = useHistory()
     const {enqueueSnackbar} = useSnackbar()
+
+    const checkPermission = () => {
+        axiosInstance.get('/management/permission/manage-tasks').then((res) => {
+            if (res.data.status_code !== 200) history.push('/')
+        }).catch((e)=>{
+            console.error(e)
+        })
+    }
+
     useEffect(() => {
+        checkPermission()
         if (params.id) {
             setFormMode("edit")
             axiosInstance.get(`/management/users/${params.id}`).then((res) => {

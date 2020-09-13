@@ -36,7 +36,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {makeStyles} from '@material-ui/core/styles';
 import Header from "../header/Header";
 import {Grid} from "@material-ui/core";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {withPermission} from "../../utils/with-premission/withPermission";
 import axiosInstance from "../../apis/AxiosConfig";
 import Typography from "@material-ui/core/Typography";
@@ -202,22 +202,16 @@ const Task = () => {
     const classes = useStyles();
     const [language, setLanguage] = useState("en")
     const [columns] = useState([
-        {name: 'f_name', title: 'First Name'},
-        {name: 'l_name', title: 'Last Name'},
-        {name: 'username', title: 'User Name'},
-        {name: 'roles', title: 'User Role'},
-        {name: 'email', title: 'Email'},
-        {name: 'phone_number', title: 'Phone Number'},
+        {name: 'agent', title: 'Agent Name'},
+        {name: 'subdivision', title: 'Assigned Subdivision'},
+        {name: 'assigned_by', title: 'Task Reporter'},
     ]);
     const [rows, setRows] = useState(data);
     const [loading, setLoading] = useState(false);
     const [tableColumnExtensions] = useState([
-        {columnName: 'f_name', width: 200},
-        {columnName: 'l_name', width: 200},
-        {columnName: 'username', width: 180},
-        {columnName: 'roles', width: 200},
-        {columnName: 'email', width: 200},
-        {columnName: 'phone_number', width: 200},
+        {columnName: 'agent', width: 200},
+        {columnName: 'subdivision', width: 200},
+        {columnName: 'assigned_by', width: 200},
     ]);
     const [sorting, getSorting] = useState([]);
     const [editingRowIds, getEditingRowIds] = useState([]);
@@ -255,20 +249,23 @@ const Task = () => {
                 {/*    <IconButton disabled><PostAddIcon/></IconButton>*/}
                 {/*</Link>*/}
                 {/*<Link to={`/task/edit/${editProps.row.id}`}><IconButton><EditIcon/></IconButton></Link>*/}
-                <IconButton onClick={deleteItem}><DeleteIcon/></IconButton>
+                <IconButton onClick={deleteItem} disabled><DeleteIcon/></IconButton>
+                {/*<Button>Export Letter</Button>*/}
             </td>
         );
     };
 
     const fetchRows = () => {
         setLoading(true)
-        axiosInstance.get('/management/users').then((res) => {
-            const dat = res.data.data.map((dataRow) => {
-                if (dataRow.roles.length !== 0) {
-                    return {...dataRow, roles: dataRow.roles[0].name}
-                } else {
-                    return dataRow
-                }
+        axiosInstance.get('/management/tasks/subdivision').then((res) => {
+            const dat = res.data.data.map((dataRow, i) => {
+                    const newRow = {
+                        id: i,
+                        agent: dataRow.agent.f_name + " " + dataRow.agent.l_name,
+                        subdivision: dataRow.subdivision.subdivision_name,
+                        assigned_by: dataRow.assigned_by.f_name + " " + dataRow.assigned_by.l_name
+                    }
+                    return newRow
             })
             setRows(dat)
             setLoading(false)
@@ -276,8 +273,17 @@ const Task = () => {
             console.error(e)
         })
     }
+    const history = useHistory()
+    const checkPermission = () => {
+        axiosInstance.get('/management/permission/manage-tasks').then((res) => {
+            if (res.data.status_code !== 200) history.push('/')
+        }).catch((e)=>{
+            console.error(e)
+        })
+    }
 
     useEffect(() => {
+        checkPermission()
         fetchRows()
     }, [])
 
@@ -361,11 +367,11 @@ const Task = () => {
                             onOrderChange={setColumnOrder}
                         />
                         <TableHeaderRow showSortingControls/>
-                        <TableEditRow
-                            cellComponent={EditCell}
-                        />
+                        {/*<TableEditRow*/}
+                        {/*    cellComponent={EditCell}*/}
+                        {/*/>*/}
                         <TableEditColumn
-                            width={170}
+                            width={100}
                             showAddCommand={!addedRows.length}
                             showEditCommand
                             showDeleteCommand

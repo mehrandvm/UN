@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Link from '@material-ui/core/Link';
@@ -12,6 +12,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import axiosInstance from "../../apis/AxiosConfig";
 
 const useStyles = makeStyles({
     list: {
@@ -24,24 +25,67 @@ const useStyles = makeStyles({
 });
 
 const Sidebar = (props) => {
+    const [viewDashboard, setViewDashboard] = React.useState(false);
+    const [manageUsers, setManageUsers] = React.useState(false);
+    const [manageTasks, setManageTasks] = React.useState(false);
+    const [manageMyTasks, setManageMyTasks] = React.useState(false);
+
     const classes = useStyles();
-    const sidebarItems = [
-        { title: "Home", link: "/", icon: <HomeIcon /> },
-        { title: "Dashboard", link: "/dashboard", icon: <DashboardIcon /> },
-        { title: "Users", link: "/user", icon: <SupervisorAccountIcon /> },
-        { title: "Tasks", link: "/task", icon: <AssignmentIcon /> },
-        { title: "My tasks", link: "/mytasks", icon: <AssignmentIndIcon /> },
-    ]
+
+    const fetchPermissions = () => {
+        Promise.all([
+            axiosInstance.get('/management/permission/view-dashboard'),
+            axiosInstance.get('/management/permission/manage-users'),
+            axiosInstance.get('/management/permission/manage-tasks'),
+        ]).then((values) => {
+            if (values[0].data.status_code === 200) {
+                setViewDashboard(true)
+            }
+            if (values[1].data.status_code === 200) {
+                setManageUsers(true)
+            }
+            if (values[2].data.status_code === 200) {
+                setManageTasks(true)
+            }
+            if (values[2].data.status_code !== 200) {
+                setManageMyTasks(true)
+            }
+        }).catch((e) => {
+            console.error(e)
+        });
+    }
+
+    useEffect(() => {
+        fetchPermissions()
+    }, [])
+
+    const sidebarItems = () => {
+        let sidebarOptions = []
+        sidebarOptions.push({title: "Home", link: "/", icon: <HomeIcon/>})
+        if (viewDashboard) {
+            sidebarOptions.push({title: "Dashboard", link: "/dashboard", icon: <DashboardIcon/>})
+        }
+        if (manageUsers) {
+            sidebarOptions.push({title: "Users", link: "/user", icon: <SupervisorAccountIcon/>})
+        }
+        if (manageTasks) {
+            sidebarOptions.push({title: "Tasks", link: "/task", icon: <AssignmentIcon/>})
+        }
+        if (manageMyTasks) {
+            sidebarOptions.push({title: "My tasks", link: "/mytasks", icon: <AssignmentIndIcon/>})
+        }
+        return sidebarOptions
+    }
     const list = () => (
         <div
             onClick={props.closeDrawer}
             onKeyDown={props.closeDrawer}
         >
             <List className={classes.list}>
-                {sidebarItems.map((item) => (
+                {sidebarItems().map((item) => (
                     <Link href={`${item.link}`} key={item.title}><ListItem button className={classes.link}>
                         <ListItemIcon>{item.icon}</ListItemIcon>
-                        <ListItemText primary={item.title} />
+                        <ListItemText primary={item.title}/>
                     </ListItem></Link>
                 ))}
             </List>

@@ -7,6 +7,9 @@ import data from "./mock";
 import MapFragment from "../map/MapFragment";
 import {withPermission} from "../../utils/with-premission/withPermission";
 import DivisionSelectors from "../map/DivisionSelectors";
+import {useHistory} from "react-router-dom";
+import axiosInstance from "../../apis/AxiosConfig";
+import MapContainer from "../map/MapContainer";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -37,7 +40,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Dashboard = () => {
-    const [stageNumber, setStageNumber] = useState('1')
     const [divisionLevel, setDivisionLevel] = useState("national") // national, province, county, village
     const [selectedNation, setSelectedNation] = useState("Iran");
     const [selectedProvince, setSelectedProvince] = useState(null);
@@ -48,11 +50,19 @@ const Dashboard = () => {
     const [mapRightStats, setMapRightStats] = useState([]);
     const [mapBottomStats, setMapBottomStats] = useState([]);
     const [mapDivisionLevel, setMapDivisionLevel] = useState(1);
-    const [mapHazards, setMapHazards] = useState({
-        seismicHazard: false,
-        floodHazard: false,
-    });
+
+    const history = useHistory()
+
+    const checkPermission = () => {
+        axiosInstance.get('/management/permission/view-dashboard').then((res) => {
+            if (res.data.status_code !== 200) history.push('/mytasks')
+        }).catch((e) => {
+            console.error(e)
+        })
+    }
+
     useEffect(() => {
+        checkPermission()
         const mapData = data;
         setMapParams(mapData.mapParams);
         setMapTitle(mapData.title);
@@ -104,23 +114,20 @@ const Dashboard = () => {
                         {/*</Grid>*/}
                         {mapParams ?
                             <Grid item xs={12}>
-                                <MapFragment
+                                <MapContainer
                                     params={mapParams}
                                     divisionLevel={divisionLevel}
                                     selectedNation={selectedNation}
                                     selectedProvince={selectedProvince}
                                     selectedCounty={selectedCounty}
                                     selectedVillage={selectedVillage}
-                                    stageNumber={stageNumber}
-                                    setStageNumber={setStageNumber}
-                                    mapHazards={mapHazards}
-                                    setMapHazards={setMapHazards}
                                 />
                             </Grid>
                             : null}
                         {mapBottomStats.map((chart, i) => {
                                 return (
                                     <Grid item xs={12} key={i}>
+                                        <Typography variant={'body1'}>Past Year Progress by Month</Typography>
                                         <ChartSelector
                                             chart={chart}
                                             divisionLevel={divisionLevel}
@@ -128,7 +135,6 @@ const Dashboard = () => {
                                             selectedProvince={selectedProvince}
                                             selectedCounty={selectedCounty}
                                             selectedVillage={selectedVillage}
-                                            stageNumber={stageNumber}
                                         />
                                     </Grid>
                                 )
@@ -149,13 +155,13 @@ const Dashboard = () => {
                                 return (
                                     <Grid item xs={12} sm={6} md={12} key={i}>
                                         <ChartSelector
+                                            nthChart={i}
                                             chart={chart}
                                             divisionLevel={divisionLevel}
                                             selectedNation={selectedNation}
                                             selectedProvince={selectedProvince}
                                             selectedCounty={selectedCounty}
                                             selectedVillage={selectedVillage}
-                                            stageNumber={stageNumber}
                                         />
                                     </Grid>
                                 )
