@@ -16,6 +16,7 @@ import {LoginContext} from "./contexts/login-context/LoginContext";
 import {SnackbarProvider} from 'notistack';
 import Task from "./components/task/Task";
 import TaskForm from "./components/task-form/TaskForm";
+import MyTasks from "./components/my-tasks/MyTasks";
 
 const Index = () => {
     const [token, setToken] = React.useState(localStorage.getItem(tokenTitle) || null);
@@ -70,8 +71,8 @@ const Index = () => {
                             <Route exact path="/user">
                                 <User/>
                             </Route>
-                            <Route exact path="/task/edit/:id">
-                                <TaskForm/>
+                            <Route exact path="/mytasks">
+                                <MyTasks/>
                             </Route>
                             <Route exact path="/task/new">
                                 <TaskForm/>

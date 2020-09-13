@@ -36,7 +36,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {makeStyles} from '@material-ui/core/styles';
 import Header from "../header/Header";
 import {Grid} from "@material-ui/core";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {withPermission} from "../../utils/with-premission/withPermission";
 import axiosInstance from "../../apis/AxiosConfig";
 import Typography from "@material-ui/core/Typography";
@@ -251,7 +251,7 @@ const User = () => {
         const classes = useStyles()
         return (
             <td className={classes.tableCell}>
-                <Link to={`/user/details/${editProps.row.id}`}><IconButton disabled><PostAddIcon/></IconButton></Link>
+                {/*<Link to={`/user/details/${editProps.row.id}`}><IconButton disabled><PostAddIcon/></IconButton></Link>*/}
                 <Link to={`/user/edit/${editProps.row.id}`}><IconButton><EditIcon/></IconButton></Link>
                 <IconButton onClick={deleteItem}><DeleteIcon/></IconButton>
             </td>
@@ -275,7 +275,17 @@ const User = () => {
         })
     }
 
+    const history = useHistory()
+    const checkPermission = () => {
+        axiosInstance.get('/management/permission/manage-users').then((res) => {
+            if (res.data.status_code !== 200) history.push('/')
+        }).catch((e)=>{
+            console.error(e)
+        })
+    }
+
     useEffect(() => {
+        checkPermission()
         fetchRows()
     }, [])
 
@@ -363,7 +373,7 @@ const User = () => {
                             cellComponent={EditCell}
                         />
                         <TableEditColumn
-                            width={170}
+                            width={120}
                             showAddCommand={!addedRows.length}
                             showEditCommand
                             showDeleteCommand

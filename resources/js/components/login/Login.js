@@ -11,7 +11,7 @@ import {LoginContext} from "../../contexts/login-context/LoginContext";
 import {useHistory} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {useSnackbar} from "notistack";
-import {tokenTitle} from "../../apis/AxiosConfig";
+import axiosInstance, {tokenTitle} from "../../apis/AxiosConfig";
 
 const Copyright = () => {
     return (
@@ -81,8 +81,21 @@ const Login = (props) => {
 
     useEffect(() => {
         if (localStorage.getItem(tokenTitle)) {
-            history.push('dashboard')
-            enqueueSnackbar('User verified',{variant:'success'})
+            setIsAuthenticating(true)
+            axiosInstance.get('/management/permission/view-dashboard').then((res) => {
+                if (res.data.status_code === 200) {
+                    setIsAuthenticating(false)
+                    history.push('/dashboard')
+                    enqueueSnackbar('User verified',{variant:'success'})
+                }
+                else {
+                    setIsAuthenticating(false)
+                    history.push('/mytasks')
+                    enqueueSnackbar('User verified',{variant:'success'})
+                }
+            }).catch((e)=>{
+                console.error(e)
+            })
         }
     }, [])
 
@@ -105,7 +118,16 @@ const Login = (props) => {
             try {
                 await loginContext.login(email, password);
                 setIsAuthenticating(false);
-                history.push('/dashboard')
+                axiosInstance.get('/management/permission/view-dashboard').then((res) => {
+                    if (res.data.status_code === 200) {
+                        history.push('/dashboard')
+                    }
+                    else {
+                        history.push('/mytasks')
+                    }
+                }).catch((e)=>{
+                    console.error(e)
+                })
                 enqueueSnackbar('Login successful', {variant: 'success'})
             } catch (e) {
                 // console.error(e);
