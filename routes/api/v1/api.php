@@ -43,5 +43,7 @@ Route::prefix('management')->group(function () {
         Route::post('tasks/subdivision', 'api\v1\TaskController@addSubdivisionTask');
 
         Route::get('tasks/building', 'api\v1\TaskController@getBuildingVisitTasks');
+
+        Route::get('persons/{id}', 'api\v1\ManagementController@getPerson');
     });
 });

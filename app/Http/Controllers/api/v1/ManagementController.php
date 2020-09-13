@@ -165,4 +165,27 @@ class ManagementController extends Controller
         }
         
     }
+
+    public function getPerson($id){
+        $user = Auth::user(); 
+        $persons = [
+            [
+                "name" => "ابراهیم محمدی",
+                "id" => "0028347804"
+            ],
+            [
+                "name" => "حسن محسنی",
+                "id" => "0144931174"
+            ],
+            [
+                "name" => "ابراهیم محمدی",
+                "id" => "0046590231"
+            ],
+        ];
+        return response()->json([
+            'status_code' => $this->successStatus,
+            'status_message' => 'success',
+            'data' => $persons[$id % 3]
+        ]);
+    }
 }
