@@ -1,8 +1,9 @@
-import React, {FC, useContext} from "react";
+import React, {FC, useContext, useEffect, useState} from "react";
 import useTheme from "@material-ui/core/styles/useTheme";
 import IRANSans from '../../../fonts/ttf/IRANSansWeb(FaNum).ttf'
 import {Document, Font, Page, Text, View, StyleSheet, Image} from "@react-pdf/renderer";
 import bonyad from '../../../images/bonyad.jpg'
+import axiosInstance from "../../apis/AxiosConfig";
 
 const useStyles = (theme) => StyleSheet.create({
     main: {
@@ -68,20 +69,33 @@ const useStyles = (theme) => StyleSheet.create({
 Font.register({family: 'IRANSans', src: IRANSans, format: 'truetype'});
 Font.registerHyphenationCallback((word) => [word]);
 const BankLetter = (props) => {
-    const {melliNumber, caseNumber, loanNumber} = props.letterData
+    const {userId, userName, loanNumber,stageNumber} = props
     const classes = useStyles(useTheme());
     const numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const returnTextOne = () => {
-        const melliCode = melliNumber.split('').reverse().join('')
+        const caseNumber = `${Math.floor(Math.random() * 1000000)}`
         const caseCode = caseNumber.split('').reverse().join('')
-        return `بدینوسیله آقای امیرحسین دانشور معین به کد ملی ${melliCode} به شماره پرونده ${caseCode}`
+        const userCode = userId.split('').reverse().join('')
+        return `بدینوسیله آقای ${userName} به کد ملی ${userCode} به شماره پرونده ${caseCode}`
     }
     const returnTextTwo = () => {
         const loanAmount = numberWithCommas(loanNumber.split('').reverse().join(''))
-        return `جهت دریافت وام مرحله یک به مبلغ ${loanAmount} ریال معرفی می شود.`
+        const returnStageNumber = () => {
+            switch (stageNumber) {
+                case 1:
+                    return 'یک'
+                case 2:
+                    return 'دو'
+                case 3:
+                    return 'سه'
+                case 4:
+                    return 'چهار'
+            }
+        }
+        return `جهت دریافت وام مرحله ${returnStageNumber()} به مبلغ ${loanAmount} ریال معرفی می شود.`
     }
-    return (
-        <Document>
+
+    return (<Document>
             <Page>
                 <View style={classes.main}>
                     <View style={classes.tableHeader}>
@@ -123,13 +137,10 @@ const BankLetter = (props) => {
                         <Text>{('رییس ستاد معین کرمانشاه')}</Text>
                     </View>
                     <View style={classes.tableSubData}>
-                        <Text>{('محمد مهدی محمودیان')}</Text>
+                        <Text>{('مصطفی حسن زاده')}</Text>
                     </View>
                     <View style={classes.tableData}>
-                        <Text>{('اقدام کننده: حمید ناظمی پور')}</Text>
-                    </View>
-                    <View style={classes.tableData}>
-                        <Text>{('شهرستان سر پل ذهاب')}</Text>
+                        <Text>{('شهرستان ثلاث باباجانی')}</Text>
                     </View>
                 </View>
             </Page>

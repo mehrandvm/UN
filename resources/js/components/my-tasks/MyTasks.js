@@ -242,6 +242,8 @@ const MyTasks = (props) => {
 
     const EditColumnCell = (editProps) => {
         const [getFactor, setGetFactor] = useState(false);
+        const [userName, setUserName] = useState('')
+        const [userId, setUserId] = useState('')
         const deleteItem = () => {
             // TODO: replace with MUI pop up
             if (window.confirm('Are you sure you want to delete this row?')) {
@@ -256,11 +258,13 @@ const MyTasks = (props) => {
                 // }).catch(() => SnackbarUtil.error('err'));
             }
         };
-        const letterData = {
-            melliNumber: '0780903961',
-            caseNumber: '5739605172',
-            loanNumber: '12000000'
+        const getData = async () => {
+            await axiosInstance.get(`management/persons/${editProps.row.building_id}`).then((res) => {
+                setUserId(`${res.data.data.id}`)
+                setUserName(res.data.data.name)
+            })
         }
+        getData()
         const classes = useStyles()
         return (
             <td className={classes.tableCell}>
@@ -269,32 +273,39 @@ const MyTasks = (props) => {
                 {/*</Link>*/}
                 {/*<Link to={`/task/edit/${editProps.row.id}`}><IconButton><EditIcon/></IconButton></Link>*/}
                 {/*<IconButton onClick={deleteItem} disabled><DeleteIcon/></IconButton>*/}
-                <Button variant={'outlined'} onClick={() => setGetFactor(true)} className={classes.button}>
-                    {getFactor
-                        ? (
-                            <BlobProvider document={<BankLetter letterData={letterData} />}>
-                                {({url, loading, error}) => {
-                                    if (loading) {
-                                        return (<CircularProgress size={20} className={classes.progress}/>);
-                                    }
-                                    if (!loading && url) {
-                                        return (
-                                            <a href={url} download className={classes.link}>
-                                                download letter
-                                            </a>
-                                        );
-                                    }
-                                    if (error) {
-                                        console.error(error);
-                                        return <p>An error occurred</p>;
-                                    }
-                                    setGetFactor(false);
-                                    return null
-                                }}
-                            </BlobProvider>
-                        )
-                        : <><GetAppIcon/> Export Letter</>}
-                </Button>
+                {userName && userId ?
+                    <Button variant={'outlined'} onClick={() => setGetFactor(true)} className={classes.button}>
+                        {getFactor
+                            ? (
+                                <BlobProvider
+                                    document={<BankLetter userName={userName}
+                                                          userId={userId}
+                                                          loanNumber={'12000000'}
+                                                          stageNumber={editProps.row.stage_number}
+                                    />}>
+                                    {({url, loading, error}) => {
+                                        if (loading) {
+                                            return (<CircularProgress size={20} className={classes.progress}/>);
+                                        }
+                                        if (!loading && url) {
+                                            return (
+                                                <a href={url} download className={classes.link}>
+                                                    download letter
+                                                </a>
+                                            );
+                                        }
+                                        if (error) {
+                                            console.error(error);
+                                            return <p>An error occurred</p>;
+                                        }
+                                        setGetFactor(false);
+                                        return null
+                                    }}
+                                </BlobProvider>
+                            )
+                            : <><GetAppIcon/> Export Letter</>}
+                    </Button>
+                    : <CircularProgress size={20} className={classes.progress}/>}
             </td>
         );
     };
@@ -306,6 +317,7 @@ const MyTasks = (props) => {
                 const newRow = {
                     id: i,
                     agent: dataRow.agent.f_name + " " + dataRow.agent.l_name,
+                    building_id: dataRow.buidling.id,
                     building_lat: dataRow.buidling.lat,
                     building_long: dataRow.buidling.long,
                     building_location: dataRow.subdivision.subdivision_name,
