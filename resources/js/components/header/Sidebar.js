@@ -34,9 +34,9 @@ const Sidebar = (props) => {
 
     const fetchPermissions = () => {
         Promise.all([
-            axiosInstance.get('http://localhost:8000/api/v1/management/permission/view-dashboard'),
-            axiosInstance.get('http://localhost:8000/api/v1/management/permission/manage-users'),
-            axiosInstance.get('http://localhost:8000/api/v1/management/permission/manage-tasks'),
+            axiosInstance.get('/management/permission/view-dashboard'),
+            axiosInstance.get('/management/permission/manage-users'),
+            axiosInstance.get('/management/permission/manage-tasks'),
         ]).then((values) => {
             if (values[0].data.status_code === 200) {
                 setViewDashboard(true)
