@@ -30,14 +30,16 @@ const VillageSelector = (props) => {
         }
 
         (async () => {
-            const response = await axiosInstance.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson'
-            ).then((res)=>{
-                setOptions(res.data.features.filter((feature)=>feature.properties.F_SHAHREST === selectedCounty.properties.F_SHAHREST))
-            });
+            // const response = await axiosInstance.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson'
+            await sleep(1e3); // For demo purposes.
+
+            // ).then((res)=>{
+            //     setOptions(res.data.features.filter((feature)=>feature.properties.F_SHAHREST === selectedCounty.properties.F_SHAHREST))
+            // });
 
 
             if (active) {
-                // setOptions(villageFeatureCollection.features)
+                setOptions(villageFeatureCollection.features.filter((feature)=>feature.properties.F_SHAHREST === selectedCounty.properties.F_SHAHREST))
                 // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
             }
         })();

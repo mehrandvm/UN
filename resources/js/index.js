@@ -14,6 +14,8 @@ import {removeAxiosHeader, setAxiosHeader, tokenTitle} from "./apis/AxiosConfig"
 import {checkAuth, loginAPI} from "./apis/auth/authCheck";
 import {LoginContext} from "./contexts/login-context/LoginContext";
 import {SnackbarProvider} from 'notistack';
+import Task from "./components/task/Task";
+import TaskForm from "./components/task-form/TaskForm";
 
 const Index = () => {
     const [token, setToken] = React.useState(localStorage.getItem(tokenTitle) || null);
@@ -59,21 +61,27 @@ const Index = () => {
                 <SnackbarProvider maxSnack={3}>
                     <Router>
                         <Switch>
-                            <Route exact path="/user/details/:id">
-                                <UserForm mode={"details"}/>
-                            </Route>
                             <Route exact path="/user/edit/:id">
-                                <UserForm mode={"edit"}/>
+                                <UserForm/>
                             </Route>
                             <Route exact path="/user/new">
-                                <UserForm mode={"create"}/>
+                                <UserForm/>
                             </Route>
                             <Route exact path="/user">
                                 <User/>
                             </Route>
-                            <Route exact path="/role">
-                                <Role/>
+                            <Route exact path="/task/edit/:id">
+                                <TaskForm/>
                             </Route>
+                            <Route exact path="/task/new">
+                                <TaskForm/>
+                            </Route>
+                            <Route exact path="/task">
+                                <Task/>
+                            </Route>
+                            {/*<Route exact path="/role">*/}
+                            {/*    <Role/>*/}
+                            {/*</Route>*/}
                             <Route exact path="/dashboard">
                                 <Dashboard/>
                             </Route>
