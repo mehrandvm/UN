@@ -47,6 +47,7 @@ const vocabs = {
     'users': 'کاربران',
     'tasks': 'وظایف',
     'my-tasks': 'وظایف من',
+    'profile': 'پروفایل',
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;

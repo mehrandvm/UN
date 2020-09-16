@@ -50,6 +50,7 @@ const vocabs = {
     'users': 'Users',
     'tasks': 'Tasks',
     'my-tasks': 'My Tasks',
+    'profile': 'Profile',
 };
 
 export const en = (key) => vocabs[key] || `unknown(${key})`;
