@@ -28,6 +28,8 @@ Route::prefix('user')->group(function () {
 Route::prefix('management')->group(function () {
     Route::middleware(['auth:api'])->group(function () {
         Route::get('permission/{id}', 'api\v1\ManagementController@hasPermissions');
+        
+        Route::get('roles', 'api\v1\ManagementController@getRoles');
 
         Route::get('users', 'api\v1\ManagementController@getAllUsers');
         Route::post('users', 'api\v1\ManagementController@addUser');

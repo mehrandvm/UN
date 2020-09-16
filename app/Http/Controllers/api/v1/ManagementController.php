@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User; 
 use App\Permission;
-use Illuminate\Support\Facades\Auth; 
-use Validator;
 use App\Role;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Validator;
+
 
 class ManagementController extends Controller
 {
@@ -186,6 +188,16 @@ class ManagementController extends Controller
             'status_code' => $this->successStatus,
             'status_message' => 'success',
             'data' => $persons[$id % 3]
+        ]);
+    }
+
+    public function getRoles(){
+        $user = Auth::user();
+        $roles = DB::table('roles')->select('name', "slug")->get();
+        return response()->json([
+            'status_code' => $this->successStatus,
+            'status_message' => 'success',
+            'data' => $roles
         ]);
     }
 }
