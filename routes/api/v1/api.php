@@ -39,6 +39,8 @@ Route::prefix('management')->group(function () {
         Route::get('subdivisions/{id}', 'api\v1\SubdivisionController@getSubdivision');
         Route::get('subdivisions/child/{id}', 'api\v1\SubdivisionController@getChildSubdivisions');
 
+        Route::get('tasks/summarize', 'api\v1\TaskController@summarizeTasks');
+
         Route::get('tasks/subdivision', 'api\v1\TaskController@getSubdivisionTasks');
         Route::post('tasks/subdivision', 'api\v1\TaskController@addSubdivisionTask');
 
