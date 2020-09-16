@@ -17,7 +17,7 @@ class TaskController extends Controller
     public $successStatus = 200;
     public $forbiddenStatus = 403;
     public $notFoundStatus = 404;
-    public $badRequestStatus = 404;
+    public $badRequestStatus = 401;
 
     public function summarizeTasks(){
         $user = Auth::user();
