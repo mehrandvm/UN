@@ -12,19 +12,8 @@ import {useHistory} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {useSnackbar} from "notistack";
 import axiosInstance, {tokenTitle} from "../../apis/AxiosConfig";
-
-const Copyright = () => {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Lorem Ipsum
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -136,6 +125,7 @@ const Login = (props) => {
             }
         }
     }
+    const vocabs = getTranslator(useContext(LanguageContext).language);
 
     return (
         <React.Fragment>
@@ -149,7 +139,7 @@ const Login = (props) => {
                             <LockOutlinedIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            {vocabs('sign-in')}
                         </Typography>
                         <form className={classes.form} noValidate>
                             <FormTextField
@@ -162,7 +152,7 @@ const Login = (props) => {
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email Address"
+                                label={vocabs('email-address')}
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
@@ -177,7 +167,7 @@ const Login = (props) => {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label={vocabs('password')}
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
@@ -195,7 +185,7 @@ const Login = (props) => {
                                 className={classes.submit}
                                 onClick={handleSignIn}
                             >
-                                {isAuthenticating ? <CircularProgress/> : 'Sign In'}
+                                {isAuthenticating ? <CircularProgress/> : vocabs('sign-in')}
                             </Button>
                             {/*<Grid container>*/}
                             {/*  <Grid item xs>*/}
@@ -210,7 +200,11 @@ const Login = (props) => {
                             {/*  </Grid>*/}
                             {/*</Grid>*/}
                             <Box mt={5}>
-                                <Copyright/>
+                                <Typography variant="body2" color="textSecondary" align="center">
+                                    {vocabs('copyright')}
+                                    {vocabs('un-habitat')}
+                                    {new Date().getFullYear()}
+                                </Typography>
                             </Box>
                         </form>
                     </div>
