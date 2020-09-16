@@ -10,6 +10,7 @@ use Validator;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\CountrySubdivision;
+use App\DamageType;
 
 class TaskController extends Controller
 {
@@ -120,13 +121,14 @@ class TaskController extends Controller
         $user = Auth::user(); 
         $building_visit_tasks = DB::table('building_visit')->where('agent_id', $user->id)->get();
         $results = [];
-        dd($building_visit_tasks);
         foreach($building_visit_tasks as $task){
             $building = Building::find($task->building_id);
-            $subdivison = CountrySubdivision::find(871);
-            $task->agent = $user;
-            $task->buidling = $building;
-            $task->subdivision = $subdivison;
+            $damage_type = DamageType::find($task->damage_type);
+            $subdivison = CountrySubdivision::find($building->subdivision);
+            $task->subdivision = $subdivison->subdivision_name;
+            $task->damage_type = $damage_type->name;
+            $task->incident = "Earth quake";
+            unset($task->created_at, $task->updated_at, $task->agent_id, $task->building_id, $task->incident_id);
             $results[] = $task;
         }
         return response()->json([
