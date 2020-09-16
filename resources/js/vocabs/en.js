@@ -51,6 +51,15 @@ const vocabs = {
     'tasks': 'Tasks',
     'my-tasks': 'My Tasks',
     'profile': 'Profile',
+    'my-tasks-table': 'My Tasks Table',
+    'my-dashboard': 'My Dashboard',
+    'list-of-assessed-units': 'List of assessed units',
+    'list-of-issue-to-bank': ' List of issue to bank',
+    'list-of-appeals-objections': 'List of appeals / objections',
+    'assigned-units': 'Assigned Units: ',
+    'damage-assessments':'Damage Assessments',
+    'issue-letter':'Issue Letters',
+    'appeals-objections':'Appeals / Objections',
 };
 
 export const en = (key) => vocabs[key] || `unknown(${key})`;

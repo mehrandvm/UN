@@ -48,6 +48,15 @@ const vocabs = {
     'tasks': 'وظایف',
     'my-tasks': 'وظایف من',
     'profile': 'پروفایل',
+    'my-tasks-table': 'جدول وظایف من',
+    'my-dashboard': 'داشبورد من',
+    'list-of-assessed-units': 'لیست مراکز ارزیابی شده',
+    'list-of-issue-to-bank': 'لیست نامه های مراجعه به بانک',
+    'list-of-appeals-objections': 'لیست درخواست ها و اعتراضات',
+    'assigned-units': 'مراکز اختصاص یافته: ',
+    'damage-assessments':'تاسیسات آسیب دیده',
+    'issue-letter':'نامه به بانک',
+    'appeals-objections':'درخواست ها / اعتراضات',
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;
