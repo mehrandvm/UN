@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     EditingState,
     IntegratedPaging,
@@ -43,6 +43,8 @@ import Typography from "@material-ui/core/Typography";
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 const values = {
     userRole: [
@@ -200,11 +202,12 @@ const EditColumnHeaderCell = () => {
 
 const Task = () => {
     const classes = useStyles();
+    const vocabs = getTranslator(useContext(LanguageContext).language);
     const [language, setLanguage] = useState("en")
     const [columns] = useState([
-        {name: 'agent', title: 'Agent Name'},
-        {name: 'subdivision', title: 'Assigned Subdivision'},
-        {name: 'assigned_by', title: 'Task Reporter'},
+        {name: 'agent', title: vocabs('agent-name')},
+        {name: 'subdivision', title: vocabs('assigned-subdivision')},
+        {name: 'assigned_by', title: vocabs('task-reporter')},
     ]);
     const [rows, setRows] = useState(data);
     const [loading, setLoading] = useState(false);
@@ -243,6 +246,7 @@ const Task = () => {
             }
         };
         const classes = useStyles()
+
         return (
             <td className={classes.tableCell}>
                 {/*<Link to={`/task/details/${editProps.row.id}`}>*/}
@@ -325,7 +329,7 @@ const Task = () => {
                     <Link to={'/dashboard'}><IconButton><ArrowBackIcon/></IconButton></Link>
                 </Grid>
                 <Grid item className={classes.tableTitle}>
-                    <Typography variant={'h5'}>Tasks Table</Typography>
+                    <Typography variant={'h5'}>{vocabs('tasks-table')}</Typography>
                 </Grid>
                 <Paper>
                     <DevGrid
