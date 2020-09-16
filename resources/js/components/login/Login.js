@@ -79,7 +79,7 @@ const Login = (props) => {
                 }
                 else {
                     setIsAuthenticating(false)
-                    history.push('/mytasks')
+                    history.push('/mydashboard')
                     enqueueSnackbar('User verified',{variant:'success'})
                 }
             }).catch((e)=>{
@@ -112,7 +112,7 @@ const Login = (props) => {
                         history.push('/dashboard')
                     }
                     else {
-                        history.push('/mytasks')
+                        history.push('/mydashboard')
                     }
                 }).catch((e)=>{
                     console.error(e)
