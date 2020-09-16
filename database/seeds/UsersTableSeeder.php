@@ -18,6 +18,8 @@ class UsersTableSeeder extends Seeder
         $agent1 = new User();
 		$agent1->f_name = 'Mahdi';
 		$agent1->l_name = 'Mahmoodian';
+		$agent1->f_name_localize = 'مهدی';
+		$agent1->l_name_localize = 'محمودیان';
 		$agent1->phone_number = '+989199069657';
 		$agent1->email = 'mahmoodian.m1999@gmail.com';
 		$agent1->username = 'Mahmoodian.m';
@@ -28,6 +30,8 @@ class UsersTableSeeder extends Seeder
         $agent2 = new User();
 		$agent2->f_name = 'Mojtaba';
 		$agent2->l_name = 'Rahimy';
+		$agent2->f_name_localize = 'مجتبی';
+		$agent2->l_name_localize = 'رحیمی';
 		$agent2->phone_number = '+989212759133';
 		$agent2->email = 'm.rahimy.gk@gmail.com';
 		$agent2->username = 'Rahimy.m';
@@ -38,6 +42,8 @@ class UsersTableSeeder extends Seeder
 		$agent3 = new User();
 		$agent3->f_name = 'Mehran';
 		$agent3->l_name = 'Daneshvar';
+		$agent3->f_name_localize = 'مهران';
+		$agent3->l_name_localize = 'دانشور';
 		$agent3->phone_number = '+989911927936';
 		$agent3->email = 'amir.daneshvarmoein@gmail.com';
 		$agent3->username = 'MehranDVM';
@@ -48,6 +54,8 @@ class UsersTableSeeder extends Seeder
 		$admin = new User();
 		$admin->f_name = 'Behnam';
 		$admin->l_name = 'Mahmoodian';
+		$admin->f_name_localize = 'بهنام';
+		$admin->l_name_localize = 'محمودیان';
 		$admin->phone_number = '+989121350736';
 		$admin->email = 'bm.ir1967@gmail.com';
 		$admin->username = 'mahmoodian.b';
@@ -78,6 +86,8 @@ class UsersTableSeeder extends Seeder
 		$demo = new User();
 		$demo->f_name = 'Demo';
 		$demo->l_name = 'Demo';
+		$demo->f_name_localize = 'کاربر';
+		$demo->l_name_localize = 'دمو';
 		$demo->phone_number = '+989121234567';
 		$demo->email = 'demo@chakadmap.ir';
 		$demo->username = 'demo';
