@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import countyFeatureCollection from '../../../static/county.json'
 import axiosInstance from "../../apis/AxiosConfig";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -57,6 +59,7 @@ const CountySelector = (props) => {
             setOptions([]);
         }
     }, [open]);
+    const vocabs = getTranslator(useContext(LanguageContext).language);
 
     return (
         <Autocomplete
@@ -82,7 +85,7 @@ const CountySelector = (props) => {
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    label="Selected County"
+                    label={vocabs('selected-county')}
                     variant="outlined"
                     InputProps={{
                         ...params.InputProps,
