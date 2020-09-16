@@ -68,8 +68,8 @@ export const useStyles = makeStyles((theme) => createStyles({
 
 const UserForm = (props) => {
     const classes = useStyles();
-    const [language, setLanguage] = useState("en")
     const [formMode, setFormMode] = useState("")
+    const [roles, setRoles] = useState(null)
     const [user, setUser] = useState({
         f_name: "",
         l_name: "",
@@ -102,8 +102,17 @@ const UserForm = (props) => {
         })
     }
 
+    const fetchRoles = () => {
+        axiosInstance.get('/management/roles').then((res) => {
+            setRoles(res.data.data)
+        }).catch((e)=>{
+            console.error(e)
+        })
+    }
+
     useEffect(() => {
         checkPermission()
+        fetchRoles()
         if (params.id) {
             setFormMode("edit")
             axiosInstance.get(`/management/users/${params.id}`).then((res) => {
@@ -186,7 +195,7 @@ const UserForm = (props) => {
     const vocabs = getTranslator(useContext(LanguageContext).language);
     return (
         <div>
-            <Header setLanguage={setLanguage}/>
+            <Header/>
             <form>
                 <Grid
                     container
@@ -304,11 +313,10 @@ const UserForm = (props) => {
                                 label={vocabs('user-role')}
                                 error={!!userError.roles}
                             >
-                                <MenuItem value={""}>
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={'admin'}>{vocabs('admin')}</MenuItem>
-                                <MenuItem value={'agent'}>{vocabs('agent')}</MenuItem>
+                                <MenuItem value={""}><em>None</em></MenuItem>
+                                {roles ? roles.map((role)=>{
+                                    return <MenuItem key={role.slug} value={role.slug}>{vocabs(role.name)}</MenuItem>
+                                }): null}
                             </Select>
                             <FormHelperText>{userError.roles}</FormHelperText>
                         </FormControl>

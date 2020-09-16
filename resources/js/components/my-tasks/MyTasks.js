@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     EditingState,
     IntegratedPaging,
@@ -46,6 +46,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import BankLetter from "../bank-letter/BankLetter";
 import {BlobProvider} from '@react-pdf/renderer';
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 const values = {
     userRole: [
@@ -209,7 +211,6 @@ const EditColumnHeaderCell = () => {
 
 const MyTasks = (props) => {
     const classes = useStyles();
-    const [language, setLanguage] = useState("en")
     const [columns] = useState([
         {name: 'agent', title: 'Agent Name'},
         {name: 'building_location', title: 'Building Location'},
@@ -376,16 +377,17 @@ const MyTasks = (props) => {
         }
         // setRows(changedRows);
     };
+    const vocabs = getTranslator(useContext(LanguageContext).language);
 
     return (
         <div className={classes.container}>
-            <Header setLanguage={setLanguage}/>
+            <Header/>
             <Grid container className={classes.chartContainer} alignItems="center">
                 <Grid item className={classes.tableTitle}>
                     <Link to={'/'}><IconButton><ArrowBackIcon/></IconButton></Link>
                 </Grid>
                 <Grid item className={classes.tableTitle}>
-                    <Typography variant={'h5'}>Tasks Table</Typography>
+                    <Typography variant={'h5'}>{vocabs('my-tasks-table')}</Typography>
                 </Grid>
                 <Paper>
                     <DevGrid
