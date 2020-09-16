@@ -12,7 +12,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import axiosInstance from "../../apis/AxiosConfig";
+import axiosInstance, {tokenTitle} from "../../apis/AxiosConfig";
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
@@ -36,7 +36,8 @@ const Sidebar = (props) => {
     const vocabs = getTranslator(useContext(LanguageContext).language);
 
     const fetchPermissions = () => {
-        if (!props.isDark) {
+        const token = localStorage.getItem(tokenTitle)
+        if (!props.isDark && token) {
             Promise.all([
                 axiosInstance.get('/management/permission/view-dashboard'),
                 axiosInstance.get('/management/permission/manage-users'),
