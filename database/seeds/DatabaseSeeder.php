@@ -17,7 +17,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CountrySubdivisionTypesSeed::class);
         $this->call(CountrySubdivisionSeeder::class);
         $this->call(BuildingsTableSeeder::class);
+        $this->call(ObjectionTableSeeder::class);
+        $this->call(DamageTypesTableSeeder::class);
         $this->call(BuildingVisitTaskTableSeeder::class);
         $this->call(CountrySubdivisionVisitTasksTableSeeder::class);
+        
     }
 }
