@@ -23,6 +23,8 @@ class CreateBuildingVisitTable extends Migration
             $table->integer('stage_number');
             $table->boolean('is_wall_damaged');
             $table->string('referrence_code')->nullable();
+            $table->unsignedInteger('damage_type');
+            $table->foreign('damage_type')->references('id')->on('damage_types');
 
             $table->unsignedInteger('objection')->nullable();
             $table->unsignedInteger('agent_id');
