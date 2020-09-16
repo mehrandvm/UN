@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from "@material-ui/core/Button";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -16,6 +18,7 @@ const NationalSelector = (props) => {
     const [inputValue, setInputValue] = React.useState('');
     const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearNational} = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
+    const vocabs = getTranslator(useContext(LanguageContext).language);
 
     const isDisabled = () => false
 
@@ -49,7 +52,7 @@ const NationalSelector = (props) => {
     }, [open]);
 
     return (
-        <Button style={{height: '100%', width: '100%'}} onClick={clearNational} variant={'outlined'}>National View</Button>
+        <Button style={{height: '100%', width: '100%'}} onClick={clearNational} variant={'outlined'}>{vocabs('national-view')}</Button>
     );
 }
 

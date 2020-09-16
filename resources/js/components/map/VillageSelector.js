@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import villageFeatureCollection from '../../../static/village.json'
 import axiosInstance from "../../apis/AxiosConfig";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -17,7 +19,7 @@ const VillageSelector = (props) => {
     const [options, setOptions] = React.useState([]);
     const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearVillage, selectedCounty} = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
-
+    const vocabs = getTranslator(useContext(LanguageContext).language);
 
     const isDisabled = () => divisionLevel === "national" || divisionLevel === "province" || divisionLevel === "none"
     const handleVillageChange = () => setDivisionLevel("village")
@@ -79,7 +81,7 @@ const VillageSelector = (props) => {
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    label="Selected Village"
+                    label={vocabs('selected-village')}
                     variant="outlined"
                     InputProps={{
                         ...params.InputProps,
