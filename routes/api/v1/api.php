@@ -48,6 +48,8 @@ Route::prefix('management')->group(function () {
 
         Route::get('tasks/building', 'api\v1\TaskController@getBuildingVisitTasks');
 
+        Route::get('tasks/objection/{id}', 'api\v1\TaskController@getObjection');
+
         Route::get('persons/{id}', 'api\v1\ManagementController@getPerson');
 
         Route::post('files/bank-issue', 'api\v1\FilesController@storeIssuePdf');

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use App\CountrySubdivision;
 use App\DamageType;
+use App\Objection;
 
 class TaskController extends Controller
 {
@@ -137,5 +138,18 @@ class TaskController extends Controller
             'data' => $results
         ]);
 
+    }
+
+    public function getObjection($id){
+        $user = Auth::user();
+        $objection = Objection::find($id);
+        return response()->json([
+            'status_code' => $this->successStatus,
+            'status_message' => 'Success',
+            'data' => [
+                'expression' => "This is a sample expression string"
+                // 'expression' => $objection->expression
+            ]
+        ]);
     }
 }
