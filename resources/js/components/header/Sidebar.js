@@ -79,6 +79,9 @@ const Sidebar = (props) => {
             sidebarOptions.push({title: vocabs("tasks"), link: "/task", icon: <AssignmentIcon/>})
         }
         if (manageMyTasks) {
+            sidebarOptions.push({title: vocabs("my-dashboard"), link: "/myDashboard", icon: <DashboardIcon/>})
+        }
+        if (manageMyTasks) {
             sidebarOptions.push({title: vocabs("my-tasks"), link: "/mytasks", icon: <AssignmentIndIcon/>})
         }
         return sidebarOptions

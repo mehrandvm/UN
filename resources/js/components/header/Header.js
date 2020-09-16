@@ -114,9 +114,7 @@ const Header = (props) => {
         const token = localStorage.getItem(tokenTitle)
         if (token) {
             const sessionTime = ((Date.now() / 1000) - parseJwt(token).iat) / 60
-            console.log(sessionTime)
             if (sessionTime > 60) {
-                console.log('session end')
                 localStorage.removeItem(tokenTitle)
                 history.push('/login')
                 enqueueSnackbar('Session Expired!', {variant: 'info'})
