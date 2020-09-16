@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import {makeStyles} from "@material-ui/core/styles";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -22,13 +24,15 @@ const StageRadioGroup = (props) => {
         setStageNumber(event.target.value);
     };
     const classes = useStyles()
+    const vocabs = getTranslator(useContext(LanguageContext).language);
+
     return (
         <FormControl component="fieldset" className={classes.container}>
             <RadioGroup value={stageNumber} onChange={handleChange}>
-                <FormControlLabel value={'1'} control={<Radio size={'small'}/>} label="Stage One"/>
-                <FormControlLabel value={'2'} control={<Radio size={'small'}/>} label="Stage Two"/>
-                <FormControlLabel value={'3'} control={<Radio size={'small'}/>} label="Stage Three"/>
-                <FormControlLabel value={'4'} control={<Radio size={'small'}/>} label="Stage Four"/>
+                <FormControlLabel value={'1'} control={<Radio size={'small'}/>} label={vocabs('stage-one')}/>
+                <FormControlLabel value={'2'} control={<Radio size={'small'}/>} label={vocabs('stage-two')}/>
+                <FormControlLabel value={'3'} control={<Radio size={'small'}/>} label={vocabs('stage-three')}/>
+                <FormControlLabel value={'4'} control={<Radio size={'small'}/>} label={vocabs('stage-four')}/>
             </RadioGroup>
         </FormControl>
     );
