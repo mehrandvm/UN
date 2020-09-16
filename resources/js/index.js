@@ -23,6 +23,7 @@ import rtl from 'jss-rtl';
 import {StylesProvider, jssPreset} from '@material-ui/core/styles';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {getTranslator} from "./vocabs";
+import MyDashboard from "./components/my-dashboard/MyDashboard";
 
 const jss = create({plugins: [...jssPreset().plugins, rtl()]});
 
@@ -88,6 +89,9 @@ const Index = () => {
                                         </Route>
                                         <Route exact path="/user">
                                             <User/>
+                                        </Route>
+                                        <Route exact path="/mydashboard">
+                                            <MyDashboard/>
                                         </Route>
                                         <Route exact path="/mytasks">
                                             <MyTasks/>
