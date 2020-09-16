@@ -68,10 +68,10 @@ const Home = () => {
             <Grid container className={classes.showcase} alignItems="center">
                 <Grid item xs={12} className={classes.container}>
                     <Grid item xs={12} className={classes.text}>
-                        <Typography variant='h2' className={classes.title}>Lorem Ipsum</Typography>
-                        <Typography variant='h4' className={classes.title}>Lorem Ipsum is simply dummy text</Typography>
-                        <Typography variant='h4' className={classes.title}>of the printing and typesetting industry</Typography>
-                        <Typography variant='h6' className={classes.title}>UN Habitat</Typography>
+                        <Typography variant='h3' className={classes.title}>Damage Asessment and reconstruction system</Typography>
+                        <Typography variant='h4' className={classes.title}>BAZTAB Project</Typography>
+                        <Typography variant='h4' className={classes.title}>Humanitarian Protextion and Community Rehabiliation in Kermanshah Rrovince,</Typography>
+                        <Typography variant='h6' className={classes.title}>Islamic Republic of Iran</Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <Link to={'/login'} className={classes.link}>
