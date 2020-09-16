@@ -29,6 +29,8 @@ class CreateBuildingVisitTable extends Migration
             $table->foreign('objection')->references('id')->on('objections');
             $table->foreign('agent_id')->references('id')->on('users');
 
+            $table->string("export")->nullable();
+
             $table->date('visit_date');
             $table->timestamps();
         });
