@@ -134,9 +134,14 @@ const Header = (props) => {
 
     const fetchUserInfo = async () => {
         const token = localStorage.getItem(tokenTitle)
+        const language = localStorage.getItem('language')
         if (token) {
             await axiosInstance.get('/user/profile').then((res) => {
-                setUserInfo(res.data.data.f_name + " " + res.data.data.l_name)
+                if (language === 'en') {
+                    setUserInfo(res.data.data.f_name + " " + res.data.data.l_name)
+                } else {
+                    setUserInfo(res.data.data.f_name + " " + res.data.data.l_name)
+                }
             }).catch((e) => {
                 console.log(e)
             })
