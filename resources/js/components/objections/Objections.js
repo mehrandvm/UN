@@ -51,7 +51,7 @@ const Objections = (props) => {
     const fetchObjection = () => {
         setLoading(true)
         axiosInstance.get(`/management/tasks/objection/${params.id}`).then((res) => {
-            const data = res.data.data
+            const data = res.data.data.expression
             if (data) {
                 setObjection(data)
             }
