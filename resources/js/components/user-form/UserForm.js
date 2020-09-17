@@ -139,13 +139,17 @@ const UserForm = (props) => {
                 email: validateEmail(user.email),
                 phone_number: validatePhoneNumber(user.phone_number),
                 roles: validateRole(user.roles),
-                password: validatePassword(user.password),
-                c_password: validateConfirmPassword(user.password, user.c_password),
+                password: formMode==="create" ? validatePassword(user.password) : "",
+                c_password: formMode==="create" ? validateConfirmPassword(user.password, user.c_password) : "",
             },
         )
-        return !(validateFirstName(user.f_name) || validateLastName(user.l_name) || validateUserName(user.username) || validateEmail(user.email) ||
-            validateRole(user.roles) || validatePhoneNumber(user.phone_number) || validatePassword(user.password) || validateConfirmPassword(user.password, user.c_password));
-
+        if (formMode==="create") {
+            return !(validateFirstName(user.f_name) || validateLastName(user.l_name) || validateUserName(user.username) || validateEmail(user.email) ||
+                validateRole(user.roles) || validatePhoneNumber(user.phone_number) || validatePassword(user.password) || validateConfirmPassword(user.password, user.c_password));
+        } else {
+            return !(validateFirstName(user.f_name) || validateLastName(user.l_name) || validateUserName(user.username) || validateEmail(user.email) ||
+                validateRole(user.roles) || validatePhoneNumber(user.phone_number));
+        }
     }
 
     const handleSubmit = () => {
@@ -169,7 +173,8 @@ const UserForm = (props) => {
             })
         } else if (formMode === "edit") {
             user.role_slug = user.roles
-            // delete user.roles
+            delete user.password
+            delete user.c_password
             axiosInstance.post(`/management/users/${params.id}`, user).then((res) => {
                 console.log(res)
                 if (res.data.status_code === 200) {
@@ -287,7 +292,8 @@ const UserForm = (props) => {
                             errorMessage={userError.password}
                             error={!!userError.password}
                             type="password"
-                            required={false}
+                            required={formMode!=="edit"}
+                            disabled={formMode==="edit"}
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} className={classes.paper}>
@@ -300,7 +306,8 @@ const UserForm = (props) => {
                             errorMessage={userError.c_password}
                             error={!!userError.c_password}
                             type="password"
-                            required={false}
+                            required={formMode!=="edit"}
+                            disabled={formMode==="edit"}
                         />
                     </Grid>
                     <Grid item xs={9} sm={9} className={classes.paper}>
