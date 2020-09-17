@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Grid, Typography} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles';
 import construction from '../../../images/construction.jpg'
 import MapIcon from '@material-ui/icons/Map';
 import Header from '../header/Header';
 import {Link} from "react-router-dom";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
+import {getTranslator} from "../../vocabs";
 
 const useStyles = makeStyles((theme) => ({
     showcase: {
@@ -30,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: 25,
         marginRight: 25,
-        width: '150px',
+        width: '200px',
         height: '50px',
         textDecoration: 'none',
         textShadow: 'none',
@@ -61,27 +63,27 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
     const classes = useStyles();
-    const [language, setLanguage] = useState("en")
+    const vocabs = getTranslator(useContext(LanguageContext).language);
     return (
         <div>
-            <Header setLanguage={setLanguage} isDark={true} hideSidebar={true}/>
+            <Header setLanguage={() => {}} isDark={true} hideSidebar={true}/>
             <Grid container className={classes.showcase} alignItems="center">
                 <Grid item xs={12} className={classes.container}>
                     <Grid item xs={12} className={classes.text}>
-                        <Typography variant='h3' className={classes.title}>Damage Asessment and reconstruction system</Typography>
-                        <Typography variant='h4' className={classes.title}>BAZTAB Project</Typography>
-                        <Typography variant='h4' className={classes.title}>Humanitarian Protextion and Community Rehabiliation in Kermanshah Rrovince,</Typography>
-                        <Typography variant='h6' className={classes.title}>Islamic Republic of Iran</Typography>
+                        <Typography variant='h3' className={classes.title}>{vocabs('damage-assessment')}</Typography>
+                        <Typography variant='h4' className={classes.title}>{vocabs('baztab-project')}</Typography>
+                        <Typography variant='h5' className={classes.title}>{vocabs('humanitarian-protection')}</Typography>
+                        <Typography variant='h6' className={classes.title}>{vocabs('islamic-republic')}</Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <Link to={'/login'} className={classes.link}>
                             <Button variant="contained" color="primary" className={classes.button}>
-                                Login
+                                {vocabs('sign-in')}
                             </Button>
                         </Link>
-                        <Button variant="contained" color="secondary" className={classes.button}>
-                            About Us
-                        </Button>
+                        {/*<Button variant="contained" color="secondary" className={classes.button}>*/}
+                        {/*    About Us*/}
+                        {/*</Button>*/}
                     </Grid>
                 </Grid>
             </Grid>

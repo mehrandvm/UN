@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import nationalFeatureCollection from '../../../static/national.json'
 import axiosInstance from "../../apis/AxiosConfig";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -54,6 +56,7 @@ const ProvinceSelector = (props) => {
             setOptions([]);
         }
     }, [open]);
+    const vocabs = getTranslator(useContext(LanguageContext).language);
 
     return (
         <Autocomplete
@@ -80,7 +83,7 @@ const ProvinceSelector = (props) => {
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    label="Selected Province"
+                    label={vocabs('selected-province')}
                     variant="outlined"
                     InputProps={{
                         ...params.InputProps,

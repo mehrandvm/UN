@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import nationalFeatureCollection from '../../../static/national.json'
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -16,6 +18,7 @@ const ProvinceSelector = (props) => {
     const [options, setOptions] = React.useState([]);
     const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearProvince} = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
+    const vocabs = getTranslator(useContext(LanguageContext).language);
 
     const isDisabled = () => divisionLevel === "none"
     const handleProvinceChange = () => setDivisionLevel("province")
@@ -74,7 +77,7 @@ const ProvinceSelector = (props) => {
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    label="Selected Province"
+                    label={vocabs('selected-province')}
                     variant="outlined"
                     InputProps={{
                         ...params.InputProps,

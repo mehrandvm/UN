@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
-    EditingState,
+    EditingState, GroupingState, IntegratedGrouping,
     IntegratedPaging,
     IntegratedSorting,
     IntegratedSummary,
@@ -10,15 +10,15 @@ import {
 } from '@devexpress/dx-react-grid';
 import {
     DragDropProvider,
-    Grid as DevGrid,
+    Grid as DevGrid, GroupingPanel,
     PagingPanel,
     Table,
     TableColumnReordering,
     TableEditColumn,
     TableEditRow,
-    TableFixedColumns,
+    TableFixedColumns, TableGroupRow,
     TableHeaderRow,
-    TableSummaryRow,
+    TableSummaryRow, Toolbar,
 } from '@devexpress/dx-react-grid-material-ui';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -36,7 +36,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {makeStyles} from '@material-ui/core/styles';
 import Header from "../header/Header";
 import {Grid} from "@material-ui/core";
-import {Link, useHistory} from "react-router-dom";
+import {Link, useHistory, useParams} from "react-router-dom";
 import {withPermission} from "../../utils/with-premission/withPermission";
 import axiosInstance from "../../apis/AxiosConfig";
 import Typography from "@material-ui/core/Typography";
@@ -46,6 +46,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import BankLetter from "../bank-letter/BankLetter";
 import {BlobProvider} from '@react-pdf/renderer';
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
+import {useSnackbar} from "notistack";
 
 const values = {
     userRole: [
@@ -94,7 +97,9 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: 'none',
     },
     button: {
-        width: 170
+        margin: '0 8px',
+        width: 150,
+        fontSize: '0.7rem',
     },
 }));
 
@@ -170,8 +175,8 @@ const LookupEditCellBase = ({
                 <Input/>
             )}
         >
-            {availableColumnValues.map(item => (
-                <MenuItem key={item} value={item}>
+            {availableColumnValues.map((item, i) => (
+                <MenuItem key={i} value={item}>
                     {item}
                 </MenuItem>
             ))}
@@ -209,13 +214,14 @@ const EditColumnHeaderCell = () => {
 
 const MyTasks = (props) => {
     const classes = useStyles();
-    const [language, setLanguage] = useState("en")
+    const vocabs = getTranslator(useContext(LanguageContext).language);
     const [columns] = useState([
-        {name: 'agent', title: 'Agent Name'},
-        {name: 'building_location', title: 'Building Location'},
-        {name: 'building_lat', title: 'Building Latitude'},
-        {name: 'building_long', title: 'Building Longitude'},
-        {name: 'stage_number', title: 'Stage Number'},
+        {name: 'referrence_code', title: vocabs('referrence_code')},
+        {name: 'subdivision', title: vocabs('subdivision')},
+        {name: 'incident', title: vocabs('incident')},
+        {name: 'damage_type', title: vocabs('damage_type')},
+        {name: 'stage_number', title: vocabs('stage_number')},
+        {name: 'is_wall_damaged', title: vocabs('is_wall_damaged')},
     ]);
     const [rows, setRows] = useState(data);
     const [loading, setLoading] = useState(false);
@@ -231,8 +237,8 @@ const MyTasks = (props) => {
     const [addedRows, setAddedRows] = useState([]);
     const [rowChanges, setRowChanges] = useState({});
     const [currentPage, setCurrentPage] = useState(0);
-    const [pageSize, setPageSize] = useState(5);
-    const [pageSizes] = useState([5, 10, 0]);
+    const [pageSize, setPageSize] = useState(10);
+    const [pageSizes] = useState([5, 10]);
     const [columnOrder, setColumnOrder] = useState([]);
     const [leftFixedColumns] = useState([TableEditColumn.COLUMN_TYPE]);
     const [totalSummaryItems] = useState([
@@ -258,12 +264,14 @@ const MyTasks = (props) => {
                 // }).catch(() => SnackbarUtil.error('err'));
             }
         };
+        const {enqueueSnackbar} = useSnackbar()
         const getData = async () => {
-            await axiosInstance.get(`management/persons/${editProps.row.building_id}`).then((res) => {
+            await axiosInstance.get(`management/persons/${editProps.row.id}`).then((res) => {
                 setUserId(`${res.data.data.id}`)
                 setUserName(res.data.data.name)
             })
         }
+
         getData()
         const classes = useStyles()
         return (
@@ -273,39 +281,72 @@ const MyTasks = (props) => {
                 {/*</Link>*/}
                 {/*<Link to={`/task/edit/${editProps.row.id}`}><IconButton><EditIcon/></IconButton></Link>*/}
                 {/*<IconButton onClick={deleteItem} disabled><DeleteIcon/></IconButton>*/}
-                {userName && userId ?
-                    <Button variant={'outlined'} onClick={() => setGetFactor(true)} className={classes.button}>
-                        {getFactor
-                            ? (
-                                <BlobProvider
-                                    document={<BankLetter userName={userName}
-                                                          userId={userId}
-                                                          loanNumber={'12000000'}
-                                                          stageNumber={editProps.row.stage_number}
-                                    />}>
-                                    {({url, loading, error}) => {
-                                        if (loading) {
-                                            return (<CircularProgress size={20} className={classes.progress}/>);
-                                        }
-                                        if (!loading && url) {
-                                            return (
-                                                <a href={url} download className={classes.link}>
-                                                    download letter
-                                                </a>
-                                            );
-                                        }
-                                        if (error) {
-                                            console.error(error);
-                                            return <p>An error occurred</p>;
-                                        }
-                                        setGetFactor(false);
-                                        return null
-                                    }}
-                                </BlobProvider>
-                            )
-                            : <><GetAppIcon/> Export Letter</>}
-                    </Button>
-                    : <CircularProgress size={20} className={classes.progress}/>}
+                <Button variant={'outlined'}
+                        disabled={editProps.row.objection === null}
+                        onClick={() => history.push(`/objections/${editProps.row.id}`)}
+                        className={classes.button}>
+                    {vocabs('view-objection')}
+                </Button>
+                {editProps.row.issued ? <a download href={editProps.row.issued}>
+                        <Button variant={'outlined'} className={classes.button}>
+                            {vocabs('download-letter')}
+                        </Button></a>
+                    :
+                    userName && userId ?
+                        <Button variant={'outlined'} onClick={() => setGetFactor(true)} className={classes.button}>
+                            {getFactor
+                                ? (
+                                    <BlobProvider
+                                        document={<BankLetter userName={userName}
+                                                              userId={userId}
+                                                              loanNumber={'12000000'}
+                                                              stageNumber={editProps.row.stage_number}
+                                                              caseNumber={editProps.row.referrence_code}
+                                                              subdivision={editProps.row.subdivision}
+                                        />}>
+                                        {({blob, url, loading, error}) => {
+                                            if (loading) {
+                                                return (<CircularProgress size={20} className={classes.progress}/>);
+                                            }
+                                            if (!loading && url && blob) {
+
+                                                let pdf = new FormData();
+                                                pdf.append('file', blob);
+                                                pdf.append('visit_id', editProps.row.id);
+
+                                                axiosInstance.post('/management/files/bank-issue', pdf,
+                                                    {
+                                                        headers: {
+                                                            'Content-Type': 'multipart/form-data',
+                                                        },
+                                                    }).then((res) => {
+                                                    console.log(res)
+                                                    enqueueSnackbar('File has been saved successfully', {variant: 'success'})
+                                                }).catch((e) => {
+                                                    console.log(e)
+                                                    enqueueSnackbar('An error occurred', {variant: 'error'})
+                                                })
+                                                return (
+                                                    <a href={url} download className={classes.link}>
+                                                        {vocabs('download-letter')}
+                                                    </a>
+                                                );
+                                            }
+                                            if (error) {
+                                                console.error(error);
+                                                return <p>An error occurred</p>;
+                                            }
+                                            setGetFactor(false);
+                                            return null
+                                        }}
+                                    </BlobProvider>
+                                )
+                                : <>{vocabs('export-letter')}</>}
+                        </Button>
+                        : <Button variant={'outlined'} className={classes.button}>
+                            <CircularProgress size={20} className={classes.progress}/>
+                        </Button>
+                }
             </td>
         );
     };
@@ -315,17 +356,32 @@ const MyTasks = (props) => {
         axiosInstance.get('/management/tasks/building').then((res) => {
             const dat = res.data.data.map((dataRow, i) => {
                 const newRow = {
-                    id: i,
-                    agent: dataRow.agent.f_name + " " + dataRow.agent.l_name,
-                    building_id: dataRow.buidling.id,
-                    building_lat: dataRow.buidling.lat,
-                    building_long: dataRow.buidling.long,
-                    building_location: dataRow.subdivision.subdivision_name,
+                    id: dataRow.id,
+                    referrence_code: dataRow.referrence_code,
+                    subdivision: dataRow.subdivision,
+                    incident: dataRow.incident,
                     stage_number: dataRow.stage_number,
+                    is_wall_damaged: dataRow.is_wall_damaged ? vocabs('yes') : vocabs('no'),
+                    damage_type: dataRow.damage_type,
+                    issued: dataRow.issued,
+                    objection: dataRow.objection,
                 }
                 return newRow
             })
-            setRows(dat)
+            console.log(params)
+            if (params.filter === 'issues') {
+                const dataWithIssues = dat.filter((row) => {
+                    return row.issued !== null
+                })
+                setRows(dataWithIssues)
+            } else if (params.filter === 'objections') {
+                const dataWithObjection = dat.filter((row) => {
+                    return row.objection !== null
+                })
+                setRows(dataWithObjection)
+            } else {
+                setRows(dat)
+            }
             setLoading(false)
         }).catch((e) => {
             console.error(e)
@@ -333,6 +389,7 @@ const MyTasks = (props) => {
     }
 
     const history = useHistory()
+    const params = useParams()
 
     const checkPermission = async () => {
         await axiosInstance.get('/management/permission/manage-tasks').then((res) => {
@@ -379,13 +436,13 @@ const MyTasks = (props) => {
 
     return (
         <div className={classes.container}>
-            <Header setLanguage={setLanguage}/>
+            <Header/>
             <Grid container className={classes.chartContainer} alignItems="center">
                 <Grid item className={classes.tableTitle}>
                     <Link to={'/'}><IconButton><ArrowBackIcon/></IconButton></Link>
                 </Grid>
                 <Grid item className={classes.tableTitle}>
-                    <Typography variant={'h5'}>Tasks Table</Typography>
+                    <Typography variant={'h5'}>{vocabs('my-tasks-table')}</Typography>
                 </Grid>
                 <Paper>
                     <DevGrid
@@ -396,6 +453,9 @@ const MyTasks = (props) => {
                         <SortingState
                             sorting={sorting}
                             onSortingChange={getSorting}
+                        />
+                        <GroupingState
+                            defaultGrouping={[{columnName: 'referrence_code'}]}
                         />
                         <PagingState
                             currentPage={currentPage}
@@ -413,6 +473,7 @@ const MyTasks = (props) => {
                             onCommitChanges={commitChanges}
                         />
 
+                        <IntegratedGrouping/>
                         <IntegratedSorting/>
                         <IntegratedPaging/>
 
@@ -431,20 +492,21 @@ const MyTasks = (props) => {
                         {/*    cellComponent={EditCell}*/}
                         {/*/>*/}
                         <TableEditColumn
-                            width={200}
+                            width={350}
                             showAddCommand={!addedRows.length}
-                            showEditCommand
-                            showDeleteCommand
-                            commandComponent={Command}
+                            // commandComponent={Command}
                             cellComponent={EditColumnCell}
                             headerCellComponent={EditColumnHeaderCell}
                         />
+                        <TableGroupRow/>
                         <TableFixedColumns
                             leftColumns={leftFixedColumns}
                         />
                         <PagingPanel
                             pageSizes={pageSizes}
                         />
+                        <Toolbar/>
+                        <GroupingPanel showSortingControls={true}/>
                         <div className={loading ? classes.loadingContainer : ''}/>
                         {loading && <CircularProgress size={50} className={classes.loading}/>}
                     </DevGrid>

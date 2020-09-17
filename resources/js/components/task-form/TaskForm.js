@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     Button, Grid, Typography,
 } from '@material-ui/core';
@@ -29,6 +29,8 @@ import ProvinceSelector from "./ProvinceSelector";
 import CountySelector from "./CountySelector";
 import VillageSelector from "./VillageSelector";
 import UserSelector from "./UserSelector";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 export const useStyles = makeStyles((theme) => createStyles({
     container: {
@@ -181,6 +183,8 @@ const TaskForm = (props) => {
         setDivisionLevel("county")
     }
 
+    const vocabs = getTranslator(useContext(LanguageContext).language);
+
     return (
         <div>
             <Header setLanguage={setLanguage}/>
@@ -197,7 +201,7 @@ const TaskForm = (props) => {
                         <Link to={'/task'}><IconButton><ArrowBackIcon/></IconButton></Link>
                     </Grid>
                     <Grid item className={classes.tableTitle}>
-                        <Typography variant={'h5'}>Tasks Form</Typography>
+                        <Typography variant={'h5'}>{vocabs('tasks-form')}</Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} className={classes.paper}>
 
@@ -245,7 +249,7 @@ const TaskForm = (props) => {
                                 color={"inherit"}
                                 className={classes.button}
                             >
-                                {'Cancel'}
+                                {vocabs('cancel')}
                             </Button>
                         </Link>
                     </Grid>
@@ -256,7 +260,7 @@ const TaskForm = (props) => {
                             onClick={handleSubmit}
                             className={classes.button}
                         >
-                            {'Save'}
+                            {vocabs('save')}
                         </Button>
                     </Grid>
                 </Grid>

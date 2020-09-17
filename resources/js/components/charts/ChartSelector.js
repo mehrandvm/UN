@@ -1,11 +1,14 @@
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import PieChart from "./PieChart";
 import BarChart from "./BarChart";
 import {Grid, Typography} from "@material-ui/core";
 import LineChart from "./LineChart";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 
 const ChartSelector = (props) => {
+    const vocabs = getTranslator(useContext(LanguageContext).language);
 
     // const returnValidData = (dataset) => {
     //     const validData = {labels: Object.keys(dataset), dataset: Object.values(dataset),}
@@ -46,13 +49,13 @@ const ChartSelector = (props) => {
             lastData = Math.floor(lastData * (random / 100))
         }
         if (theme === 0) {
-            return {[`Stage One (${divisionName})`]: data.reverse()}
+            return {[`${vocabs('stage-one')} (${divisionName})`]: data.reverse()}
         } else if (theme === 1) {
-            return {[`Stage Two (${divisionName})`]: data.reverse()}
+            return {[`${vocabs('stage-two')} (${divisionName})`]: data.reverse()}
         } else if (theme === 2) {
-            return {[`Stage Three (${divisionName})`]: data.reverse()}
+            return {[`${vocabs('stage-three')} (${divisionName})`]: data.reverse()}
         } else if (theme === 3) {
-            return {[`Stage Four (${divisionName})`]: data.reverse()}
+            return {[`${vocabs('stage-four')} (${divisionName})`]: data.reverse()}
         } else if (theme === 4) {
         return {[`Past Year Progress by Month (${divisionName})`]: data.reverse()}
         }
@@ -100,10 +103,10 @@ const ChartSelector = (props) => {
         // const validData = {labels: Object.keys(dataset), dataset: Object.values(dataset),}
         const validData = {
             labels: [
-                'Stage One',
-                'Stage Two',
-                'Stage Three',
-                'Stage Four',
+                `${vocabs('stage-one')} `,
+                `${vocabs('stage-two')} `,
+                `${vocabs('stage-three')} `,
+                `${vocabs('stage-four')} `,
             ],
             dataset: returnRandomDataBasedOnStage2(dataset, chart.theme),
         }

@@ -69,11 +69,10 @@ const useStyles = (theme) => StyleSheet.create({
 Font.register({family: 'IRANSans', src: IRANSans, format: 'truetype'});
 Font.registerHyphenationCallback((word) => [word]);
 const BankLetter = (props) => {
-    const {userId, userName, loanNumber,stageNumber} = props
+    const {userId, userName, loanNumber, stageNumber, caseNumber, subdivision} = props
     const classes = useStyles(useTheme());
     const numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const returnTextOne = () => {
-        const caseNumber = `${Math.floor(Math.random() * 1000000)}`
         const caseCode = caseNumber.split('').reverse().join('')
         const userCode = userId.split('').reverse().join('')
         return `بدینوسیله آقای ${userName} به کد ملی ${userCode} به شماره پرونده ${caseCode}`
@@ -140,7 +139,7 @@ const BankLetter = (props) => {
                         <Text>{('مصطفی حسن زاده')}</Text>
                     </View>
                     <View style={classes.tableData}>
-                        <Text>{('شهرستان ثلاث باباجانی')}</Text>
+                        <Text>{(`شهرستان ${subdivision}`)}</Text>
                     </View>
                 </View>
             </Page>

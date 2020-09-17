@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,9 +8,50 @@ import habitatLogo from '../../../images/habitatLogo.png'
 import Sidebar from "./Sidebar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from '@material-ui/icons/Menu';
-import {tokenTitle} from "../../apis/AxiosConfig";
+import axiosInstance, {parseJwt, tokenTitle} from "../../apis/AxiosConfig";
 import {useHistory} from "react-router-dom";
 import {useSnackbar} from "notistack";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import {InputBase} from "@material-ui/core";
+import {withStyles} from "@material-ui/styles";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
+import LanguageIcon from '@material-ui/icons/Language';
+import {getTranslator} from "../../vocabs";
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import Menu from "@material-ui/core/Menu";
+
+const BootstrapInput = withStyles((theme) => ({
+    root: {
+        'label + &': {
+            marginTop: theme.spacing(3),
+        },
+    },
+    input: {
+        position: 'relative',
+        // backgroundColor: theme.palette.background.paper,
+        // border: '1px solid #ced4da',
+        color: "#FFF",
+        border: 'none',
+        padding: '10px 26px 10px 12px',
+        fontSize: '0.875rem',
+        minWidth: 64,
+        boxSizing: 'border-box',
+        fontWeight: 500,
+        lineHeight: 1.75,
+        borderRadius: 4,
+        letterSpacing: '0.02857em',
+        textTransform: 'uppercase',
+
+        '&:focus': {
+            // borderRadius: 4,
+            // borderColor: '#80bdff',
+            // boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+}))(InputBase);
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,6 +80,9 @@ const useStyles = makeStyles((theme) => ({
     dark: {
         backgroundColor: 'rgb(0,0,0,0.6)',
     },
+    select: {
+        color: "#FFF",
+    }
 }));
 
 const Header = (props) => {
@@ -57,14 +101,66 @@ const Header = (props) => {
     const handleLogout = () => {
         localStorage.removeItem(tokenTitle)
         history.push('/login')
-        enqueueSnackbar("You logged out",{variant:'info'})
+        enqueueSnackbar("You logged out", {variant: 'info'})
     }
+    const language = useContext(LanguageContext).language
+    const vocabs = getTranslator(useContext(LanguageContext).language);
+    const setLanguage = useContext(LanguageContext).changeLanguage
+    const handleChangeLanguage = (e) => {
+        localStorage.setItem('language', e.target.value)
+        setLanguage(e.target.value);
+    }
+    const endSession = () => {
+        const token = localStorage.getItem(tokenTitle)
+        if (token) {
+            const sessionTime = ((Date.now() / 1000) - parseJwt(token).iat) / 60
+            if (sessionTime > 60) {
+                localStorage.removeItem(tokenTitle)
+                history.push('/login')
+                enqueueSnackbar('Session Expired!', {variant: 'info'})
+            }
+        }
+    }
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [userInfo, setUserInfo] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const fetchUserInfo = async () => {
+        const token = localStorage.getItem(tokenTitle)
+        const language = localStorage.getItem('language')
+        if (token) {
+            await axiosInstance.get('/user/profile').then((res) => {
+                if (language === 'en') {
+                    setUserInfo(res.data.data.f_name + " " + res.data.data.l_name)
+                } else {
+                    setUserInfo(res.data.data.f_name + " " + res.data.data.l_name)
+                }
+            }).catch((e) => {
+                console.log(e)
+            })
+        } else {
+            setUserInfo(null)
+        }
+    }
+
+    useEffect(() => {
+        endSession()
+        fetchUserInfo()
+    })
     return (
         <div className={classes.root}>
             <Sidebar open={drawerOpen}
                      toggleDrawer={toggleDrawer}
                      openDrawer={openDrawer}
                      closeDrawer={closeDrawer}
+                     isDark={props.isDark}
             />
             <AppBar position="static" className={props.isDark ? classes.dark : classes.light}>
                 <Toolbar>
@@ -75,6 +171,15 @@ const Header = (props) => {
                     <Typography variant="h6" className={classes.title}>
                         <a href="/"><img src={habitatLogo} className={classes.logo}/></a>
                     </Typography>
+                    <Select
+                        value={language}
+                        onChange={handleChangeLanguage}
+                        input={<BootstrapInput startAdornment={<LanguageIcon/>}/>}
+                        className={classes.select}
+                    >
+                        <MenuItem value={'en'}>{vocabs('english')}</MenuItem>
+                        <MenuItem value={'fa'}>{vocabs('persian')}</MenuItem>
+                    </Select>
                     {/*<Button onClick={() => props.setLanguage("en")} color="inherit">EN</Button>*/}
                     {/*<Button onClick={() => props.setLanguage("fa")} color="inherit">FA</Button>*/}
                     {/*<form action="/logout" method="post">*/}
@@ -83,7 +188,33 @@ const Header = (props) => {
                     {/*        name="_token"*/}
                     {/*        value={props.csrf_token}*/}
                     {/*    />*/}
-                    <Button type="submit" color="inherit" onClick={handleLogout}>Logout</Button>
+
+                    {/*<Button type="submit" color="inherit" onClick={handleLogout}>{vocabs('logout')}</Button>*/}
+
+                    {userInfo ?
+                        <Button type="submit" color="inherit" onClick={handleClick}>
+                            {userInfo}
+                            {/*{vocabs('profile')}*/}
+                        </Button>
+                        :
+                       null
+                    }
+                    <Menu
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                    >
+                        <MenuItem onClick={handleLogout}>{vocabs('logout')}</MenuItem>
+                    </Menu>
                     {/*</form>*/}
                 </Toolbar>
             </AppBar>

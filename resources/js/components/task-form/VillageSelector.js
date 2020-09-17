@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import villageFeatureCollection from '../../../static/village.json'
 import axiosInstance from "../../apis/AxiosConfig";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 
 function sleep(delay = 0) {
@@ -63,6 +65,7 @@ const VillageSelector = (props) => {
             setOptions([]);
         }
     }, [open]);
+    const vocabs = getTranslator(useContext(LanguageContext).language);
 
     return (
         <Autocomplete
@@ -88,7 +91,7 @@ const VillageSelector = (props) => {
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    label="Selected Village"
+                    label={vocabs('selected-village')}
                     variant="outlined"
                     InputProps={{
                         ...params.InputProps,

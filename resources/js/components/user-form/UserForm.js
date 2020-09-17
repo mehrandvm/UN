@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     Button, Grid, Typography,
 } from '@material-ui/core';
@@ -24,6 +24,8 @@ import {
     validateUserName
 } from "../../utils/validations/Validation";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 export const useStyles = makeStyles((theme) => createStyles({
     container: {
@@ -66,8 +68,8 @@ export const useStyles = makeStyles((theme) => createStyles({
 
 const UserForm = (props) => {
     const classes = useStyles();
-    const [language, setLanguage] = useState("en")
     const [formMode, setFormMode] = useState("")
+    const [roles, setRoles] = useState(null)
     const [user, setUser] = useState({
         f_name: "",
         l_name: "",
@@ -100,8 +102,17 @@ const UserForm = (props) => {
         })
     }
 
+    const fetchRoles = () => {
+        axiosInstance.get('/management/roles').then((res) => {
+            setRoles(res.data.data)
+        }).catch((e)=>{
+            console.error(e)
+        })
+    }
+
     useEffect(() => {
         checkPermission()
+        fetchRoles()
         if (params.id) {
             setFormMode("edit")
             axiosInstance.get(`/management/users/${params.id}`).then((res) => {
@@ -128,13 +139,17 @@ const UserForm = (props) => {
                 email: validateEmail(user.email),
                 phone_number: validatePhoneNumber(user.phone_number),
                 roles: validateRole(user.roles),
-                password: validatePassword(user.password),
-                c_password: validateConfirmPassword(user.password, user.c_password),
+                password: formMode==="create" ? validatePassword(user.password) : "",
+                c_password: formMode==="create" ? validateConfirmPassword(user.password, user.c_password) : "",
             },
         )
-        return !(validateFirstName(user.f_name) || validateLastName(user.l_name) || validateUserName(user.username) || validateEmail(user.email) ||
-            validateRole(user.roles) || validatePhoneNumber(user.phone_number) || validatePassword(user.password) || validateConfirmPassword(user.password, user.c_password));
-
+        if (formMode==="create") {
+            return !(validateFirstName(user.f_name) || validateLastName(user.l_name) || validateUserName(user.username) || validateEmail(user.email) ||
+                validateRole(user.roles) || validatePhoneNumber(user.phone_number) || validatePassword(user.password) || validateConfirmPassword(user.password, user.c_password));
+        } else {
+            return !(validateFirstName(user.f_name) || validateLastName(user.l_name) || validateUserName(user.username) || validateEmail(user.email) ||
+                validateRole(user.roles) || validatePhoneNumber(user.phone_number));
+        }
     }
 
     const handleSubmit = () => {
@@ -158,7 +173,8 @@ const UserForm = (props) => {
             })
         } else if (formMode === "edit") {
             user.role_slug = user.roles
-            // delete user.roles
+            delete user.password
+            delete user.c_password
             axiosInstance.post(`/management/users/${params.id}`, user).then((res) => {
                 console.log(res)
                 if (res.data.status_code === 200) {
@@ -181,10 +197,10 @@ const UserForm = (props) => {
             return user.roles
         }
     }
-
+    const vocabs = getTranslator(useContext(LanguageContext).language);
     return (
         <div>
-            <Header setLanguage={setLanguage}/>
+            <Header/>
             <form>
                 <Grid
                     container
@@ -198,14 +214,14 @@ const UserForm = (props) => {
                         <Link to={'/user'}><IconButton><ArrowBackIcon/></IconButton></Link>
                     </Grid>
                     <Grid item className={classes.tableTitle}>
-                        <Typography variant={'h5'}>Users Form</Typography>
+                        <Typography variant={'h5'}>{vocabs('users-form')}</Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} className={classes.paper}>
                         <FormTextField
                             onChange={handleChange}
                             name={'f_name'}
-                            label={'First Name'}
-                            placeholder={'Enter your first name...'}
+                            label={vocabs('first-name')}
+                            // placeholder={'Enter your first name...'}
                             value={user.f_name}
                             errorMessage={userError.f_name}
                             error={!!userError.f_name}
@@ -218,8 +234,8 @@ const UserForm = (props) => {
                             fullWidth
                             onChange={handleChange}
                             name={'l_name'}
-                            label={'Last Name'}
-                            placeholder={'Enter your last name...'}
+                            label={vocabs('last-name')}
+                            // placeholder={'Enter your last name...'}
                             value={user.l_name}
                             errorMessage={userError.l_name}
                             error={!!userError.l_name}
@@ -231,8 +247,8 @@ const UserForm = (props) => {
                         <FormTextField
                             onChange={handleChange}
                             name={'username'}
-                            label={'User Name'}
-                            placeholder={'Enter your user name'}
+                            label={vocabs('user-name')}
+                            // placeholder={'Enter your user name'}
                             value={user.username}
                             errorMessage={userError.username}
                             error={!!userError.username}
@@ -244,8 +260,8 @@ const UserForm = (props) => {
                         <FormTextField
                             onChange={handleChange}
                             name={'email'}
-                            label={'Email'}
-                            placeholder={'Enter your email'}
+                            label={vocabs('email')}
+                            // placeholder={'Enter your email'}
                             value={user.email}
                             errorMessage={userError.email}
                             error={!!userError.email}
@@ -257,8 +273,8 @@ const UserForm = (props) => {
                         <FormTextField
                             onChange={handleChange}
                             name={'phone_number'}
-                            label={'Phone Number'}
-                            placeholder={'Enter your phone number'}
+                            label={vocabs('phone-number')}
+                            // placeholder={'Enter your phone number'}
                             value={user.phone_number}
                             errorMessage={userError.phone_number}
                             error={!!userError.phone_number}
@@ -270,47 +286,44 @@ const UserForm = (props) => {
                         <FormTextField
                             onChange={handleChange}
                             name={'password'}
-                            label={'Password'}
-                            placeholder={'Enter Your Password'}
+                            label={vocabs('password')}
+                            // placeholder={'Enter Your Password'}
                             value={user.password}
                             errorMessage={userError.password}
                             error={!!userError.password}
                             type="password"
-                            required={false}
+                            required={formMode!=="edit"}
+                            disabled={formMode==="edit"}
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} className={classes.paper}>
                         <FormTextField
                             onChange={handleChange}
                             name={'c_password'}
-                            label={'Confirm Password'}
-                            placeholder={'Confirm your password'}
+                            label={vocabs('confirm-password')}
+                            // placeholder={'Confirm your password'}
                             value={user.c_password}
                             errorMessage={userError.c_password}
                             error={!!userError.c_password}
                             type="password"
-                            required={false}
+                            required={formMode!=="edit"}
+                            disabled={formMode==="edit"}
                         />
                     </Grid>
                     <Grid item xs={9} sm={9} className={classes.paper}>
                         <FormControl variant="outlined" className={classes.formControl}>
-                            <InputLabel>User Role</InputLabel>
+                            <InputLabel>{vocabs('user-role')}</InputLabel>
                             <Select
                                 value={returnRoleValue()}
                                 onChange={handleChange}
                                 name={'roles'}
-                                label="User Role"
+                                label={vocabs('user-role')}
                                 error={!!userError.roles}
                             >
-                                <MenuItem value={""}>
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={'admin'}>Admin</MenuItem>
-                                <MenuItem value={'agent'}>Agent</MenuItem>
-                                {/*<MenuItem value={1}>State Reconstruction Headquarter</MenuItem>*/}
-                                {/*<MenuItem value={2}>County</MenuItem>*/}
-                                {/*<MenuItem value={3}>Experienced Damage Assessor</MenuItem>*/}
-                                {/*<MenuItem value={4}>Damage Assessor</MenuItem>*/}
+                                <MenuItem value={""}><em>None</em></MenuItem>
+                                {roles ? roles.map((role)=>{
+                                    return <MenuItem key={role.slug} value={role.slug}>{vocabs(role.name)}</MenuItem>
+                                }): null}
                             </Select>
                             <FormHelperText>{userError.roles}</FormHelperText>
                         </FormControl>
@@ -334,7 +347,7 @@ const UserForm = (props) => {
                                 // onClick={handleSubmit}
                                 className={classes.button}
                             >
-                                {'Cancel'}
+                                {vocabs('cancel')}
                             </Button>
                         </Link>
                     </Grid>
@@ -345,7 +358,7 @@ const UserForm = (props) => {
                             onClick={handleSubmit}
                             className={classes.button}
                         >
-                            {'Save'}
+                            {vocabs('save')}
                         </Button>
                     </Grid>
                 </Grid>
