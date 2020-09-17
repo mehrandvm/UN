@@ -57,6 +57,19 @@ const vocabs = {
     'damage-assessments':'تاسیسات آسیب دیده',
     'issue-letter':'نامه به بانک',
     'appeals-objections':'درخواست ها / اعتراضات',
+    'referrence_code': 'شماره پرونده',
+    'subdivision': 'زیربخش',
+    'incident': 'نوع حادثه',
+    'damage_type': 'نوع خسارت',
+    'stage_number': 'مرحله',
+    'is_wall_damaged': 'دیوار آسیب دیده',
+    'view-objection': 'دیدن اعتراض',
+    'download-letter': 'دانلود نامه',
+    'objection-review': 'بازدید اعتراض',
+    'objection-text': 'متن اعتراض',
+    'stage': 'مرحله',
+    'yes': 'بله',
+    'no': 'خیر',
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;

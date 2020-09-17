@@ -1,6 +1,3 @@
-import {Typography} from "@material-ui/core";
-import React from "react";
-
 const vocabs = {
     'damage-assessment': 'Damage Assessment and reconstruction system',
     'baztab-project': 'BAZTAB Project',
@@ -57,9 +54,22 @@ const vocabs = {
     'list-of-issue-to-bank': ' List of issue to bank',
     'list-of-appeals-objections': 'List of appeals / objections',
     'assigned-units': 'Assigned Units: ',
-    'damage-assessments':'Damage Assessments',
-    'issue-letter':'Issue Letters',
-    'appeals-objections':'Appeals / Objections',
+    'damage-assessments': 'Damage Assessments',
+    'issue-letter': 'Issue Letters',
+    'appeals-objections': 'Appeals / Objections',
+    'referrence_code': 'Reference Code',
+    'subdivision': 'Subdivision',
+    'incident': 'Incident',
+    'damage_type': 'Damage Type',
+    'stage_number': 'Stage Number',
+    'is_wall_damaged': 'Is Wall Damaged',
+    'view-objection': 'View Objection',
+    'download-letter': 'Download Letter',
+    'objection-review': 'Objection Review',
+    'objection-text': 'Objection Text',
+    'stage': 'Stage',
+    'yes': 'Yes',
+    'no': 'No',
 };
 
 export const en = (key) => vocabs[key] || `unknown(${key})`;
