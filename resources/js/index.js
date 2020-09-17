@@ -24,6 +24,7 @@ import {StylesProvider, jssPreset} from '@material-ui/core/styles';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {getTranslator} from "./vocabs";
 import MyDashboard from "./components/my-dashboard/MyDashboard";
+import Objections from "./components/objections/Objections";
 
 const jss = create({plugins: [...jssPreset().plugins, rtl()]});
 
@@ -92,6 +93,12 @@ const Index = () => {
                                         </Route>
                                         <Route exact path="/mydashboard">
                                             <MyDashboard/>
+                                        </Route>
+                                        <Route exact path="/objections/:id">
+                                            <Objections/>
+                                        </Route>
+                                        <Route exact path="/mytasks/:filter">
+                                            <MyTasks/>
                                         </Route>
                                         <Route exact path="/mytasks">
                                             <MyTasks/>
