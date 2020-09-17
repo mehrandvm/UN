@@ -70,6 +70,7 @@ const vocabs = {
     'stage': 'مرحله',
     'yes': 'بله',
     'no': 'خیر',
+    'export-letter': 'صدور نامه',
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;

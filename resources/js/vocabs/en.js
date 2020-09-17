@@ -70,6 +70,7 @@ const vocabs = {
     'stage': 'Stage',
     'yes': 'Yes',
     'no': 'No',
+    'export-letter': 'Export Letter',
 };
 
 export const en = (key) => vocabs[key] || `unknown(${key})`;
