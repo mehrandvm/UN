@@ -127,7 +127,7 @@ const MyDashboard = (props) => {
                         <Table className={classes.table} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Stage</TableCell>
+                                    <TableCell>{vocabs('stage')}</TableCell>
                                     <TableCell align="right">{vocabs('damage-assessments')}</TableCell>
                                     <TableCell align="right">{vocabs('issue-letter')}</TableCell>
                                     <TableCell align="right">{vocabs('appeals-objections')}</TableCell>
@@ -149,10 +149,10 @@ const MyDashboard = (props) => {
                 <Grid item xs={4}><Link to={'/mytasks'} className={classes.link}>
                     <Button className={classes.button} color={'primary'}
                             variant={'contained'}>{vocabs('list-of-assessed-units')}</Button></Link></Grid>
-                <Grid item xs={4}><Link to={'/mytasks'} className={classes.link}>
+                <Grid item xs={4}><Link to={'/mytasks/issues'} className={classes.link}>
                     <Button className={classes.button} color={'primary'}
                             variant={'contained'}>{vocabs('list-of-issue-to-bank')}</Button></Link></Grid>
-                <Grid item xs={4}><Link to={'/mytasks'} className={classes.link}>
+                <Grid item xs={4}><Link to={'/mytasks/objections'} className={classes.link}>
                     <Button className={classes.button} color={'primary'}
                             variant={'contained'}>{vocabs('list-of-appeals-objections')}</Button></Link></Grid>
             </Grid>
