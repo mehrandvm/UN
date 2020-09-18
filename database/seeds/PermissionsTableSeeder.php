@@ -31,5 +31,15 @@ class PermissionsTableSeeder extends Seeder
 		$viewDashboard->slug = 'view-dashboard';
 		$viewDashboard->name = 'View Dashboard';
         $viewDashboard->save();
+
+        $national = new Permission();
+		$national->slug = 'national-access';
+		$national->name = 'National Access';
+        $national->save();
+
+        $province = new Permission();
+		$province->slug = 'province-access';
+		$province->name = 'Porvince Access';
+        $province->save();
     }
 }
