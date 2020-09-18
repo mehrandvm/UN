@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -7,6 +7,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Switch from '@material-ui/core/Switch';
 import {makeStyles} from "@material-ui/core/styles";
 import Checkbox from "@material-ui/core/Checkbox";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -22,17 +24,18 @@ const HazardSelector = (props) => {
         props.setHazards({...props.hazards, [event.target.name]: event.target.checked});
     };
     const classes = useStyles()
+    const vocabs = getTranslator(useContext(LanguageContext).language);
     return (
         <FormControl component="fieldset" className={classes.container}>
             {/*<FormLabel component="legend">Assign responsibility</FormLabel>*/}
             <FormGroup>
                 <FormControlLabel
                     control={<Checkbox checked={props.hazards.seismicHazard} onChange={handleChange} name={'seismicHazard'} />}
-                    label="Seismic Hazard Zone"
+                    label={vocabs('seismic-hazard-zone')}
                 />
                 <FormControlLabel
                     control={<Checkbox checked={props.hazards.floodHazard} onChange={handleChange} name={'floodHazard'} />}
-                    label="Flood Hazard Zone"
+                    label={vocabs('flood-hazard-zone')}
                 />
             </FormGroup>
         </FormControl>

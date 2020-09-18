@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {Grid, LinearProgress, Typography, Box} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import ChartSelector from "../charts/ChartSelector";
@@ -10,6 +10,8 @@ import DivisionSelectors from "../map/DivisionSelectors";
 import {useHistory} from "react-router-dom";
 import axiosInstance from "../../apis/AxiosConfig";
 import MapContainer from "../map/MapContainer";
+import {getTranslator} from "../../vocabs";
+import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -74,6 +76,7 @@ const Dashboard = () => {
         setMapDivisionLevel(e.target.value);
     }
     const classes = useStyles();
+    const vocabs = getTranslator(useContext(LanguageContext).language);
     return (
         <>
             <Header/>
@@ -127,7 +130,7 @@ const Dashboard = () => {
                         {mapBottomStats.map((chart, i) => {
                                 return (
                                     <Grid item xs={12} key={i}>
-                                        <Typography variant={'body1'}>Past Year Progress by Month</Typography>
+                                        <Typography variant={'body1'}>{vocabs('past-year-progress-by-month')}</Typography>
                                         <ChartSelector
                                             chart={chart}
                                             divisionLevel={divisionLevel}

@@ -34,6 +34,8 @@
         "@material-ui/styles": "^4.10.0",
         "@react-pdf/renderer": "^1.6.11",
         "chart.js": "^2.9.3",
+        "jss": "^10.4.0",
+        "jss-rtl": "^0.3.0",
         "notistack": "^1.0.0",
         "ol": "^6.4.3",
         "react-chartjs-2": "^2.10.0",
