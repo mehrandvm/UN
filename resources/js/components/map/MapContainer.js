@@ -8,7 +8,8 @@ const MapContainer = (props) => {
         selectedNation,
         selectedProvince,
         selectedCounty,
-        selectedVillage
+        selectedVillage,
+        dashboardAccessLevel
     } = props
     const [stageNumber, setStageNumber] = useState('1')
     const [mapHazards, setMapHazards] = useState({
@@ -19,6 +20,7 @@ const MapContainer = (props) => {
         <>
             <MapFragment
                 params={params}
+                dashboardAccessLevel={dashboardAccessLevel}
                 divisionLevel={divisionLevel}
                 selectedNation={selectedNation}
                 selectedProvince={selectedProvince}

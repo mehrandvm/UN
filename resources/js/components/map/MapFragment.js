@@ -19,199 +19,33 @@ import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 import OlMap from 'ol/Map';
 import MultiPolygon from "ol/geom/MultiPolygon";
-import Style from "ol/style/Style";
-import Fill from "ol/style/Fill";
-import Text from "ol/style/Text";
-import Stroke from "ol/style/Stroke";
 import StageRadioGroup from "./StageRadioGroup";
-import Circle from "ol/geom/Circle";
 import HazardSelector from "./HazardSelector";
-import CircleStyle from "ol/style/Circle";
-import axiosInstance from "../../apis/AxiosConfig";
-import {log2} from "ol/math";
 import countyFeatureList from '../../../static/village.json'
-
-const stylePointDefault = new Style({
-    image: new CircleStyle({
-        radius: 5,
-        fill: new Fill({color: '#FFFFFF'}),
-        stroke: new Stroke({color: '#3399CC', width: 1.25}),
-    }),
-})
-
-const stylePoint0 = new Style({
-    image: new CircleStyle({
-        radius: 3,
-        fill: new Fill({color: 'rgb(255,0,0)'}),
-        stroke: new Stroke({color: '#000000', width: 0}),
-    }),
-})
-
-const stylePoint1 = new Style({
-    image: new CircleStyle({
-        radius: 3,
-        fill: new Fill({color: 'rgb(255,133,0)'}),
-        stroke: new Stroke({color: '#000000', width: 0}),
-    }),
-})
-
-const stylePoint2 = new Style({
-    image: new CircleStyle({
-        radius: 3,
-        fill: new Fill({color: 'rgb(255,255,0)'}),
-        stroke: new Stroke({color: '#000000', width: 0}),
-    }),
-})
-
-const stylePoint3 = new Style({
-    image: new CircleStyle({
-        radius: 3,
-        fill: new Fill({color: 'rgb(133,255,0)'}),
-        stroke: new Stroke({color: '#000000', width: 0}),
-    }),
-})
-
-const stylePoint4 = new Style({
-    image: new CircleStyle({
-        radius: 3,
-        fill: new Fill({color: 'rgb(0,255,0)'}),
-        stroke: new Stroke({color: '#000000', width: 0}),
-    }),
-})
-
-const styleDefault = new Style({
-    fill: new Fill({
-        color: 'rgb(255,255,255,0.6)'
-    }),
-    stroke: new Stroke({
-        color: 'rgb(255,0,0,0.6)'
-    })
-})
-
-const style0 = (text) => new Style({
-    fill: new Fill({
-        color: 'rgb(225,225,225,0)'
-    }),
-    stroke: new Stroke({
-        color: 'rgb(0,0,0,0.6)'
-    }),
-    text: new Text({
-        text: text,
-        scale: 1,
-        fill: new Fill({
-            color: '#000000'
-        }),
-        stroke: new Stroke({
-            color: 'rgb(0,0,0,0.6)',
-            width: 0.1,
-        })
-    })
-})
-
-const style0_alt = (text) => new Style({
-    fill: new Fill({
-        color: 'rgb(232,16,19,0.6)'
-    }),
-    stroke: new Stroke({
-        color: 'rgb(0,0,0,0.6)'
-    }),
-    text: new Text({
-        text: text,
-        scale: 1,
-        fill: new Fill({
-            color: '#000000'
-        }),
-        stroke: new Stroke({
-            color: 'rgb(0,0,0,0.6)',
-            width: 0.1,
-        })
-    })
-})
-
-const style1 = (text) => new Style({
-    fill: new Fill({
-        color: 'rgb(248,140,50,0.6)'
-    }),
-    stroke: new Stroke({
-        color: 'rgb(0,0,0,0.6)'
-    }),
-    text: new Text({
-        text: text,
-        scale: 1,
-        fill: new Fill({
-            color: '#000000'
-        }),
-        stroke: new Stroke({
-            color: 'rgb(0,0,0,0.6)',
-            width: 0.1,
-        })
-    })
-})
-
-const style2 = (text) => new Style({
-    fill: new Fill({
-        color: 'rgb(250,250,100,0.6)'
-    }),
-    stroke: new Stroke({
-        color: 'rgb(0,0,0,0.6)'
-    }),
-    text: new Text({
-        text: text,
-        scale: 1,
-        fill: new Fill({
-            color: '#000000'
-        }),
-        stroke: new Stroke({
-            color: 'rgb(0,0,0,0.6)',
-            width: 0.1,
-        })
-    })
-})
-
-const style3 = (text) => new Style({
-    fill: new Fill({
-        color: 'rgb(161,193,156,0.6)'
-    }),
-    stroke: new Stroke({
-        color: 'rgb(0,0,0,0.6)'
-    }),
-    text: new Text({
-        text: text,
-        scale: 1,
-        fill: new Fill({
-            color: '#000000'
-        }),
-        stroke: new Stroke({
-            color: 'rgb(0,0,0,0.6)',
-            width: 0.1,
-        })
-    })
-})
-
-const style4 = (text) => new Style({
-    fill: new Fill({
-        color: 'rgb(40,146,196,0.6)'
-    }),
-    stroke: new Stroke({
-        color: 'rgb(0,0,0,0.6)'
-    }),
-    text: new Text({
-        text: text,
-        scale: 1,
-        fill: new Fill({
-            color: '#000000'
-        }),
-        stroke: new Stroke({
-            color: 'rgb(0,0,0,0.6)',
-            width: 0.1,
-        })
-    })
-})
+import Select from "ol/interaction/Select";
+import SelectPropsViewer from "./SelectPropsViewer";
+import {
+    style0,
+    style0_alt,
+    style1,
+    style2,
+    style3,
+    style4,
+    styleDefault,
+    stylePoint0,
+    stylePoint1,
+    stylePoint2,
+    stylePoint3,
+    stylePoint4,
+    stylePointDefault
+} from "./MapStyles";
 
 class MapFragment extends React.Component {
     constructor(props) {
         super(props);
-
+        this.state = {
+            selectProps: {},
+        }
         this.mapDivId = `map-${Math.random()}`;
 
         this.map = new OlMap({
@@ -250,16 +84,19 @@ class MapFragment extends React.Component {
                 zoom: this.props.params.view.zoom
             })
         });
+        this.select = new Select({
+            style: style_selected(),
+        });
     }
 
     returnKhaneva(feature) {
         let SUM_NKHANEVA = 0
-            const selectedVillages = countyFeatureList.features.filter((village)=> {
-                return village.properties.F_SHAHREST === feature.get('F_SHAHREST')
-            })
-            selectedVillages.map((filteredVillage)=>{
-                SUM_NKHANEVA += filteredVillage.properties.V_NKHANEVA
-            })
+        const selectedVillages = countyFeatureList.features.filter((village) => {
+            return village.properties.F_SHAHREST === feature.get('F_SHAHREST')
+        })
+        selectedVillages.map((filteredVillage) => {
+            SUM_NKHANEVA += filteredVillage.properties.V_NKHANEVA
+        })
         return SUM_NKHANEVA
     }
 
@@ -267,15 +104,15 @@ class MapFragment extends React.Component {
         if (this.props.divisionLevel === "national") {
             const SUM_Stage = feature.get(`SUM_Stage${this.props.stageNumber}`);
             if (SUM_Stage <= 2500 && SUM_Stage >= 0) {
-                return style0(feature.get('province')+"\n"+SUM_Stage)
+                return style0(feature.get('province') + "\n" + SUM_Stage)
             } else if (SUM_Stage <= 10000 && SUM_Stage > 2500) {
-                return style1(feature.get('province')+"\n"+SUM_Stage)
+                return style1(feature.get('province') + "\n" + SUM_Stage)
             } else if (SUM_Stage <= 20000 && SUM_Stage > 10000) {
-                return style2(feature.get('province')+"\n"+SUM_Stage)
+                return style2(feature.get('province') + "\n" + SUM_Stage)
             } else if (SUM_Stage <= 30000 && SUM_Stage > 20000) {
-                return style3(feature.get('province')+"\n"+SUM_Stage)
+                return style3(feature.get('province') + "\n" + SUM_Stage)
             } else if (SUM_Stage > 30000) {
-                return style4(feature.get('province')+"\n"+SUM_Stage)
+                return style4(feature.get('province') + "\n" + SUM_Stage)
             } else {
                 return styleDefault
             }
@@ -285,18 +122,18 @@ class MapFragment extends React.Component {
             const SUM_NKHANEVA = this.returnKhaneva(feature)
 
             const SUM_Stage = Sum_Stage / SUM_NKHANEVA
-            const percentage = parseInt(SUM_Stage*1000,10)/10
+            const percentage = parseInt(SUM_Stage * 1000, 10) / 10
 
             if (SUM_Stage <= 0.10 && SUM_Stage >= 0) {
-                return style0_alt(feature.get('F_SHAHREST')+'\n'+percentage+"%")
+                return style0_alt(feature.get('F_SHAHREST') + '\n' + percentage + "%")
             } else if (SUM_Stage <= 0.20 && SUM_Stage > 0.10) {
-                return style1(feature.get('F_SHAHREST')+'\n'+percentage+"%")
+                return style1(feature.get('F_SHAHREST') + '\n' + percentage + "%")
             } else if (SUM_Stage <= 0.30 && SUM_Stage > 0.20) {
-                return style2(feature.get('F_SHAHREST')+'\n'+percentage+"%")
+                return style2(feature.get('F_SHAHREST') + '\n' + percentage + "%")
             } else if (SUM_Stage <= 0.40 && SUM_Stage > 0.30) {
-                return style3(feature.get('F_SHAHREST')+'\n'+percentage+"%")
+                return style3(feature.get('F_SHAHREST') + '\n' + percentage + "%")
             } else if (SUM_Stage > 0.40) {
-                return style4(feature.get('F_SHAHREST')+'\n'+percentage+"%")
+                return style4(feature.get('F_SHAHREST') + '\n' + percentage + "%")
             } else {
                 return styleDefault
             }
@@ -373,6 +210,13 @@ class MapFragment extends React.Component {
 
     componentDidMount() {
         this.map.setTarget(this.mapDivId);
+        this.map.addInteraction(this.select);
+        this.select.on('select', (e) => {
+            if (e.target.getFeatures().getArray()[0].getProperties()) {
+                const selectProps = e.target.getFeatures().getArray()[0].getProperties()
+                this.setState({bool: selectProps})
+            }
+        })
     }
 
     componentDidUpdate(oldProps) {
@@ -406,112 +250,122 @@ class MapFragment extends React.Component {
         }
     }
 
-    updateLayers(updateFunc) {
-        updateFunc()
+    updateAllLayersStyle() {
+        const updateStyle = (feature) => this.getStyleBasedOnStage(feature)
+        if (this.props.divisionLevel === "national") {
+            this.map.getLayers().getArray()[1].setStyle(updateStyle)
+        } else if (this.props.divisionLevel === "province") {
+            this.map.getLayers().getArray()[2].setStyle(updateStyle)
+        } else if (this.props.divisionLevel === "county") {
+            this.map.getLayers().getArray()[2].setStyle(updateStyle)
+            this.map.getLayers().getArray()[3].setStyle(updateStyle)
+        } else if (this.props.divisionLevel === "village") {
+            this.map.getLayers().getArray()[2].setStyle(updateStyle)
+            this.map.getLayers().getArray()[3].setStyle(updateStyle)
+        }
+    }
+
+    turnNationalInvisible() {
+        this.map.getLayers().getArray()[1].setVisible(false)
+    }
+
+    turnNationalVisible() {
+        this.map.getLayers().getArray()[1].setVisible(true)
+    }
+
+    turnProvinceInvisible() {
+        this.map.getLayers().getArray()[2].setVisible(false)
+    }
+
+    turnProvinceVisible() {
+        this.map.getLayers().getArray()[2].setVisible(true)
+    }
+
+    turnCountyInvisible() {
+        this.map.getLayers().getArray()[3].setVisible(false)
+    }
+
+    turnCountyVisible() {
+        this.map.getLayers().getArray()[3].setVisible(true)
+    }
+
+    turnFloodVisible() {
+        this.map.getLayers().getArray()[4].setOpacity(0.6)
+    }
+
+    turnFloodInVisible() {
+        this.map.getLayers().getArray()[4].setOpacity(0)
+    }
+
+    turnSeismicVisible() {
+        this.map.getLayers().getArray()[5].setOpacity(0.6)
+    }
+
+    turnSeismicInVisible() {
+        this.map.getLayers().getArray()[5].setOpacity(0)
+    }
+
+    handleHazards() {
+        if (this.props.mapHazards.floodHazard) {
+            this.turnFloodVisible()
+        } else {
+            this.turnFloodInVisible()
+        }
+        if (this.props.mapHazards.seismicHazard) {
+            this.turnSeismicVisible()
+        } else {
+            this.turnSeismicInVisible()
+        }
+    }
+
+    switchToNationalLayers() {
+        this.turnProvinceInvisible();
+        this.turnCountyInvisible();
+        if (this.props.dashboardAccessLevel === 'national'){
+            this.turnNationalVisible();
+        } else {
+            this.turnNationalInvisible();
+        }
+    }
+
+    switchToProvinceLayers() {
+        this.turnNationalInvisible();
+        this.turnCountyInvisible();
+        this.turnProvinceVisible();
+    }
+
+    switchToCountyLayers() {
+        this.turnNationalInvisible();
+        this.turnProvinceVisible();
+        this.turnCountyVisible();
+    }
+
+    switchToVillageLayers() {
+        this.turnNationalInvisible();
+        this.turnProvinceInvisible();
+        this.turnCountyVisible();
     }
 
     render() {
-        const turnNationalInvisible = () => this.map.getLayers().getArray()[1].setVisible(false)
-        const turnNationalVisible = () => this.map.getLayers().getArray()[1].setVisible(true)
-        const turnProvinceInvisible = () => this.map.getLayers().getArray()[2].setVisible(false)
-        const turnProvinceVisible = () => this.map.getLayers().getArray()[2].setVisible(true)
-        const turnCountyInvisible = () => this.map.getLayers().getArray()[3].setVisible(false)
-        const turnCountyVisible = () => this.map.getLayers().getArray()[3].setVisible(true)
-
-        const turnFloodVisible = () => this.map.getLayers().getArray()[4].setOpacity(0.6)
-        const turnFloodInVisible = () => this.map.getLayers().getArray()[4].setOpacity(0)
-        const turnSeismicVisible = () => this.map.getLayers().getArray()[5].setOpacity(0.6)
-        const turnSeismicInVisible = () => this.map.getLayers().getArray()[5].setOpacity(0)
-
-        const handleHazards = () => {
-            if (this.props.mapHazards.floodHazard) {
-                turnFloodVisible()
-            } else {
-                turnFloodInVisible()
-            }
-            if (this.props.mapHazards.seismicHazard) {
-                turnSeismicVisible()
-            } else {
-                turnSeismicInVisible()
-            }
-        }
-        const switchToNationalLayers = () => {
-            turnProvinceInvisible();
-            turnCountyInvisible();
-            turnNationalVisible();
-        }
-        const switchToProvinceLayers = () => {
-            turnNationalInvisible();
-            turnCountyInvisible();
-            turnProvinceVisible();
-        }
-        const switchToCountyLayers = () => {
-            turnNationalInvisible();
-            turnProvinceVisible();
-            turnCountyVisible();
-        }
-        const switchToVillageLayers = () => {
-            turnNationalInvisible();
-            turnProvinceInvisible();
-            turnCountyVisible();
-        }
-
-        const fitToNationalLayers = () => {
-            this.map.getView().animate({center: [53.6880, 32.4279]}, {zoom: 5})
-        }
-        const fitToProvinceLayers = () => {
-            const poly = new MultiPolygon(this.props.selectedProvince.geometry.coordinates)
-            this.map.getView().fit(poly.getExtent(),
-                {padding: [10, 10, 10, 10]})
-        }
-        const fitToCountyLayers = () => {
-            const poly = new MultiPolygon(this.props.selectedCounty.geometry.coordinates)
-            this.map.getView().fit(poly.getExtent(),
-                {padding: [10, 10, 10, 10]})
-        }
-        const fitToVillageLayers = () => {
-            const center = this.props.selectedVillage.geometry.coordinates
-            this.map.getView().animate({center: center}, {zoom: 13})
-        }
-
-        this.updateLayers(handleHazards)
-
         switch (this.props.divisionLevel) {
             case("national"):
-                this.updateLayers(switchToNationalLayers)
-                // this.updateLayers(fitToNationalLayers)
+                this.switchToNationalLayers()
                 break;
             case("province"):
-                this.updateLayers(switchToProvinceLayers)
-                // this.updateLayers(fitToProvinceLayers)
+                this.switchToProvinceLayers()
                 break;
             case("county"):
-                this.updateLayers(switchToCountyLayers)
-                // this.updateLayers(fitToCountyLayers)
+                this.switchToCountyLayers()
                 break;
             case("village"):
-                this.updateLayers(switchToVillageLayers)
-                this.updateLayers(fitToVillageLayers)
+                this.switchToVillageLayers()
                 break;
             default:
                 break;
         }
+        this.handleHazards()
+        this.updateAllLayersStyle()
 
-        const updateAllLayersStyle = () => {
-            const updateStyle = (feature) => this.getStyleBasedOnStage(feature)
-            if (this.props.divisionLevel === "national") {
-                this.map.getLayers().getArray()[1].setStyle(updateStyle)
-            } else if (this.props.divisionLevel === "province") {
-                this.map.getLayers().getArray()[2].setStyle(updateStyle)
-            } else if (this.props.divisionLevel === "county") {
-                this.map.getLayers().getArray()[2].setStyle(updateStyle)
-                this.map.getLayers().getArray()[3].setStyle(updateStyle)
-            } else if (this.props.divisionLevel === "village") {
-                this.map.getLayers().getArray()[2].setStyle(updateStyle)
-                this.map.getLayers().getArray()[3].setStyle(updateStyle)
-            }
-        }
-        updateAllLayersStyle()
         return (
             <Grid container>
                 <Grid item xs={12} style={{position: 'relative'}}>
@@ -521,6 +375,10 @@ class MapFragment extends React.Component {
                             height: '400px'
                         }}
                     />
+                    <div style={{position: 'absolute', top: 0, right: 0}}>
+                        <SelectPropsViewer selectProps={this.state.selectProps}
+                                           divisionLevel={this.props.divisionLevel}/>
+                    </div>
                     <div style={{position: 'absolute', bottom: 0, left: 0}}>
                         <StageRadioGroup stageNumber={this.props.stageNumber}
                                          setStageNumber={this.props.setStageNumber}/>
