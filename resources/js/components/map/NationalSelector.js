@@ -16,7 +16,7 @@ const NationalSelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState(["Iran"]);
     const [inputValue, setInputValue] = React.useState('');
-    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearNational} = props;
+    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, dashboardAccessLevel, clearNational} = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
     const vocabs = getTranslator(useContext(LanguageContext).language);
 
@@ -52,7 +52,8 @@ const NationalSelector = (props) => {
     }, [open]);
 
     return (
-        <Button style={{height: '100%', width: '100%'}} onClick={clearNational} variant={'outlined'}>{vocabs('national-view')}</Button>
+        <Button style={{height: '100%', width: '100%'}} onClick={clearNational}
+                variant={'outlined'} disabled={dashboardAccessLevel !== 'national'}>{vocabs('national-view')}</Button>
     );
 }
 
