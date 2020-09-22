@@ -214,7 +214,7 @@ class MapFragment extends React.Component {
         this.select.on('select', (e) => {
             if (e.target.getFeatures().getArray()[0].getProperties()) {
                 const selectProps = e.target.getFeatures().getArray()[0].getProperties()
-                this.setState({bool: selectProps})
+                this.setState({selectProps: selectProps})
             }
         })
     }
