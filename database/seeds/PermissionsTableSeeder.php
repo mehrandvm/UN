@@ -27,6 +27,11 @@ class PermissionsTableSeeder extends Seeder
 		$manageTasks->name = 'Manage Tasks';
         $manageTasks->save();
 
+        $manageIncidents = new Permission();
+		$manageIncidents->slug = 'manage-incidents';
+		$manageIncidents->name = 'Manage Incidents';
+        $manageIncidents->save();
+
         $viewDashboard = new Permission();
 		$viewDashboard->slug = 'view-dashboard';
 		$viewDashboard->name = 'View Dashboard';
