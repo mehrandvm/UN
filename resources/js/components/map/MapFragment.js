@@ -30,7 +30,7 @@ import {
     style1,
     style2,
     style3,
-    style4,
+    style4, style_selected,
     styleDefault,
     stylePoint0,
     stylePoint1,
