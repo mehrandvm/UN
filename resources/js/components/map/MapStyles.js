@@ -209,7 +209,7 @@ export const style4 = (text) => new Style({
 
 export const styleCircle0 = (text) => new Style({
     fill: new Fill({
-        color: 'rgb(220,69,50,0.4)'
+        color: 'rgb(220,69,50,0.25)'
     }),
     stroke: new Stroke({
         color: 'rgb(0,0,0,0.6)'
@@ -229,7 +229,7 @@ export const styleCircle0 = (text) => new Style({
 
 export const styleCircle1 = (text) => new Style({
     fill: new Fill({
-        color: 'rgb(243,140,65,0.4)'
+        color: 'rgb(243,140,65,0.3)'
     }),
     stroke: new Stroke({
         color: 'rgb(0,0,0,0.6)'
@@ -249,7 +249,7 @@ export const styleCircle1 = (text) => new Style({
 
 export const styleCircle2 = (text) => new Style({
     fill: new Fill({
-        color: 'rgb(250,207,68,0.4)'
+        color: 'rgb(250,207,68,0.3)'
     }),
     stroke: new Stroke({
         color: 'rgb(0,0,0,0.6)'
@@ -269,7 +269,7 @@ export const styleCircle2 = (text) => new Style({
 
 export const styleCircle3 = (text) => new Style({
     fill: new Fill({
-        color: 'rgb(245,245,73,0.4)'
+        color: 'rgb(245,245,73,0.35)'
     }),
     stroke: new Stroke({
         color: 'rgb(0,0,0,0.6)'
@@ -289,7 +289,7 @@ export const styleCircle3 = (text) => new Style({
 
 export const styleCircle4 = (text) => new Style({
     fill: new Fill({
-        color: 'rgb(255,255,210,0.3)'
+        color: 'rgb(255,255,210,0.35)'
     }),
     stroke: new Stroke({
         color: 'rgb(0,0,0,0.6)'
@@ -309,7 +309,7 @@ export const styleCircle4 = (text) => new Style({
 
 export const styleCircle5 = (text) => new Style({
     fill: new Fill({
-        color: 'rgb(239,255,210,0.2)'
+        color: 'rgb(239,255,210,0.3)'
     }),
     stroke: new Stroke({
         color: 'rgb(0,0,0,0.6)'
