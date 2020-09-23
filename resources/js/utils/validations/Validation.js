@@ -9,6 +9,7 @@ const errors = {
     email_notValid_err: 'Email is not valid',
     phoneNumber_empty_err: 'Phone number cannot be empty',
     first_name_empty_err: 'First name cannot be empty',
+    incident_name_empty_err: 'Incident name cannot be empty',
     last_name_empty_err: 'Last name cannot be empty',
     user_name_empty_err: 'User name cannot be empty',
     role_empty_err: 'Please select a role',
@@ -21,6 +22,13 @@ const errors = {
 export const validateFirstName = (name) => {
     if (!name) {
         return errors.first_name_empty_err;
+    }
+    return null;
+};
+
+export const validateIncidentName = (name) => {
+    if (!name) {
+        return errors.incident_name_empty_err;
     }
     return null;
 };
