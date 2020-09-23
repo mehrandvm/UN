@@ -16,7 +16,9 @@ class CreateIncidentsTable extends Migration
         Schema::create('incidents', function (Blueprint $table) {
             $table->increments('id');
             $table->string("name");
-            $table->date('incident_date');
+            $table->double('lat', 10, 6);
+            $table->double('long', 10, 6);
+            $table->date('incident_date')->nullable();
             $table->timestamps();
         });
     }
