@@ -31,6 +31,7 @@ const Sidebar = (props) => {
     const [manageUsers, setManageUsers] = React.useState(false);
     const [manageTasks, setManageTasks] = React.useState(false);
     const [manageMyTasks, setManageMyTasks] = React.useState(false);
+    const [manageIncidents, setManageIncidents] = React.useState(false);
 
     const classes = useStyles();
     const vocabs = getTranslator(useContext(LanguageContext).language);
@@ -42,6 +43,7 @@ const Sidebar = (props) => {
                 axiosInstance.get('/management/permission/view-dashboard'),
                 axiosInstance.get('/management/permission/manage-users'),
                 axiosInstance.get('/management/permission/manage-tasks'),
+                axiosInstance.get('/management/permission/manage-incidents'),
             ]).then((values) => {
                 if (values[0].data.status_code === 200) {
                     setViewDashboard(true)
@@ -54,6 +56,9 @@ const Sidebar = (props) => {
                 }
                 if (values[2].data.status_code !== 200) {
                     setManageMyTasks(true)
+                }
+                if (values[3].data.status_code === 200) {
+                    setManageIncidents(true)
                 }
 
             }).catch((e) => {
@@ -84,6 +89,10 @@ const Sidebar = (props) => {
         if (manageMyTasks) {
             sidebarOptions.push({title: vocabs("my-tasks"), link: "/mytasks", icon: <AssignmentIndIcon/>})
         }
+        if (manageIncidents) {
+            sidebarOptions.push({title: vocabs("preliminary"), link: "/preliminary", icon: <DashboardIcon/>})
+        }
+
         return sidebarOptions
     }
     const list = () => (

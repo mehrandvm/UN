@@ -9,6 +9,7 @@ import VillageSelector from "./VillageSelector";
 
 const DivisionSelectors = (props) => {
     const {
+        dashboardAccessLevel,
         divisionLevel,
         setDivisionLevel,
         selectedNation,
@@ -20,7 +21,6 @@ const DivisionSelectors = (props) => {
         setSelectedCounty,
         setSelectedVillage,
     } = props
-    const [language, setLanguage] = useState("en")
 
     const clearNational = () => {
         setDivisionLevel("national")
@@ -48,6 +48,7 @@ const DivisionSelectors = (props) => {
         <>
             <Grid item xs={3}>
                 <NationalSelector
+                    dashboardAccessLevel={dashboardAccessLevel}
                     selectedDivision={selectedNation}
                     setSelectedDivision={setSelectedNation}
                     divisionLevel={divisionLevel}
@@ -57,6 +58,7 @@ const DivisionSelectors = (props) => {
             </Grid>
             <Grid item xs={3}>
                 <ProvinceSelector
+                    dashboardAccessLevel={dashboardAccessLevel}
                     selectedDivision={selectedProvince}
                     setSelectedDivision={setSelectedProvince}
                     divisionLevel={divisionLevel}

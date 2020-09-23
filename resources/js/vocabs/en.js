@@ -71,6 +71,13 @@ const vocabs = {
     'yes': 'Yes',
     'no': 'No',
     'export-letter': 'Export Letter',
+    'preliminary': 'Preliminary',
+    'incident-name': 'Incident Name',
+    'coordinate-x': 'Incident X Coordinate',
+    'coordinate-y': 'Incident Y Coordinate',
+    'show-coordinates': 'Show Coordinates',
+    'confirm-incident': 'Confirm Incident',
+    'loading-dashboard': 'Loading Dashboard... ',
 };
 
 export const en = (key) => vocabs[key] || `unknown(${key})`;
