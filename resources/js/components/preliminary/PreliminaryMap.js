@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import 'ol/ol.css';
 import {
@@ -17,38 +17,30 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 import OlMap from 'ol/Map';
-import MultiPolygon from "ol/geom/MultiPolygon";
 import Circle from "ol/geom/Circle";
-import {getPointResolution} from "ol/proj";
 import ScaleLine from "ol/control/ScaleLine";
 import {defaults} from "ol/control";
 import {
     style0,
-    style2,
-    style3,
-    style4,
     styleCircle0,
     styleCircle1,
     styleCircle2,
     styleCircle3,
     styleCircle4,
-    styleCircle5, styleCircle_Selected,
-    stylePoint0,
-    stylePoint1, stylePoint2, stylePoint3, stylePoint4, stylePoint_selected, stylePointDefault
+    styleCircle5,
+    stylePointDefault
 } from "../map/MapStyles";
 import FormTextField from "../form-textfield/FormTextField";
 import Button from "@material-ui/core/Button";
-import {getIntersection} from "ol/extent";
 import {
-    validateConfirmPassword, validateCoordinateX, validateCoordinateY,
-    validateEmail,
-    validateFirstName,
-    validateLastName, validatePassword,
-    validatePhoneNumber, validateRole,
-    validateUserName
+  validateCoordinateX,
+  validateCoordinateY,
+  validateIncidentName,
 } from "../../utils/validations/Validation";
 import BarChart from "../charts/BarChart";
 import {withSnackbar} from "notistack";
+import axiosInstance from "../../apis/AxiosConfig";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const params = {
     'layers': [
@@ -97,8 +89,8 @@ class PreliminaryMap extends React.Component {
         super(props);
         this.state = {
             incidentName: "",
-            coordinateX: 46.5,
-            coordinateY: 34.5,
+            coordinateX: "",
+            coordinateY: "",
             incidentNameError: "",
             coordinateXError: "",
             coordinateYError: "",
@@ -106,6 +98,7 @@ class PreliminaryMap extends React.Component {
             chartBehdashtData: [],
             chartMudData: [],
             chartMasonaryData: [],
+            isSendingReq: false,
 
         }
         this.submitIncident = this.submitIncident.bind(this);
@@ -188,7 +181,7 @@ class PreliminaryMap extends React.Component {
             {
                 coordinateXError: validateCoordinateX(this.state.coordinateX),
                 coordinateYError: validateCoordinateY(this.state.coordinateY),
-                incidentNameError: validateFirstName(this.state.incidentName),
+                incidentNameError: validateIncidentName(this.state.incidentName),
             },
         )
         if (validateCoordinateX(this.state.coordinateX)) {
@@ -197,15 +190,30 @@ class PreliminaryMap extends React.Component {
         if (validateCoordinateY(this.state.coordinateY)) {
             this.props.enqueueSnackbar(validateCoordinateY(this.state.coordinateY), {variant: "error"})
         }
-        if (validateFirstName(this.state.incidentName)) {
-            this.props.enqueueSnackbar(validateFirstName(this.state.incidentName), {variant: "error"})
+        if (validateIncidentName(this.state.incidentName)) {
+            this.props.enqueueSnackbar(validateIncidentName(this.state.incidentName), {variant: "error"})
         }
         return !(validateCoordinateX(this.state.coordinateX) || validateCoordinateY(this.state.coordinateY)
-            || validateFirstName(this.state.incidentName));
+            || validateIncidentName(this.state.incidentName));
     }
 
     submitIncident() {
+        this.setState({isSendingReq: true})
         this.checkIncident()
+        const {incidentName, coordinateX, coordinateY} = this.state
+        const data = {
+            name: incidentName,
+            lat: coordinateY,
+            long: coordinateX,
+        }
+        axiosInstance.post('/analysis/incident', data).then((res) => {
+            this.props.enqueueSnackbar('Incident posted successfully', {variant: 'success'})
+            this.setState({isSendingReq: false})
+        }).catch((e)=> {
+            console.error(e)
+            this.props.enqueueSnackbar('Couldn\'t post incident', {variant: 'error'})
+            this.setState({isSendingReq: false})
+        })
     }
 
     checkIncident() {
@@ -304,6 +312,12 @@ class PreliminaryMap extends React.Component {
             if (feature.get('V_BEHDASHY') === "+") {
                 sumBehdasht++
             }
+            if (feature.get('Type') === 1) {
+                sumMasonary++
+            }
+            if (feature.get('Type') === 2) {
+                sumMud++
+            }
             sum += feature.get('V_NKHANEVA')
         })
         return [sum, sumBehdasht, sumMud, sumMasonary]
@@ -317,6 +331,7 @@ class PreliminaryMap extends React.Component {
     }
 
     render() {
+        const vocabs = this.props.vocabs
         const chartData = {
             'type': 'bar',
             'labels': [
@@ -373,7 +388,7 @@ class PreliminaryMap extends React.Component {
                             errorMessage={""}
                             variant="outlined"
                             margin="normal"
-                            label={'incidentName'}
+                            label={vocabs('incident-name')}
                             name="incidentName"
                             autoFocus
                         />
@@ -386,9 +401,8 @@ class PreliminaryMap extends React.Component {
                             errorMessage={""}
                             variant="outlined"
                             margin="normal"
-                            label={'coordinateX'}
+                            label={vocabs('coordinate-x')}
                             name="coordinateX"
-                            autoFocus
                         />
                     </Grid>
                     <Grid item xs={4}>
@@ -399,19 +413,19 @@ class PreliminaryMap extends React.Component {
                             errorMessage={""}
                             variant="outlined"
                             margin="normal"
-                            label={'coordinateY'}
+                            label={vocabs('coordinate-y')}
                         />
                     </Grid>
                     <Grid item xs={6}>
                         <Button onClick={this.checkIncident} variant={"outlined"} color={"primary"}
                                 style={{width: '100%', height: 56}}>
-                            Show Coordinates
+                            {vocabs('show-coordinates')}
                         </Button>
                     </Grid>
                     <Grid item xs={6}>
                         <Button onClick={this.submitIncident} variant={"contained"} color={"primary"}
                                 style={{width: '100%', height: 56}}>
-                            Confirm Incident
+                            {this.state.isSendingReq ? <CircularProgress color="inherit" size={20}/> : vocabs('confirm-incident')}
                         </Button>
                     </Grid>
                 </Grid>

@@ -28,7 +28,7 @@ const Preliminary = () => {
         <>
             <Header/>
             <div className={classes.container}>
-                <PreliminaryMap/>
+                <PreliminaryMap vocabs={vocabs}/>
             </div>
         </>
     );
