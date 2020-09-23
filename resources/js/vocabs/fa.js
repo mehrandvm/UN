@@ -71,6 +71,13 @@ const vocabs = {
     'yes': 'بله',
     'no': 'خیر',
     'export-letter': 'صدور نامه',
+    'preliminary': 'مقدماتی',
+    'incident-name': 'نام حادثه',
+    'coordinate-x': 'طول جغرافیایی حادثه',
+    'coordinate-y': 'عرض جغرافیایی حادثه',
+    'show-coordinates': 'نمایش مختصات',
+    'confirm-incident': 'تایید حادثه',
+    'loading-dashboard': 'در حال بارگذاری داشبورد...',
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;

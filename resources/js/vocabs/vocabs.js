@@ -1,5 +1,5 @@
-import en from "./en"
-import fa from "./fa"
+import {en} from "./en"
+import {fa} from "./fa"
 
 const vocabs = (language, vocab) => {
   if (language == "en") {
