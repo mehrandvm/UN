@@ -1,5 +1,8 @@
 export const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
+const isCoordinateX = (coordinateX) => coordinateX <= 180 && coordinateX >= -180
+const isCoordinateY = (coordinateX) => coordinateX <= 90 && coordinateX >= -90
+
 const errors = {
     password_empty_err: 'Password cannot be empty',
     email_empty_err: 'Email cannot be empty',
@@ -10,6 +13,9 @@ const errors = {
     user_name_empty_err: 'User name cannot be empty',
     role_empty_err: 'Please select a role',
     password_do_not_match_err: 'Passwords do not match',
+    coordinate_empty_err: 'Coordinate cannot be empty',
+    coordinateX_not_valid_err: 'Coordinate X must be between -180 & 180',
+    coordinateY_not_valid_err: 'Coordinate Y must be between -90 & 90',
 };
 
 export const validateFirstName = (name) => {
@@ -71,3 +77,22 @@ export const validateEmail = (email) => {
     }
     return null;
 };
+
+export const validateCoordinateX = (coordinate) => {
+    if (!coordinate) {
+        return errors.coordinate_empty_err;
+    } else if (!isCoordinateX(coordinate)) {
+        return errors.coordinateX_not_valid_err;
+    }
+    return null;
+};
+
+export const validateCoordinateY = (coordinate) => {
+    if (!coordinate) {
+        return errors.coordinate_empty_err;
+    } else if (!isCoordinateY(coordinate)) {
+        return errors.coordinateY_not_valid_err;
+    }
+    return null;
+};
+
