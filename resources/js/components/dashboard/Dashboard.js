@@ -40,6 +40,12 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         width: '100%',
     },
+    loading: {
+        width: '100%',
+        margin: 'auto',
+        textAlign: 'center',
+        marginTop: '45vh',
+    }
 }));
 
 const Dashboard = () => {
@@ -98,7 +104,9 @@ const Dashboard = () => {
     const classes = useStyles();
     const vocabs = getTranslator(useContext(LanguageContext).language);
     return (
-        dashboardAccessLevel === "none" ? <CircularProgress color="inherit" size={20}/> :
+        dashboardAccessLevel === "none" ?
+            <div className={classes.loading}>{vocabs('loading-dashboard')}<CircularProgress color="inherit" size={20}/>
+            </div> :
             <>
                 <Header/>
                 <div className={classes.container}>
