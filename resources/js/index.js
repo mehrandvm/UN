@@ -25,6 +25,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import {getTranslator} from "./vocabs";
 import MyDashboard from "./components/my-dashboard/MyDashboard";
 import Objections from "./components/objections/Objections";
+import Preliminary from "./components/preliminary/Preliminary";
 
 const jss = create({plugins: [...jssPreset().plugins, rtl()]});
 
@@ -82,6 +83,9 @@ const Index = () => {
                             <div dir={language==='en'? 'ltr' : 'rtl'}>
                                 <Router>
                                     <Switch>
+                                        <Route exact path="/preliminary">
+                                            <Preliminary/>
+                                        </Route>
                                         <Route exact path="/user/edit/:id">
                                             <UserForm/>
                                         </Route>
