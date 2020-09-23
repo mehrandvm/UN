@@ -87,14 +87,6 @@ export const style_selected = (text) => new Style({
     })
 });
 
-export const stylePoint_selected = new Style({
-    image: new CircleStyle({
-        radius: 5,
-        fill: new Fill({color: 'rgba(200,20,20,0.4)'}),
-        stroke: new Stroke({color: 'rgba(200,20,20,0.8)', width: 1.25}),
-    }),
-})
-
 export const style0 = (text) => new Style({
     fill: new Fill({
         color: 'rgb(225,225,225,0)'
@@ -213,4 +205,132 @@ export const style4 = (text) => new Style({
             width: 0.1,
         })
     })
+})
+
+export const styleCircle0 = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(220,69,50,0.4)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
+
+export const styleCircle1 = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(243,140,65,0.4)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
+
+export const styleCircle2 = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(250,207,68,0.4)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
+
+export const styleCircle3 = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(245,245,73,0.4)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
+
+export const styleCircle4 = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(255,255,210,0.3)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
+
+export const styleCircle5 = (text) => new Style({
+    fill: new Fill({
+        color: 'rgb(239,255,210,0.2)'
+    }),
+    stroke: new Stroke({
+        color: 'rgb(0,0,0,0.6)'
+    }),
+    text: new Text({
+        text: text,
+        scale: 1,
+        fill: new Fill({
+            color: '#000000'
+        }),
+        stroke: new Stroke({
+            color: 'rgb(0,0,0,0.6)',
+            width: 0.1,
+        })
+    })
+})
+
+export const stylePoint_selected = new Style({
+    image: new CircleStyle({
+        radius: 5,
+        fill: new Fill({color: 'rgb(255,100,255,0.6)'}),
+        stroke: new Stroke({color: 'rgb(0,0,0,0.6)', width: 1.25}),
+    }),
 })
