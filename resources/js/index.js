@@ -49,7 +49,7 @@ const Index = () => {
     const login = useCallback(async (email, password) => {
         try {
             const res = await loginAPI(email, password);
-            setLoginToken(res.data.data.token);
+            // setLoginToken(res.data.data.token);
         } catch (e) {
             if (e.response) {
                 throw new Error(e.response.data.message);
@@ -61,11 +61,12 @@ const Index = () => {
     }, [setLoginToken]);
 
     React.useEffect(() => {
-        (async () => {
-            if (!(await checkAuth())) {
-                setLoginToken(null);
-            }
-        })();
+        setLoginToken(null)
+        // (async () => {
+        //     if (!(await checkAuth())) {
+        //         setLoginToken(null);
+        //     }
+        // })();
     }, [setLoginToken]);
 
     return (
