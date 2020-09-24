@@ -48,7 +48,10 @@ const Index = () => {
 
     const login = useCallback(async (email, password) => {
         try {
-            const res = await loginAPI(email, password);
+            const res = await loginAPI(email, password)
+            if (res.data.status_code === 401) {
+                throw new Error('Unauthorized');
+            }
             // setLoginToken(res.data.data.token);
         } catch (e) {
             if (e.response) {

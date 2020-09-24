@@ -112,8 +112,7 @@ const Login = (props) => {
         if (!validateEmail(email) && !validatePassword(password)) {
             setIsAuthenticating(true);
             try {
-                // await loginContext.login(email, password);
-                await sleep(2e3)
+                await loginContext.login(email, password);
                 setIsAuthenticating(false);
                 // axiosInstance.get('/management/permission/view-dashboard').then((res) => {
                 //     if (res.data.status_code === 200) {
