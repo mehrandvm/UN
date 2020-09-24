@@ -67,6 +67,13 @@ const Login = (props) => {
     const [password, setPassword] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const [isAuthenticating, setIsAuthenticating] = useState(false)
+    const vocabs = getTranslator(useContext(LanguageContext).language);
+
+    const sleep = (delay = 0) => {
+        return new Promise((resolve) => {
+            setTimeout(resolve, delay);
+        });
+    }
 
     useEffect(() => {
         if (localStorage.getItem(tokenTitle)) {
@@ -107,17 +114,18 @@ const Login = (props) => {
             try {
                 await loginContext.login(email, password);
                 setIsAuthenticating(false);
-                axiosInstance.get('/management/permission/view-dashboard').then((res) => {
-                    if (res.data.status_code === 200) {
-                        history.push('/dashboard')
-                    }
-                    else {
-                        history.push('/mydashboard')
-                    }
-                }).catch((e)=>{
-                    console.error(e)
-                })
-                enqueueSnackbar('Login successful', {variant: 'success'})
+                // axiosInstance.get('/management/permission/view-dashboard').then((res) => {
+                //     if (res.data.status_code === 200) {
+                //         history.push('/dashboard')
+                //     }
+                //     else {
+                //         history.push('/mydashboard')
+                //     }
+                // }).catch((e)=>{
+                //     console.error(e)
+                // })
+                // enqueueSnackbar('Login successful', {variant: 'success'})
+                enqueueSnackbar(vocabs('user-expired'), {variant: 'info'})
             } catch (e) {
                 // console.error(e);
                 enqueueSnackbar('Invalid username or password', {variant: 'error'})
@@ -125,7 +133,6 @@ const Login = (props) => {
             }
         }
     }
-    const vocabs = getTranslator(useContext(LanguageContext).language);
 
     return (
         <React.Fragment>

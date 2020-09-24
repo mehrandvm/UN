@@ -78,6 +78,7 @@ const vocabs = {
     'show-coordinates': 'نمایش مختصات',
     'confirm-incident': 'تایید حادثه',
     'loading-dashboard': 'در حال بارگذاری داشبورد...',
+    'user-expired': 'نام کاربری یا پسورد شما منقضی شده است',
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;
