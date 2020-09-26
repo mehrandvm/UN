@@ -29,7 +29,7 @@ const returnData = (data,) => {
     return chartData
 };
 
-const returnOptions = () => {
+const returnOptions = (isLog) => {
     const options = {
         legend: {
             display: true,
@@ -38,7 +38,8 @@ const returnOptions = () => {
             yAxes: [{
                 ticks: {
                     beginAtZero: true
-                }
+                },
+                type: isLog ? 'logarithmic' : 'linear',
             }]
         },
     };
@@ -47,7 +48,7 @@ const returnOptions = () => {
 
 const BarChart = (props) => {
     return (
-        <Bar data={returnData(props.data)} options={returnOptions()}/>
+        <Bar data={returnData(props.data)} options={returnOptions(props.isLog)}/>
     );
 };
 

@@ -16,11 +16,11 @@ function sleep(delay = 0) {
 const ProvinceSelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
-    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearProvince} = props;
+    const {selectedDivision, setSelectedDivision, divisionLevel, dashboardAccessLevel, setDivisionLevel, clearProvince} = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
     const vocabs = getTranslator(useContext(LanguageContext).language);
 
-    const isDisabled = () => divisionLevel === "none"
+    const isDisabled = () => !(dashboardAccessLevel === 'province' || dashboardAccessLevel === 'national')
     const handleProvinceChange = () => setDivisionLevel("province")
 
     React.useEffect(() => {

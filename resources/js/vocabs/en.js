@@ -71,6 +71,14 @@ const vocabs = {
     'yes': 'Yes',
     'no': 'No',
     'export-letter': 'Export Letter',
+    'preliminary': 'Preliminary',
+    'incident-name': 'Incident Name',
+    'coordinate-x': 'Incident X Coordinate',
+    'coordinate-y': 'Incident Y Coordinate',
+    'show-coordinates': 'Show Coordinates',
+    'confirm-incident': 'Confirm Incident',
+    'loading-dashboard': 'Loading Dashboard... ',
+    'user-expired': 'Your username or password has been expired!',
 };
 
 export const en = (key) => vocabs[key] || `unknown(${key})`;

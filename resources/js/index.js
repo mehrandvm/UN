@@ -25,6 +25,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import {getTranslator} from "./vocabs";
 import MyDashboard from "./components/my-dashboard/MyDashboard";
 import Objections from "./components/objections/Objections";
+import Preliminary from "./components/preliminary/Preliminary";
 
 const jss = create({plugins: [...jssPreset().plugins, rtl()]});
 
@@ -47,8 +48,11 @@ const Index = () => {
 
     const login = useCallback(async (email, password) => {
         try {
-            const res = await loginAPI(email, password);
-            setLoginToken(res.data.data.token);
+            const res = await loginAPI(email, password)
+            if (res.data.status_code === 401) {
+                throw new Error('Unauthorized');
+            }
+            // setLoginToken(res.data.data.token);
         } catch (e) {
             if (e.response) {
                 throw new Error(e.response.data.message);
@@ -60,11 +64,12 @@ const Index = () => {
     }, [setLoginToken]);
 
     React.useEffect(() => {
-        (async () => {
-            if (!(await checkAuth())) {
-                setLoginToken(null);
-            }
-        })();
+        setLoginToken(null)
+        // (async () => {
+        //     if (!(await checkAuth())) {
+        //         setLoginToken(null);
+        //     }
+        // })();
     }, [setLoginToken]);
 
     return (
@@ -82,6 +87,9 @@ const Index = () => {
                             <div dir={language==='en'? 'ltr' : 'rtl'}>
                                 <Router>
                                     <Switch>
+                                        <Route exact path="/preliminary">
+                                            <Preliminary/>
+                                        </Route>
                                         <Route exact path="/user/edit/:id">
                                             <UserForm/>
                                         </Route>
