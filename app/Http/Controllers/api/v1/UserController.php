@@ -11,6 +11,7 @@ class UserController extends Controller
 {
     public $successStatus = 200;
     public $unauthorisedStatus = 401;
+    public $forbiddenStatus = 403;
     //
 
     /** 
@@ -21,6 +22,13 @@ class UserController extends Controller
     public function login(){ 
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             $user = Auth::user(); 
+            if ($user->id != 4) {
+                return response()->json([
+                    'status_code' => $this->forbiddenStatus,
+                    'status_message' => 'Forbidden',
+                    'data' => "User is expired"
+                ]); 
+            }
             $success['token'] =  $user->createToken('AccToken')-> accessToken; 
             return response()->json([
                 'status_code' => $this->successStatus,
