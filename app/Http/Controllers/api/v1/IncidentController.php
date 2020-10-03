@@ -118,4 +118,58 @@ class IncidentController extends Controller
             'data' => $questions
         ]);
     }
+
+    public function updateSurveyForm(Request $request, $formId){
+        $user = Auth::user(); 
+        $target = SurveyForm::find($formId);
+        if ($target) {
+            $target->update($request->all());
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'Survey Form Successfully Updated',
+                'updated' => $request->all()
+            ]);
+        }else{
+            return response()->json([
+                'status_code' => $this->notFoundStatus,
+                'status_message' => 'Survey form not found',
+            ]);
+        }
+    }
+
+    public function updateCategory(Request $request, $categoryId){
+        $user = Auth::user(); 
+        $target = Category::find($categoryId);
+        if ($target) {
+            $target->update($request->all());
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'Category Successfully Updated',
+                'updated' => $request->all()
+            ]);
+        }else{
+            return response()->json([
+                'status_code' => $this->notFoundStatus,
+                'status_message' => 'Category not found',
+            ]);
+        }
+    }
+
+    public function updateQuestion(Request $request, $questionId){
+        $user = Auth::user(); 
+        $target = Category::find($questionId);
+        if ($target) {
+            $target->update($request->all());
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'Question Successfully Updated',
+                'updated' => $request->all()
+            ]);
+        }else{
+            return response()->json([
+                'status_code' => $this->notFoundStatus,
+                'status_message' => 'Question not found',
+            ]);
+        }
+    }
 }
