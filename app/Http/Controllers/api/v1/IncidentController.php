@@ -65,7 +65,7 @@ class IncidentController extends Controller
         }
     }
 
-    public function addCategory(Request $request){
+    public function addQuestion(Request $request){
         $user = Auth::user(); 
         
         $validator = Validator::make($request->all(),[ 
