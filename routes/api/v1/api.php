@@ -54,6 +54,9 @@ Route::prefix('management')->group(function () {
 
         Route::post('files/bank-issue', 'api\v1\FilesController@storeIssuePdf');
 
+        Route::get('agent/subdivisions', 'api\v1\AgentController@rootSubdivision');
+        Route::get('agent/subdivisions/{id}', 'api\v1\AgentController@getSubdivision');
+
         // Route::post('analysis/incident', 'api\v1\Analysis@addIncident');
     });
 });
