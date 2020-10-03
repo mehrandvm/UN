@@ -88,4 +88,34 @@ class IncidentController extends Controller
             ]);
         }
     }
+
+    public function getAllSurveyForms(){
+        $user = Auth::user(); 
+        $forms = SurveyForm::all();
+        return response()->json([
+            'status_code' => $this->successStatus,
+            'status_message' => 'Success',
+            'data' => $forms
+        ]);
+    }
+
+    public function getAllCategories(){
+        $user = Auth::user(); 
+        $categories = Category::all();
+        return response()->json([
+            'status_code' => $this->successStatus,
+            'status_message' => 'Success',
+            'data' => $categories
+        ]);
+    }
+
+    public function getAllQuestions(){
+        $user = Auth::user(); 
+        $questions = Question::all();
+        return response()->json([
+            'status_code' => $this->successStatus,
+            'status_message' => 'Success',
+            'data' => $questions
+        ]);
+    }
 }
