@@ -114,21 +114,25 @@ const Login = (props) => {
             try {
                 await loginContext.login(email, password);
                 setIsAuthenticating(false);
-                // axiosInstance.get('/management/permission/view-dashboard').then((res) => {
-                //     if (res.data.status_code === 200) {
-                //         history.push('/dashboard')
-                //     }
-                //     else {
-                //         history.push('/mydashboard')
-                //     }
-                // }).catch((e)=>{
-                //     console.error(e)
-                // })
-                // enqueueSnackbar('Login successful', {variant: 'success'})
-                enqueueSnackbar(vocabs('user-expired'), {variant: 'info'})
+                axiosInstance.get('/management/permission/view-dashboard').then((res) => {
+                    if (res.data.status_code === 200) {
+                        history.push('/dashboard')
+                    }
+                    else {
+                        history.push('/mydashboard')
+                    }
+                }).catch((e)=>{
+                    console.error(e)
+                })
+                enqueueSnackbar('Login successful', {variant: 'success'})
+                // enqueueSnackbar(vocabs('user-expired'), {variant: 'info'})
             } catch (e) {
-                // console.error(e);
-                enqueueSnackbar('Invalid username or password', {variant: 'error'})
+                console.log(e.message);
+                if (e.message == 401) {
+                    enqueueSnackbar('Invalid username or password', {variant: 'error'});
+                }else if (e.message == 403) {
+                    enqueueSnackbar(vocabs('user-expired'), {variant: 'info'});
+                }
                 setIsAuthenticating(false);
             }
         }

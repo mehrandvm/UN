@@ -48,14 +48,19 @@ const Index = () => {
 
     const login = useCallback(async (email, password) => {
         try {
-            const res = await loginAPI(email, password)
-            if (res.data.status_code === 401) {
-                throw new Error('Unauthorized');
+            const res = await loginAPI(email, password);
+            // if (res.data.status_code === 401) {
+            //     throw new Error('Unauthorized');
+            // }else if (res.data.status_code === 403) {
+            //     throw new Error('Expired');
+            // }
+            if (res.data.status_code !== 200) {
+                throw new Error(res.data.status_code);
             }
-            // setLoginToken(res.data.data.token);
+            setLoginToken(res.data.data.token);
         } catch (e) {
-            if (e.response) {
-                throw new Error(e.response.data.message);
+            if (e.message) {
+                throw new Error(e.message);
             } else {
                 throw new Error('network-error');
                 // TODO: add snackbar
