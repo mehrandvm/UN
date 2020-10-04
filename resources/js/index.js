@@ -69,12 +69,12 @@ const Index = () => {
     }, [setLoginToken]);
 
     React.useEffect(() => {
-        setLoginToken(null)
-        // (async () => {
-        //     if (!(await checkAuth())) {
-        //         setLoginToken(null);
-        //     }
-        // })();
+        // setLoginToken(null)
+        (async () => {
+            if (!(await checkAuth())) {
+                setLoginToken(null);
+            }
+        })();
     }, [setLoginToken]);
 
     return (
