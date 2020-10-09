@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
     {
         $agent_role = App\Role::where('slug', 'agent')->first();
         $admin_role = App\Role::where('slug', 'admin')->first();
-
+		
         $agent1 = new User();
 		$agent1->f_name = 'Mahdi';
 		$agent1->l_name = 'Mahmoodian';
@@ -24,6 +24,7 @@ class UsersTableSeeder extends Seeder
 		$agent1->email = 'mahmoodian.m1999@gmail.com';
 		$agent1->username = 'Mahmoodian.m';
 		$agent1->password = bcrypt('12341234');
+		$agent1->expiration_date = new \DateTime("+ 1 years");
         $agent1->save();
 		$agent1->roles()->attach($agent_role);
         
@@ -36,6 +37,7 @@ class UsersTableSeeder extends Seeder
 		$agent2->email = 'm.rahimy.gk@gmail.com';
 		$agent2->username = 'Rahimy.m';
 		$agent2->password = bcrypt('asdf1234');
+		$agent2->expiration_date = new \DateTime("+ 1 years");
 		$agent2->save();
 		$agent2->roles()->attach($agent_role);
 
@@ -48,6 +50,7 @@ class UsersTableSeeder extends Seeder
 		$agent3->email = 'amir.daneshvarmoein@gmail.com';
 		$agent3->username = 'MehranDVM';
 		$agent3->password = bcrypt('12345678');
+		$agent3->expiration_date = new \DateTime("+ 1 years");
 		$agent3->save();
 		$agent3->roles()->attach($agent_role);
 
@@ -60,6 +63,7 @@ class UsersTableSeeder extends Seeder
 		$admin->email = 'bm.ir1967@gmail.com';
 		$admin->username = 'mahmoodian.b';
 		$admin->password = bcrypt('chakad@2020');
+		$admin->expiration_date = new \DateTime("+ 1 years");
 		$admin->save();
 		$admin->roles()->attach($admin_role);
 		
@@ -70,6 +74,7 @@ class UsersTableSeeder extends Seeder
 		$coordinator1->email = 'srinivasa.popuri@un.org';
 		$coordinator1->username = 'srinivasa';
 		$coordinator1->password = bcrypt('chakad2020');
+		$coordinator1->expiration_date = new \DateTime("+ 1 years");
 		$coordinator1->save();
 		$coordinator1->roles()->attach($admin_role);
 
@@ -80,6 +85,7 @@ class UsersTableSeeder extends Seeder
 		$coordinator2->email = 'soma.ahmadi@un.org';
 		$coordinator2->username = 's.ahmadi';
 		$coordinator2->password = bcrypt('chakad2020');
+		$coordinator2->expiration_date = new \DateTime("+ 1 years");
 		$coordinator2->save();
 		$coordinator2->roles()->attach($admin_role);
 		
@@ -92,6 +98,7 @@ class UsersTableSeeder extends Seeder
 		$demo->email = 'demo@chakadmap.ir';
 		$demo->username = 'demo';
 		$demo->password = bcrypt('chakad');
+		$demo->expiration_date = new \DateTime("+ 1 years");
 		$demo->save();
         $demo->roles()->attach($admin_role);
     }
