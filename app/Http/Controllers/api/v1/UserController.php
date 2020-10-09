@@ -22,7 +22,9 @@ class UserController extends Controller
     public function login(){ 
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             $user = Auth::user(); 
-            if ($user->id != 4 && $user->id != 1) {
+            $today = new \DateTime();
+            $expire_date = new \DateTime($user->expiration_date);
+            if ($expire_date < $today) {
                 return response()->json([
                     'status_code' => $this->forbiddenStatus,
                     'status_message' => 'Forbidden',

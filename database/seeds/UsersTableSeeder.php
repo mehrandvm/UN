@@ -74,7 +74,7 @@ class UsersTableSeeder extends Seeder
 		$coordinator1->email = 'srinivasa.popuri@un.org';
 		$coordinator1->username = 'srinivasa';
 		$coordinator1->password = bcrypt('chakad2020');
-		$coordinator1->expiration_date = new \DateTime("+ 1 years");
+		$coordinator1->expiration_date = new \DateTime("- 1 days");
 		$coordinator1->save();
 		$coordinator1->roles()->attach($admin_role);
 
@@ -85,7 +85,7 @@ class UsersTableSeeder extends Seeder
 		$coordinator2->email = 'soma.ahmadi@un.org';
 		$coordinator2->username = 's.ahmadi';
 		$coordinator2->password = bcrypt('chakad2020');
-		$coordinator2->expiration_date = new \DateTime("+ 1 years");
+		$coordinator2->expiration_date = new \DateTime("- 1 days");
 		$coordinator2->save();
 		$coordinator2->roles()->attach($admin_role);
 		
@@ -98,7 +98,7 @@ class UsersTableSeeder extends Seeder
 		$demo->email = 'demo@chakadmap.ir';
 		$demo->username = 'demo';
 		$demo->password = bcrypt('chakad');
-		$demo->expiration_date = new \DateTime("+ 1 years");
+		$demo->expiration_date = new \DateTime("- 1 days");
 		$demo->save();
         $demo->roles()->attach($admin_role);
     }
