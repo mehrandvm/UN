@@ -16,6 +16,7 @@ class CreateObjectionsTable extends Migration
         Schema::create('objections', function (Blueprint $table) {
             $table->increments('id');
             $table->text('expression');
+            $table->text('response');
             $table->timestamps();
         });
     }
