@@ -6,7 +6,7 @@ use App\Building;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\CountrySubdivision;
@@ -20,12 +20,13 @@ class TaskController extends Controller
     public $notFoundStatus = 404;
     public $badRequestStatus = 401;
 
-    public function summarizeTasks(){
+    public function summarizeTasks()
+    {
         $user = Auth::user();
         $subdivisonsNames = [];
         $subdivisons = DB::table('agent_visit_task_country_subdivision')
-                            ->where('agent_id', $user->id)->get();
-        foreach($subdivisons as $subdivison){
+            ->where('agent_id', $user->id)->get();
+        foreach ($subdivisons as $subdivison) {
             $subdivisonsNames[] = CountrySubdivision::find($subdivison->country_subdivision_id)->subdivision_name;
         }
         $visits = DB::table('building_visit')->where('agent_id', $user->id);
@@ -98,12 +99,13 @@ class TaskController extends Controller
         }
     }
 
-    public function getSubdivisionTasks(){
-        $user = Auth::user(); 
+    public function getSubdivisionTasks()
+    {
+        $user = Auth::user();
         $subdivision_visit_tasks = DB::table('agent_visit_task_country_subdivision')->get();
         $results = [];
 
-        foreach($subdivision_visit_tasks as $task){
+        foreach ($subdivision_visit_tasks as $task) {
             $result = [
                 'agent' => User::find($task->agent_id),
                 'subdivision' => CountrySubdivision::find($task->country_subdivision_id),
@@ -118,11 +120,12 @@ class TaskController extends Controller
         ]);
     }
 
-    public function getBuildingVisitTasks(){
-        $user = Auth::user(); 
+    public function getBuildingVisitTasks()
+    {
+        $user = Auth::user();
         $building_visit_tasks = DB::table('building_visit')->where('agent_id', $user->id)->get();
         $results = [];
-        foreach($building_visit_tasks as $task){
+        foreach ($building_visit_tasks as $task) {
             $building = Building::find($task->building_id);
             $damage_type = DamageType::find($task->damage_type);
             $subdivison = CountrySubdivision::find($building->subdivision);
@@ -137,19 +140,68 @@ class TaskController extends Controller
             'status_message' => 'Success',
             'data' => $results
         ]);
-
     }
 
-    public function getObjection($id){
+    public function addObjection(Request $request)
+    {
+        $user = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'expression' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status_code' => $this->badRequestStatus,
+                'status_message' => 'Bad request',
+                'error' => $validator->errors()
+            ]);
+        } else {
+            $objection = new Objection();
+            $objection->expression = $request->expression;
+            $objection->save();
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'Objection created successfully',
+            ]);
+        }
+    }
+
+
+    public function getObjection($id)
+    {
         $user = Auth::user();
         $objection = Objection::find($id);
         return response()->json([
             'status_code' => $this->successStatus,
             'status_message' => 'Success',
             'data' => [
-                'expression' => "This is a sample expression string"
-                // 'expression' => $objection->expression
+                'expression' => $objection->expression,
+                'resoponse' => $objection->response,
             ]
         ]);
+    }
+
+    public function reviewObjection(Request $request, $objectionId)
+    {
+        $user = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'response' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status_code' => $this->badRequestStatus,
+                'status_message' => 'Bad request',
+                'error' => $validator->errors()
+            ]);
+        } else {
+            $objection = Objection::find($objectionId);
+            $objection->response = $request->response;
+            $objection->save();
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'Response to objection saved successfully',
+            ]);
+        }
     }
 }
