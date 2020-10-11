@@ -9,7 +9,7 @@ use App\Permission;
 use App\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 
 class ManagementController extends Controller
