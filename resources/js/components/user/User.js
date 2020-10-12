@@ -203,7 +203,6 @@ const EditColumnHeaderCell = () => {
 const User = () => {
     const vocabs = getTranslator(useContext(LanguageContext).language);
     const classes = useStyles();
-    const [language, setLanguage] = useState("en")
     const [columns, setColumns] = useState([
         {name: 'f_name', title: vocabs('first-name')},
         {name: 'l_name', title: vocabs('last-name')},
@@ -321,10 +320,9 @@ const User = () => {
         }
         // setRows(changedRows);
     };
-    console.log(rows)
     return (
         <div className={classes.container}>
-            <Header setLanguage={setLanguage}/>
+            <Header name={'user'}/>
             <Grid container className={classes.chartContainer} alignItems="center">
                 <Grid item className={classes.tableTitle}>
                     <Link to={'/dashboard'}><IconButton><ArrowBackIcon/></IconButton></Link>

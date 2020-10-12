@@ -436,7 +436,7 @@ const MyTasks = (props) => {
 
     return (
         <div className={classes.container}>
-            <Header/>
+            <Header name={'my-tasks'}/>
             <Grid container className={classes.chartContainer} alignItems="center">
                 <Grid item className={classes.tableTitle}>
                     <Link to={'/'}><IconButton><ArrowBackIcon/></IconButton></Link>
