@@ -60,8 +60,8 @@ Route::prefix('management')->group(function () {
         Route::get('agent/subdivisions/{id}', 'api\v1\AgentController@getSubdivision');
 
         Route::get('incident/form', 'api\v1\IncidentController@getAllSurveyForms');
-        Route::get('incident/category', 'api\v1\IncidentController@getAllQuestions');
-        Route::get('incident/question', 'api\v1\IncidentController@updateSurveyForm');
+        Route::get('incident/category', 'api\v1\IncidentController@getAllCategories');
+        Route::get('incident/question', 'api\v1\IncidentController@getAllQuestions');
         Route::post('incident/form', 'api\v1\IncidentController@addSurveyForm');
         Route::post('incident/category', 'api\v1\IncidentController@addCategory');
         Route::post('incident/question', 'api\v1\IncidentController@addQuestion');

@@ -157,7 +157,7 @@ class IncidentController extends Controller
 
     public function updateQuestion(Request $request, $questionId){
         $user = Auth::user(); 
-        $target = Category::find($questionId);
+        $target = Question::find($questionId);
         if ($target) {
             $target->update($request->all());
             return response()->json([
