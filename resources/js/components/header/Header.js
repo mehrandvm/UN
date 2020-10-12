@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         zIndex: 5,
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         left: 0,
         width: '100%',
@@ -161,6 +161,7 @@ const Header = (props) => {
                      openDrawer={openDrawer}
                      closeDrawer={closeDrawer}
                      isDark={props.isDark}
+                     name={props.name}
             />
             <AppBar position="static" className={props.isDark ? classes.dark : classes.light}>
                 <Toolbar>

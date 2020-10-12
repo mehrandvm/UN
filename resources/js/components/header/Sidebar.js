@@ -24,6 +24,11 @@ const useStyles = makeStyles({
         textDecoration: 'none',
         color: '#000',
     },
+    linkHighlight: {
+        textDecoration: 'none',
+        color: '#FFF',
+        backgroundColor: '#888',
+    },
 });
 
 const Sidebar = (props) => {
@@ -73,24 +78,44 @@ const Sidebar = (props) => {
 
     const sidebarItems = () => {
         let sidebarOptions = []
-        sidebarOptions.push({title: vocabs("home"), link: "/", icon: <HomeIcon/>})
+        sidebarOptions.push({title: vocabs("home"), link: "/", icon: <HomeIcon/>, name: 'home'})
+        if (manageIncidents) {
+            sidebarOptions.push({
+                title: vocabs("preliminary"),
+                link: "/preliminary",
+                icon: <DashboardIcon/>,
+                name: 'preliminary'
+            })
+        }
         if (viewDashboard) {
-            sidebarOptions.push({title: vocabs("dashboard"), link: "/dashboard", icon: <DashboardIcon/>})
+            sidebarOptions.push({
+                title: vocabs("dashboard"),
+                link: "/dashboard",
+                icon: <DashboardIcon/>,
+                name: 'dashboard'
+            })
         }
         if (manageUsers) {
-            sidebarOptions.push({title: vocabs("users"), link: "/user", icon: <SupervisorAccountIcon/>})
+            sidebarOptions.push({title: vocabs("users"), link: "/user", icon: <SupervisorAccountIcon/>, name: 'user'})
         }
         if (manageTasks) {
-            sidebarOptions.push({title: vocabs("tasks"), link: "/task", icon: <AssignmentIcon/>})
+            sidebarOptions.push({title: vocabs("tasks"), link: "/task", icon: <AssignmentIcon/>, name: 'task'})
         }
         if (manageMyTasks) {
-            sidebarOptions.push({title: vocabs("my-dashboard"), link: "/myDashboard", icon: <DashboardIcon/>})
+            sidebarOptions.push({
+                title: vocabs("my-dashboard"),
+                link: "/myDashboard",
+                icon: <DashboardIcon/>,
+                name: 'my-dashboard'
+            })
         }
         if (manageMyTasks) {
-            sidebarOptions.push({title: vocabs("my-tasks"), link: "/mytasks", icon: <AssignmentIndIcon/>})
-        }
-        if (manageIncidents) {
-            sidebarOptions.push({title: vocabs("preliminary"), link: "/preliminary", icon: <DashboardIcon/>})
+            sidebarOptions.push({
+                title: vocabs("my-tasks"),
+                link: "/mytasks",
+                icon: <AssignmentIndIcon/>,
+                name: 'my-tasks'
+            })
         }
 
         return sidebarOptions
@@ -102,10 +127,12 @@ const Sidebar = (props) => {
         >
             <List className={classes.list}>
                 {sidebarItems().map((item) => (
-                    <Link href={`${item.link}`} key={item.title}><ListItem button className={classes.link}>
-                        <ListItemIcon>{item.icon}</ListItemIcon>
-                        <ListItemText primary={item.title}/>
-                    </ListItem></Link>
+                    <Link href={`${item.link}`} key={item.title}>
+                        <ListItem button className={props.name === item.name ? classes.linkHighlight : classes.link}>
+                            <ListItemIcon>{item.icon}</ListItemIcon>
+                            <ListItemText primary={item.title}/>
+                        </ListItem>
+                    </Link>
                 ))}
             </List>
         </div>
