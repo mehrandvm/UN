@@ -44,8 +44,8 @@ const vocabs = {
     'admin': 'Admin',
     'dashboard': 'Dashboard',
     'home': 'Home',
-    'users': 'Users',
-    'tasks': 'Tasks',
+    'users': 'Define Users',
+    'tasks': 'Define Tasks',
     'my-tasks': 'My Tasks',
     'profile': 'Profile',
     'my-tasks-table': 'My Tasks Table',
@@ -79,6 +79,10 @@ const vocabs = {
     'confirm-incident': 'Confirm Incident',
     'loading-dashboard': 'Loading Dashboard... ',
     'user-expired': 'Your username or password has been expired!',
+    'unauthorized': 'Invalid username or password',
+    'auth-error': 'Authentication Error',
+    'group-table': 'Group Table',
+    'criteria-table': 'Criteria Table',
 };
 
 export const en = (key) => vocabs[key] || `unknown(${key})`;

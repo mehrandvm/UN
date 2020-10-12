@@ -44,8 +44,8 @@ const vocabs = {
     'admin': 'ادمین',
     'dashboard': 'داشبورد',
     'home': 'خانه',
-    'users': 'کاربران',
-    'tasks': 'وظایف',
+    'users': 'تعیین کاربران',
+    'tasks': 'تعیین وظایف',
     'my-tasks': 'وظایف من',
     'profile': 'پروفایل',
     'my-tasks-table': 'جدول وظایف من',
@@ -79,6 +79,10 @@ const vocabs = {
     'confirm-incident': 'تایید حادثه',
     'loading-dashboard': 'در حال بارگذاری داشبورد...',
     'user-expired': 'نام کاربری یا پسورد شما منقضی شده است',
+    'unauthorized': 'نام کاربری یا پسورد شما نادرست می باشد',
+    'auth-error': 'خطای ورود',
+    'group-table': 'جدول گروه ها',
+    'criteria-table': 'جدول شاخص ها',
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;
