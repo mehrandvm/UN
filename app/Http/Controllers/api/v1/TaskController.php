@@ -147,6 +147,7 @@ class TaskController extends Controller
         $user = Auth::user();
 
         $validator = Validator::make($request->all(), [
+            'referrence_code' => 'required',
             'expression' => 'required',
         ]);
         if ($validator->fails()) {
@@ -159,6 +160,9 @@ class TaskController extends Controller
             $objection = new Objection();
             $objection->expression = $request->expression;
             $objection->save();
+            $case = $building_visit_tasks = DB::table('building_visit')->where('id', $request->referrence_code)->first();
+            $case->objection = $objection->id;
+            $case->save();
             return response()->json([
                 'status_code' => $this->successStatus,
                 'status_message' => 'Objection created successfully',
