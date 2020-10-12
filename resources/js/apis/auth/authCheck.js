@@ -5,12 +5,10 @@ export const loginAPI = async (email, password) => axiosInstance.post(
     );
 
 export const checkAuth = async () => {
-    // console.log('Log: Check Auth Called!')
-    // try {
-    //     await axiosInstance.get('/user');
-    //     return true;
-    // } catch (e) {
-    //     return false;
-    // }
-    return true
+    try {
+        await axiosInstance.get('/user/profile')
+        return true;
+    } catch (e) {
+        return false;
+    }
 };
