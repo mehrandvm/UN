@@ -2,8 +2,6 @@ import React, {useCallback} from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import ReactDOM from 'react-dom';
 import User from "./components/user/User";
-import Role from "./components/role/Role";
-import Panel from "./components/panel/Panel";
 import Login from "./components/login/Login";
 import Home from "./components/home/Home";
 import {ThemeProvider} from "@material-ui/core";
@@ -48,30 +46,28 @@ const Index = () => {
 
     const login = useCallback(async (email, password) => {
         try {
-            const res = await loginAPI(email, password);
-            // if (res.data.status_code === 401) {
-            //     throw new Error('Unauthorized');
-            // }else if (res.data.status_code === 403) {
-            //     throw new Error('Expired');
-            // }
-            if (res.data.status_code !== 200) {
-                throw new Error(res.data.status_code);
+            const res = await loginAPI(email, password)
+            if (res.data.status_code === 403) {
+                throw new Error('UserExpired');
+            } else if (res.data.status_code === 401) {
+                throw new Error('Unauthorized');
+            } else if (res.data.status_code === 200) {
+                setLoginToken(res.data.data.token);
             }
-            setLoginToken(res.data.data.token);
         } catch (e) {
-            if (e.message) {
-                throw new Error(e.message);
-            } else {
-                throw new Error('network-error');
-                // TODO: add snackbar
+            if (e.message === 'UserExpired') {
+                throw new Error('UserExpired');
+            }
+            if (e.message === 'Unauthorized') {
+                throw new Error('Unauthorized');
             }
         }
     }, [setLoginToken]);
 
     React.useEffect(() => {
-        // setLoginToken(null)
-        (async () => {
-            if (!(await checkAuth())) {
+        (() => {
+            const isTokenValid = checkAuth()
+            if (!isTokenValid) {
                 setLoginToken(null);
             }
         })();
