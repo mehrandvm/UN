@@ -48,7 +48,6 @@ Route::prefix('management')->group(function () {
 
         Route::get('tasks/building', 'api\v1\TaskController@getBuildingVisitTasks');
 
-        Route::post('tasks/objection/', 'api\v1\TaskController@addObjection');
         Route::get('tasks/objection/{id}', 'api\v1\TaskController@getObjection');
         Route::post('tasks/objection/{id}', 'api\v1\TaskController@reviewObjection');
 
@@ -71,6 +70,8 @@ Route::prefix('management')->group(function () {
 
         // Route::post('analysis/incident', 'api\v1\Analysis@addIncident');
     });
+    Route::post('tasks/objection/', 'api\v1\TaskController@addObjection');
+
 });
 
 Route::post('analysis/incident', 'api\v1\AnalysisController@addIncident');
