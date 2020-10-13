@@ -97,24 +97,6 @@ const Sidebar = (props) => {
                 icon: <DashboardIcon/>,
                 name: 'dashboard'
             })
-            sidebarOptions.push({
-                title: vocabs("survey-forms"),
-                link: "/survey",
-                icon: <FormatListBulletedIcon/>,
-                name: 'survey-forms'
-            })
-            sidebarOptions.push({
-                title: vocabs("categories"),
-                link: "/category",
-                icon: <FormatListBulletedIcon/>,
-                name: 'category'
-            })
-            sidebarOptions.push({
-                title: vocabs("questions"),
-                link: "/questions",
-                icon: <FormatListBulletedIcon/>,
-                name: 'question'
-            })
         }
         if (manageUsers) {
             sidebarOptions.push({title: vocabs("users"), link: "/user", icon: <SupervisorAccountIcon/>, name: 'user'})
@@ -138,6 +120,26 @@ const Sidebar = (props) => {
                 name: 'my-tasks'
             })
         }
+        if (viewDashboard) {
+            sidebarOptions.push({
+                title: vocabs("survey-forms"),
+                link: "/survey",
+                icon: <FormatListBulletedIcon/>,
+                name: 'survey-forms'
+            })
+            sidebarOptions.push({
+                title: vocabs("categories"),
+                link: "/category",
+                icon: <FormatListBulletedIcon/>,
+                name: 'category'
+            })
+            sidebarOptions.push({
+                title: vocabs("questions"),
+                link: "/questions",
+                icon: <FormatListBulletedIcon/>,
+                name: 'question'
+            })
+        }
         return sidebarOptions
     }
     const list = () => (
@@ -147,8 +149,8 @@ const Sidebar = (props) => {
         >
             <List className={classes.list}>
                 <ListItem disabled className={classes.link}>
-                    <ListItemIcon><AccountCircleIcon /></ListItemIcon>
-                    <ListItemText primary={props.userInfo ? props.userInfo : vocabs('loading-data') }/>
+                    <ListItemIcon><AccountCircleIcon/></ListItemIcon>
+                    <ListItemText primary={props.userInfo ? props.userInfo : vocabs('loading-data')}/>
                 </ListItem>
                 {sidebarItems().map((item) => (
                     <Link href={`${item.link}`} key={item.title}>
@@ -159,7 +161,7 @@ const Sidebar = (props) => {
                     </Link>
                 ))}
                 <ListItem button className={classes.link} onClick={props.logout}>
-                    <ListItemIcon><ExitToAppIcon /></ListItemIcon>
+                    <ListItemIcon><ExitToAppIcon/></ListItemIcon>
                     <ListItemText primary={vocabs('logout')}/>
                 </ListItem>
             </List>
