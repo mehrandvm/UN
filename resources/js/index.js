@@ -24,6 +24,10 @@ import {getTranslator} from "./vocabs";
 import MyDashboard from "./components/my-dashboard/MyDashboard";
 import Objections from "./components/objections/Objections";
 import Preliminary from "./components/preliminary/Preliminary";
+import Category from "./components/category/Category";
+import SurveyForm from "./components/survey-form/SurveyForm";
+import Cases from "./components/cases/Cases";
+import Question from "./components/question/Question";
 
 const jss = create({plugins: [...jssPreset().plugins, rtl()]});
 
@@ -88,6 +92,18 @@ const Index = () => {
                             <div dir={language==='en'? 'ltr' : 'rtl'}>
                                 <Router>
                                     <Switch>
+                                        <Route exact path="/cases">
+                                            <Cases/>
+                                        </Route>
+                                        <Route exact path="/question">
+                                            <Question/>
+                                        </Route>
+                                        <Route exact path="/category">
+                                            <Category/>
+                                        </Route>
+                                        <Route exact path="/survey">
+                                            <SurveyForm/>
+                                        </Route>
                                         <Route exact path="/preliminary">
                                             <Preliminary/>
                                         </Route>
