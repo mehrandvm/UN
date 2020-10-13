@@ -381,8 +381,8 @@ class PreliminaryMap extends React.Component {
             'datasets': {
                 'Adobe Masonry': this.state.chartMudData,
                 'Other Masonary': this.state.chartMasonaryData,
-                'Steel Masonary': [],
-                'Concrete Masonary': [],
+                'Steel': [],
+                'Concrete': [],
             },
             'theme': 2,
         }
@@ -403,7 +403,7 @@ class PreliminaryMap extends React.Component {
                             }}
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} style={{padding: 5}}>
                         <FormTextField
                             value={this.state.incidentName}
                             onChange={this.handleChangeIncidentName}
@@ -416,7 +416,7 @@ class PreliminaryMap extends React.Component {
                             autoFocus
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} style={{padding: 5}}>
                         <FormTextField
                             value={this.state.coordinateX}
                             onChange={this.handleChangeX}
@@ -428,7 +428,7 @@ class PreliminaryMap extends React.Component {
                             name="coordinateX"
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} style={{padding: 5}}>
                         <FormTextField
                             value={this.state.coordinateY}
                             onChange={this.handleChangeY}
@@ -439,13 +439,13 @@ class PreliminaryMap extends React.Component {
                             label={vocabs('coordinate-y')}
                         />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} style={{padding: 5}}>
                         <Button onClick={() => this.checkIncident(this.state.coordinateX, this.state.coordinateY, 'form')} variant={"outlined"} color={"primary"}
                                 style={{width: '100%', height: 56}}>
                             {vocabs('show-coordinates')}
                         </Button>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} style={{padding: 5}}>
                         <Button onClick={this.submitIncident} variant={"contained"} color={"primary"}
                                 style={{width: '100%', height: 56}}>
                             {this.state.isSendingReq ? <CircularProgress color="inherit" size={20}/> : vocabs('confirm-incident')}
