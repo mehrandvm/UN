@@ -26,7 +26,7 @@ const Preliminary = () => {
 
     return (
         <>
-            <Header/>
+            <Header name={'preliminary'} role={'admin'}/>
             <div className={classes.container}>
                 <PreliminaryMap vocabs={vocabs}/>
             </div>

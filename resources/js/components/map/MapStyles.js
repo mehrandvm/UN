@@ -6,9 +6,9 @@ import Text from "ol/style/Text";
 
 export const stylePointDefault = new Style({
     image: new CircleStyle({
-        radius: 5,
+        radius: 3,
         fill: new Fill({color: '#FFFFFF'}),
-        stroke: new Stroke({color: '#3399CC', width: 1.25}),
+        stroke: new Stroke({color: '#3399CC', width: 0}),
     }),
 })
 

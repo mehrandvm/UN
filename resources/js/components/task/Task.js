@@ -323,7 +323,7 @@ const Task = () => {
     console.log(rows)
     return (
         <div className={classes.container}>
-            <Header setLanguage={setLanguage}/>
+            <Header name={'task'} role={'admin'}/>
             <Grid container className={classes.chartContainer} alignItems="center">
                 <Grid item className={classes.tableTitle}>
                     <Link to={'/dashboard'}><IconButton><ArrowBackIcon/></IconButton></Link>

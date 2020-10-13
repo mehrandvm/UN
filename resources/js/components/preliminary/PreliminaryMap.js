@@ -41,13 +41,12 @@ import BarChart from "../charts/BarChart";
 import {withSnackbar} from "notistack";
 import axiosInstance from "../../apis/AxiosConfig";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import BingMaps from "ol/source/BingMaps";
 
 const params = {
     'layers': [
         {
-            'type': 'tile',
-            'url': 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            'projection': 'EPSG:3857',
+            'type': 'bing',
         },
         {
             'type': 'vector',
@@ -57,10 +56,10 @@ const params = {
     'view': {
         'projection': 'EPSG:4326',
         'center': {
-            'x': 53.6880,
-            'y': 32.4279,
+            'x': 46.8423,
+            'y': 34.4390,
         },
-        'zoom': '5',
+        'zoom': '8',
     },
 }
 const scaleControl = () => {
@@ -113,6 +112,18 @@ class PreliminaryMap extends React.Component {
             controls: defaults().extend([scaleControl()]),
             layers: params.layers.map((layer, i) => {
                 switch (layer.type) {
+                    case 'bing':
+                        return new TileLayer({
+                            visible: true,
+                            preload: Infinity,
+                            source: new BingMaps({
+                                key: 'AttITYV-ApYhO6ybaJqUl5_Ik6_gDupG_YurVNVctA27KN_aISvmqU6c1usHIoD2',
+                                imagerySet: 'AerialWithLabelsOnDemand',
+                                // use maxZoom 19 to see stretched tiles instead of the BingMaps
+                                // "no photos at this zoom level" tiles
+                                maxZoom: 19
+                            }),
+                        })
                     case 'tile':
                         return new TileLayer({
                             source: new XYZSource({
@@ -216,14 +227,17 @@ class PreliminaryMap extends React.Component {
         })
     }
 
-    checkIncident() {
-        if (!this.validateInputs()) {
-            return
+    checkIncident(coordinateX, coordinateY, mode) {
+        if (mode !== 'click') {
+            if (!this.validateInputs()) {
+                return
+            }
+        } else {
+            this.setState({coordinateX, coordinateY})
         }
         this.map.getLayers().getArray()[2].getSource().clear()
-        const coordinate = [parseFloat(this.state.coordinateX), parseFloat(this.state.coordinateY)]
-        const dist = 0.01 // getPointResolution('EPSG:3857', 1, coordinate)
-        // console.log(getPointResolution('EPSG:3857', 1, coordinate))
+        const coordinate = [parseFloat(coordinateX), parseFloat(coordinateY)]
+        const dist = 0.01
         const feature50 = new Feature(new Circle(coordinate, dist * 50))
         const feature20 = new Feature(new Circle(coordinate, dist * 20))
         const feature10 = new Feature(new Circle(coordinate, dist * 10))
@@ -248,7 +262,9 @@ class PreliminaryMap extends React.Component {
         const feature7_5Geometry = feature7_5.getGeometry()
         const feature5Geometry = feature5.getGeometry()
         const feature2_5Geometry = feature2_5.getGeometry()
-        this.map.getView().fit(feature50Geometry)
+        if (mode !== 'click') {
+            this.map.getView().fit(feature50Geometry)
+        }
         const features50KM = this.map.getLayers().getArray()[1].getSource().getFeatures().filter((feature, i) => {
             return feature50Geometry.intersectsExtent(feature.getGeometry().getExtent())
         })
@@ -324,10 +340,15 @@ class PreliminaryMap extends React.Component {
     }
 
     componentDidMount() {
-        this.map.setTarget(this.mapDivId);
-        this.map.addLayer(new VectorLayer({
+        const parent = this
+        parent.map.setTarget(this.mapDivId);
+        parent.map.addLayer(new VectorLayer({
             source: new VectorSource(),
         }))
+        parent.map.on('singleclick',  (evt) => {
+            const coordinate = evt.coordinate;
+            parent.checkIncident(coordinate[0],coordinate[1],'click')
+        })
     }
 
     render() {
@@ -338,7 +359,7 @@ class PreliminaryMap extends React.Component {
                 '2.5', '5', '7.5', '10', '20', '50',
             ],
             'datasets': {
-                'Family count in incident radius': this.state.chartData
+                'Household in incident radius': this.state.chartData
             },
             'theme': 0,
         }
@@ -348,7 +369,7 @@ class PreliminaryMap extends React.Component {
                 '2.5', '5', '7.5', '10', '20', '50',
             ],
             'datasets': {
-                'Family count per medical center in incident radius': this.state.chartBehdashtData
+                'Household per medical center in incident radius': this.state.chartBehdashtData
             },
             'theme': 1,
         }
@@ -358,8 +379,10 @@ class PreliminaryMap extends React.Component {
                 '2.5', '5', '7.5', '10', '20', '50',
             ],
             'datasets': {
-                'Mud': this.state.chartMudData,
-                'Masonary': this.state.chartMasonaryData,
+                'Adobe Masonry': this.state.chartMudData,
+                'Other Masonary': this.state.chartMasonaryData,
+                'Steel': [],
+                'Concrete': [],
             },
             'theme': 2,
         }
@@ -380,7 +403,7 @@ class PreliminaryMap extends React.Component {
                             }}
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} style={{padding: 5}}>
                         <FormTextField
                             value={this.state.incidentName}
                             onChange={this.handleChangeIncidentName}
@@ -393,7 +416,7 @@ class PreliminaryMap extends React.Component {
                             autoFocus
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} style={{padding: 5}}>
                         <FormTextField
                             value={this.state.coordinateX}
                             onChange={this.handleChangeX}
@@ -405,7 +428,7 @@ class PreliminaryMap extends React.Component {
                             name="coordinateX"
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} style={{padding: 5}}>
                         <FormTextField
                             value={this.state.coordinateY}
                             onChange={this.handleChangeY}
@@ -416,13 +439,13 @@ class PreliminaryMap extends React.Component {
                             label={vocabs('coordinate-y')}
                         />
                     </Grid>
-                    <Grid item xs={6}>
-                        <Button onClick={this.checkIncident} variant={"outlined"} color={"primary"}
+                    <Grid item xs={6} style={{padding: 5}}>
+                        <Button onClick={() => this.checkIncident(this.state.coordinateX, this.state.coordinateY, 'form')} variant={"outlined"} color={"primary"}
                                 style={{width: '100%', height: 56}}>
                             {vocabs('show-coordinates')}
                         </Button>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} style={{padding: 5}}>
                         <Button onClick={this.submitIncident} variant={"contained"} color={"primary"}
                                 style={{width: '100%', height: 56}}>
                             {this.state.isSendingReq ? <CircularProgress color="inherit" size={20}/> : vocabs('confirm-incident')}

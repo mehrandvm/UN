@@ -3,10 +3,15 @@ const data = {
     'mapParams': {
         'layers': [
             {
-                'type': 'tile',
+                'type': 'bing',
                 'url': 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 'projection': 'EPSG:3857',
             },
+            // {
+            //     'type': 'tile',
+            //     'url': 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            //     'projection': 'EPSG:3857',
+            // },
             {
                 'type': 'vector',
                 'url': 'http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AOstan&outputFormat=application%2Fjson',
@@ -50,10 +55,10 @@ const data = {
             // 'title': 'All Stages',
             'type': 'pie',
             'dataset': {
-                'Stage One': 15,
-                'Stage Two': 35,
-                'Stage Three': 30,
-                'Stage Four': 20,
+                'stage-one-name': 15,
+                'stage-two-name': 35,
+                'stage-three-name': 30,
+                'stage-four-name': 20,
             },
         },
         '1': {
