@@ -322,7 +322,7 @@ const User = () => {
     };
     return (
         <div className={classes.container}>
-            <Header name={'user'}/>
+            <Header name={'user'} role={'admin'}/>
             <Grid container className={classes.chartContainer} alignItems="center">
                 <Grid item className={classes.tableTitle}>
                     <Link to={'/dashboard'}><IconButton><ArrowBackIcon/></IconButton></Link>

@@ -79,7 +79,7 @@ const Objections = (props) => {
 
     return (
         <div className={classes.container}>
-            <Header/>
+            <Header role={'agent'}/>
             <Grid container className={classes.chartContainer} alignItems="center" spacing={2}>
                 <Grid item className={classes.tableTitle}>
                     <Link to={'/'}><IconButton><ArrowBackIcon/></IconButton></Link>

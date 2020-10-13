@@ -266,7 +266,7 @@ const Role = () => {
     console.log(rows)
     return (
         <div className={classes.container}>
-            <Header setLanguage={setLanguage}/>
+            <Header role={'admin'}/>
             <Grid container className={classes.chartContainer} alignItems="center">
                 <Paper>
                     <DevGrid

@@ -108,7 +108,7 @@ const Dashboard = () => {
             <div className={classes.loading}>{vocabs('loading-dashboard')}<CircularProgress color="inherit" size={20}/>
             </div> :
             <>
-                <Header name={'dashboard'}/>
+                <Header name={'dashboard'} role={'admin'}/>
                 <div className={classes.container}>
                     {/*<Box p={1} className={classes.mapTitle}>*/}
                     {/*    <Typography variant='h5'>*/}
