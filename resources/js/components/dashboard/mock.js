@@ -55,10 +55,10 @@ const data = {
             // 'title': 'All Stages',
             'type': 'pie',
             'dataset': {
-                'Stage One': 15,
-                'Stage Two': 35,
-                'Stage Three': 30,
-                'Stage Four': 20,
+                'stage-one-name': 15,
+                'stage-two-name': 35,
+                'stage-three-name': 30,
+                'stage-four-name': 20,
             },
         },
         '1': {
