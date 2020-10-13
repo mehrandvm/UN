@@ -70,7 +70,7 @@ const vocabs = {
     'stage': 'Stage',
     'yes': 'Yes',
     'no': 'No',
-    'export-letter': 'Export Letter',
+    'export-letter': 'Issue Letter',
     'preliminary': 'Preliminary',
     'incident-name': 'Incident Name',
     'coordinate-x': 'Incident X Coordinate',
@@ -81,8 +81,16 @@ const vocabs = {
     'user-expired': 'Your username or password has been expired!',
     'unauthorized': 'Invalid username or password',
     'auth-error': 'Authentication Error',
-    'group-table': 'Group Table',
-    'criteria-table': 'Criteria Table',
+    'survey-table': 'Survey Table',
+    'category-table': 'Category Table',
+    'question-table': 'Question Table',
+    'stage-one-name': 'Damage Assessment',
+    'stage-two-name': 'Foundation & Structure',
+    'stage-three-name': 'Walls & Ceiling',
+    'stage-four-name': 'Finishing',
+    'survey-forms': 'Survey Forms',
+    'categories': 'Categories',
+    'questions': 'Questions',
 };
 
 export const en = (key) => vocabs[key] || `unknown(${key})`;

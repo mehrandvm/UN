@@ -81,8 +81,16 @@ const vocabs = {
     'user-expired': 'نام کاربری یا پسورد شما منقضی شده است',
     'unauthorized': 'نام کاربری یا پسورد شما نادرست می باشد',
     'auth-error': 'خطای ورود',
-    'group-table': 'جدول گروه ها',
-    'criteria-table': 'جدول شاخص ها',
+    'survey-table': 'جدول فرم ها',
+    'category-table': 'جدول دسته بندی ها',
+    'question-table': 'جدول سوال ها',
+    'stage-one-name': 'ارزیابی خسارت',
+    'stage-two-name': 'پی و ستون ها',
+    'stage-three-name': 'دیوار ها و سقف ها',
+    'stage-four-name': 'نازک کاری',
+    'survey-forms': 'فرم های ارزیابی',
+    'categories': 'دسته بندی ها',
+    'questions': 'سوالات',
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;
