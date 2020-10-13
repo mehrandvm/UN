@@ -149,7 +149,18 @@ const Header = (props) => {
             setUserInfo(null)
         }
     }
-
+    const returnLogoLink = () => {
+        if (props.role === 'admin') {
+            return '/dashboard'
+        }
+        if (props.role === 'agent') {
+            return '/mydashboard'
+        }
+        if (props.role === 'none') {
+            return '/'
+        }
+        return '/'
+    }
     useEffect(() => {
         endSession()
         fetchUserInfo()
@@ -162,6 +173,8 @@ const Header = (props) => {
                      closeDrawer={closeDrawer}
                      isDark={props.isDark}
                      name={props.name}
+                     logout={handleLogout}
+                     userInfo={userInfo}
             />
             <AppBar position="static" className={props.isDark ? classes.dark : classes.light}>
                 <Toolbar>
@@ -170,7 +183,7 @@ const Header = (props) => {
                             <MenuIcon className={classes.menuButton}/>
                         </IconButton>}
                     <Typography variant="h6" className={classes.title}>
-                        <a href="/"><img src={habitatLogo} className={classes.logo}/></a>
+                        <a href={returnLogoLink()}><img src={habitatLogo} className={classes.logo}/></a>
                     </Typography>
                     <Select
                         value={language}
