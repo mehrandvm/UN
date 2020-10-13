@@ -91,6 +91,7 @@ const vocabs = {
     'survey-forms': 'فرم های ارزیابی',
     'categories': 'دسته بندی ها',
     'questions': 'سوالات',
+    'loading-data': 'در حال بارگذاری'
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;

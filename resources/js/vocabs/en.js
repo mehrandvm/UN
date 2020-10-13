@@ -91,6 +91,7 @@ const vocabs = {
     'survey-forms': 'Survey Forms',
     'categories': 'Categories',
     'questions': 'Questions',
+    'loading-data': 'Loading Data'
 };
 
 export const en = (key) => vocabs[key] || `unknown(${key})`;
