@@ -116,22 +116,22 @@ const Login = (props) => {
                 setIsAuthenticating(false);
                 axiosInstance.get('/management/permission/view-dashboard').then((res) => {
                     if (res.data.status_code === 200) {
+                        enqueueSnackbar('Login successful', {variant: 'success'})
                         history.push('/dashboard')
-                    }
-                    else {
+                    } else {
+                        enqueueSnackbar('Login successful', {variant: 'success'})
                         history.push('/mydashboard')
                     }
-                }).catch((e)=>{
+                }).catch((e) => {
                     console.error(e)
                 })
-                enqueueSnackbar('Login successful', {variant: 'success'})
-                // enqueueSnackbar(vocabs('user-expired'), {variant: 'info'})
             } catch (e) {
-                console.log(e.message);
-                if (e.message == 401) {
-                    enqueueSnackbar('Invalid username or password', {variant: 'error'});
-                }else if (e.message == 403) {
-                    enqueueSnackbar(vocabs('user-expired'), {variant: 'info'});
+                if (e.message === 'UserExpired') {
+                    enqueueSnackbar(vocabs('user-expired'), {variant: 'error'})
+                } else if (e.message === 'Unauthorized') {
+                    enqueueSnackbar(vocabs('unauthorized'), {variant: 'error'})
+                } else {
+                    enqueueSnackbar(vocabs('auth-error'), {variant: 'error'})
                 }
                 setIsAuthenticating(false);
             }

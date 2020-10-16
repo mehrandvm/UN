@@ -44,8 +44,8 @@ const vocabs = {
     'admin': 'ادمین',
     'dashboard': 'داشبورد',
     'home': 'خانه',
-    'users': 'کاربران',
-    'tasks': 'وظایف',
+    'users': 'تعیین کاربران',
+    'tasks': 'تعیین وظایف',
     'my-tasks': 'وظایف من',
     'profile': 'پروفایل',
     'my-tasks-table': 'جدول وظایف من',
@@ -79,6 +79,19 @@ const vocabs = {
     'confirm-incident': 'تایید حادثه',
     'loading-dashboard': 'در حال بارگذاری داشبورد...',
     'user-expired': 'نام کاربری یا پسورد شما منقضی شده است',
+    'unauthorized': 'نام کاربری یا پسورد شما نادرست می باشد',
+    'auth-error': 'خطای ورود',
+    'survey-table': 'جدول فرم ها',
+    'category-table': 'جدول دسته بندی ها',
+    'question-table': 'جدول سوال ها',
+    'stage-one-name': 'ارزیابی خسارت',
+    'stage-two-name': 'پی و ستون ها',
+    'stage-three-name': 'دیوار ها و سقف ها',
+    'stage-four-name': 'نازک کاری',
+    'survey-forms': 'فرم های ارزیابی',
+    'categories': 'دسته بندی ها',
+    'questions': 'سوالات',
+    'loading-data': 'در حال بارگذاری'
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;

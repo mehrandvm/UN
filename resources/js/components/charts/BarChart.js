@@ -33,6 +33,7 @@ const returnOptions = (isLog) => {
     const options = {
         legend: {
             display: true,
+            position: 'bottom',
         },
         scales: {
             yAxes: [{

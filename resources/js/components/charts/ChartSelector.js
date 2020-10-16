@@ -19,9 +19,9 @@ const ChartSelector = (props) => {
     //     const validData = {labels: dataset.labels, datasets: dataset.datasets, theme: dataset.theme}
     //     return validData
     // }
-    useEffect(()=>{
+    useEffect(() => {
 
-    },[props.divisionLevel])
+    }, [props.divisionLevel])
 
     const returnRandomDataBasedOnStage = (baseData, theme) => {
         let data = []
@@ -49,15 +49,15 @@ const ChartSelector = (props) => {
             lastData = Math.floor(lastData * (random / 100))
         }
         if (theme === 0) {
-            return {[`${vocabs('stage-one')} (${divisionName})`]: data.reverse()}
+            return {[`${vocabs('stage-one-name')} (${divisionName})`]: data.reverse()}
         } else if (theme === 1) {
-            return {[`${vocabs('stage-two')} (${divisionName})`]: data.reverse()}
+            return {[`${vocabs('stage-two-name')} (${divisionName})`]: data.reverse()}
         } else if (theme === 2) {
-            return {[`${vocabs('stage-three')} (${divisionName})`]: data.reverse()}
+            return {[`${vocabs('stage-three-name')} (${divisionName})`]: data.reverse()}
         } else if (theme === 3) {
-            return {[`${vocabs('stage-four')} (${divisionName})`]: data.reverse()}
+            return {[`${vocabs('stage-four-name')} (${divisionName})`]: data.reverse()}
         } else if (theme === 4) {
-        return {[`Past Year Progress by Month (${divisionName})`]: data.reverse()}
+            return {[`Past Year Progress by Month (${divisionName})`]: data.reverse()}
         }
     }
 
@@ -103,10 +103,10 @@ const ChartSelector = (props) => {
         // const validData = {labels: Object.keys(dataset), dataset: Object.values(dataset),}
         const validData = {
             labels: [
-                `${vocabs('stage-one')} `,
-                `${vocabs('stage-two')} `,
-                `${vocabs('stage-three')} `,
-                `${vocabs('stage-four')} `,
+                `${vocabs('stage-one-name')} `,
+                `${vocabs('stage-two-name')} `,
+                `${vocabs('stage-three-name')} `,
+                `${vocabs('stage-four-name')} `,
             ],
             dataset: returnRandomDataBasedOnStage2(dataset, chart.theme),
         }
@@ -148,7 +148,20 @@ const ChartSelector = (props) => {
                 const random = 100 - Math.floor(Math.random() * 25)
                 lastData = Math.floor(lastData * (random / 100))
             }
-            lineData[`Stage ${i}`] = data.reverse()
+            switch (i) {
+                case 1:
+                    lineData[vocabs(`stage-one-name`)] = data.reverse()
+                    break;
+                case 2:
+                    lineData[vocabs(`stage-two-name`)] = data.reverse()
+                    break;
+                case 3:
+                    lineData[vocabs(`stage-three-name`)] = data.reverse()
+                    break;
+                case 4:
+                    lineData[vocabs(`stage-four-name`)] = data.reverse()
+                    break;
+            }
         }
         const validData = {
             labels: [

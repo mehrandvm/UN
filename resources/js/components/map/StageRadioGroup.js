@@ -29,10 +29,10 @@ const StageRadioGroup = (props) => {
     return (
         <FormControl component="fieldset" className={classes.container}>
             <RadioGroup value={stageNumber} onChange={handleChange}>
-                <FormControlLabel value={'1'} control={<Radio size={'small'}/>} label={vocabs('stage-one')}/>
-                <FormControlLabel value={'2'} control={<Radio size={'small'}/>} label={vocabs('stage-two')}/>
-                <FormControlLabel value={'3'} control={<Radio size={'small'}/>} label={vocabs('stage-three')}/>
-                <FormControlLabel value={'4'} control={<Radio size={'small'}/>} label={vocabs('stage-four')}/>
+                <FormControlLabel value={'1'} control={<Radio size={'small'}/>} label={vocabs('stage-one-name')}/>
+                <FormControlLabel value={'2'} control={<Radio size={'small'}/>} label={vocabs('stage-two-name')}/>
+                <FormControlLabel value={'3'} control={<Radio size={'small'}/>} label={vocabs('stage-three-name')}/>
+                <FormControlLabel value={'4'} control={<Radio size={'small'}/>} label={vocabs('stage-four-name')}/>
             </RadioGroup>
         </FormControl>
     );

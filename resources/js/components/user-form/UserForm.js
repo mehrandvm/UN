@@ -200,7 +200,7 @@ const UserForm = (props) => {
     const vocabs = getTranslator(useContext(LanguageContext).language);
     return (
         <div>
-            <Header/>
+            <Header role={'admin'}/>
             <form>
                 <Grid
                     container

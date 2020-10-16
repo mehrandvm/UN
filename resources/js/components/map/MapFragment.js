@@ -39,6 +39,7 @@ import {
     stylePoint4,
     stylePointDefault
 } from "./MapStyles";
+import BingMaps from "ol/source/BingMaps";
 
 class MapFragment extends React.Component {
     constructor(props) {
@@ -51,6 +52,18 @@ class MapFragment extends React.Component {
         this.map = new OlMap({
             layers: this.props.params.layers.map((layer, i) => {
                 switch (layer.type) {
+                    case 'bing':
+                        return new TileLayer({
+                            visible: true,
+                            preload: Infinity,
+                            source: new BingMaps({
+                                key: 'AttITYV-ApYhO6ybaJqUl5_Ik6_gDupG_YurVNVctA27KN_aISvmqU6c1usHIoD2',
+                                imagerySet: 'AerialWithLabelsOnDemand',
+                                // use maxZoom 19 to see stretched tiles instead of the BingMaps
+                                // "no photos at this zoom level" tiles
+                                maxZoom: 19
+                            }),
+                        })
                     case 'tile':
                         return new TileLayer({
                             source: new XYZSource({
@@ -321,7 +334,7 @@ class MapFragment extends React.Component {
     switchToNationalLayers() {
         this.turnProvinceInvisible();
         this.turnCountyInvisible();
-        if (this.props.dashboardAccessLevel === 'national'){
+        if (this.props.dashboardAccessLevel === 'national') {
             this.turnNationalVisible();
         } else {
             this.turnNationalInvisible();

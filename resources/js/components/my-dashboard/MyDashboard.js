@@ -96,7 +96,7 @@ const MyDashboard = (props) => {
 
     return (
         <div className={classes.container}>
-            <Header/>
+            <Header name={'my-dashboard'} role={'agent'}/>
             <Grid container className={classes.chartContainer} alignItems="center" spacing={2}>
                 <Grid item className={classes.tableTitle}>
                     <Link to={'/'}><IconButton><ArrowBackIcon/></IconButton></Link>
