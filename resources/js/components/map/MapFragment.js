@@ -40,13 +40,19 @@ import {
     stylePointDefault
 } from "./MapStyles";
 import BingMaps from "ol/source/BingMaps";
+import Switch from "@material-ui/core/Switch";
+import Typography from "@material-ui/core/Typography";
 
 class MapFragment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             selectProps: {},
+            bing: false
         }
+
+        this.handleBing = this.handleBing.bind(this)
+
         this.mapDivId = `map-${Math.random()}`;
 
         this.map = new OlMap({
@@ -266,56 +272,64 @@ class MapFragment extends React.Component {
     updateAllLayersStyle() {
         const updateStyle = (feature) => this.getStyleBasedOnStage(feature)
         if (this.props.divisionLevel === "national") {
-            this.map.getLayers().getArray()[1].setStyle(updateStyle)
+            this.map.getLayers().getArray()[2].setStyle(updateStyle)
         } else if (this.props.divisionLevel === "province") {
-            this.map.getLayers().getArray()[2].setStyle(updateStyle)
+            this.map.getLayers().getArray()[3].setStyle(updateStyle)
         } else if (this.props.divisionLevel === "county") {
-            this.map.getLayers().getArray()[2].setStyle(updateStyle)
             this.map.getLayers().getArray()[3].setStyle(updateStyle)
+            this.map.getLayers().getArray()[4].setStyle(updateStyle)
         } else if (this.props.divisionLevel === "village") {
-            this.map.getLayers().getArray()[2].setStyle(updateStyle)
             this.map.getLayers().getArray()[3].setStyle(updateStyle)
+            this.map.getLayers().getArray()[4].setStyle(updateStyle)
         }
     }
 
-    turnNationalInvisible() {
+    turnBingInvisible() {
         this.map.getLayers().getArray()[1].setVisible(false)
     }
 
-    turnNationalVisible() {
+    turnBingVisible() {
         this.map.getLayers().getArray()[1].setVisible(true)
     }
 
-    turnProvinceInvisible() {
+    turnNationalInvisible() {
         this.map.getLayers().getArray()[2].setVisible(false)
     }
 
-    turnProvinceVisible() {
+    turnNationalVisible() {
         this.map.getLayers().getArray()[2].setVisible(true)
     }
 
-    turnCountyInvisible() {
+    turnProvinceInvisible() {
         this.map.getLayers().getArray()[3].setVisible(false)
     }
 
-    turnCountyVisible() {
+    turnProvinceVisible() {
         this.map.getLayers().getArray()[3].setVisible(true)
     }
 
+    turnCountyInvisible() {
+        this.map.getLayers().getArray()[4].setVisible(false)
+    }
+
+    turnCountyVisible() {
+        this.map.getLayers().getArray()[4].setVisible(true)
+    }
+
     turnFloodVisible() {
-        this.map.getLayers().getArray()[4].setOpacity(0.6)
-    }
-
-    turnFloodInVisible() {
-        this.map.getLayers().getArray()[4].setOpacity(0)
-    }
-
-    turnSeismicVisible() {
         this.map.getLayers().getArray()[5].setOpacity(0.6)
     }
 
-    turnSeismicInVisible() {
+    turnFloodInVisible() {
         this.map.getLayers().getArray()[5].setOpacity(0)
+    }
+
+    turnSeismicVisible() {
+        this.map.getLayers().getArray()[6].setOpacity(0.6)
+    }
+
+    turnSeismicInVisible() {
+        this.map.getLayers().getArray()[6].setOpacity(0)
     }
 
     handleHazards() {
@@ -359,6 +373,16 @@ class MapFragment extends React.Component {
         this.turnCountyVisible();
     }
 
+    handleBing() {
+        if (this.state.bing) {
+            this.setState({bing: false})
+            this.turnBingInvisible()
+        } else {
+            this.setState({bing: true})
+            this.turnBingVisible()
+        }
+    }
+
     render() {
         switch (this.props.divisionLevel) {
             case("national"):
@@ -399,6 +423,18 @@ class MapFragment extends React.Component {
                     <div style={{position: 'absolute', bottom: 0, right: 0}}>
                         <HazardSelector hazards={this.props.mapHazards}
                                         setHazards={this.props.setMapHazards}/>
+                    </div>
+                    <div style={{
+                        position: 'absolute',
+                        top: 60,
+                        left: 0,
+                        transform: 'rotate(90deg)',
+                        backgroundColor: 'rgb(255,255,255,0.6)',
+                        borderRadius: 10,
+                        margin: 5,
+                    }}>
+                        <Switch size="small" checked={this.state.bing} onChange={this.handleBing}/>
+                        <Typography style={{fontSize: '0.675rem'}}>{this.state.bing ? 'BING' : 'OSM'}</Typography>
                     </div>
                 </Grid>
             </Grid>
