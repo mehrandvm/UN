@@ -42,6 +42,7 @@ import axiosInstance from "../../apis/AxiosConfig";
 import Typography from "@material-ui/core/Typography";
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
@@ -201,7 +202,8 @@ const EditColumnHeaderCell = () => {
 };
 
 const User = () => {
-    const vocabs = getTranslator(useContext(LanguageContext).language);
+    const language = useContext(LanguageContext).language
+    const vocabs = getTranslator(language);
     const classes = useStyles();
     const [columns, setColumns] = useState([
         {name: 'f_name', title: vocabs('first-name')},
@@ -325,7 +327,8 @@ const User = () => {
             <Header name={'user'} role={'admin'}/>
             <Grid container className={classes.chartContainer} alignItems="center">
                 <Grid item className={classes.tableTitle}>
-                    <Link to={'/dashboard'}><IconButton><ArrowBackIcon/></IconButton></Link>
+                    <Link to={'/dashboard'}><IconButton>{language === 'en' ? <ArrowBackIcon/> :
+                        <ArrowForwardIcon/>}</IconButton></Link>
                 </Grid>
                 <Grid item className={classes.tableTitle}>
                     <Typography variant={'h5'}>{vocabs('users-table')}</Typography>

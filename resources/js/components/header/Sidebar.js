@@ -135,7 +135,7 @@ const Sidebar = (props) => {
             })
             sidebarOptions.push({
                 title: vocabs("questions"),
-                link: "/questions",
+                link: "/question",
                 icon: <FormatListBulletedIcon/>,
                 name: 'question'
             })
