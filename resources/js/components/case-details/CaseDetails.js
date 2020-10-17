@@ -17,7 +17,7 @@ import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 import {useSnackbar} from "notistack";
 import ImageViewer from "./ImageViewer";
 import BuildingMap from "./BuildingMap";
-import StageUtilButtons from "./EditColumnCell";
+import StageUtilButtons from "./StageUtilButtons";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
