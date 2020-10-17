@@ -28,6 +28,7 @@ import Category from "./components/category/Category";
 import SurveyForm from "./components/survey-form/SurveyForm";
 import Cases from "./components/cases/Cases";
 import Question from "./components/question/Question";
+import CaseDetails from "./components/case-details/CaseDetails";
 
 const jss = create({plugins: [...jssPreset().plugins, rtl()]});
 
@@ -92,9 +93,9 @@ const Index = () => {
                             <div dir={language==='en'? 'ltr' : 'rtl'}>
                                 <Router>
                                     <Switch>
-                                        <Route exact path="/cases">
-                                            <Cases/>
-                                        </Route>
+                                        {/*<Route exact path="/cases">*/}
+                                        {/*    <Cases/>*/}
+                                        {/*</Route>*/}
                                         <Route exact path="/question">
                                             <Question/>
                                         </Route>
@@ -121,6 +122,9 @@ const Index = () => {
                                         </Route>
                                         <Route exact path="/objections/:id">
                                             <Objections/>
+                                        </Route>
+                                        <Route exact path="/cases/:case">
+                                            <CaseDetails/>
                                         </Route>
                                         <Route exact path="/mytasks/:filter">
                                             <MyTasks/>
