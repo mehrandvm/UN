@@ -60,7 +60,8 @@ const MyDashboard = (props) => {
     const [units, setUnits] = useState([])
     const [loading, setLoading] = useState(false)
     const classes = useStyles()
-    const vocabs = getTranslator(useContext(LanguageContext).language);
+    const language = useContext(LanguageContext).language
+    const vocabs = getTranslator(language);
 
     const fetchRows = () => {
         setLoading(true)
@@ -98,9 +99,6 @@ const MyDashboard = (props) => {
         <div className={classes.container}>
             <Header name={'my-dashboard'} role={'agent'}/>
             <Grid container className={classes.chartContainer} alignItems="center" spacing={2}>
-                <Grid item className={classes.tableTitle}>
-                    <Link to={'/'}><IconButton><ArrowBackIcon/></IconButton></Link>
-                </Grid>
                 <Grid item className={classes.tableTitle}>
                     <Typography variant={'h5'}>{vocabs('my-dashboard')}</Typography>
                 </Grid>

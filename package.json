@@ -39,6 +39,7 @@
         "notistack": "^1.0.0",
         "ol": "^6.4.3",
         "react-chartjs-2": "^2.10.0",
-        "react-router-dom": "^5.2.0"
+        "react-router-dom": "^5.2.0",
+        "react-simple-image-viewer": "0.0.4"
     }
 }

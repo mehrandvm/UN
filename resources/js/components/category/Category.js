@@ -18,6 +18,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import Header from "../header/Header";
 import {Link} from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import {getTranslator} from "../../vocabs";
@@ -208,13 +209,15 @@ const Category = () => {
         getRows()
     };
     const classes = useStyles()
-    const vocabs = getTranslator(useContext(LanguageContext).language);
+    const language = useContext(LanguageContext).language
+    const vocabs = getTranslator(language);
     return (
         <div className={classes.container}>
         <Header name={'category'} role={'admin'}/>
             <Grid container className={classes.chartContainer} alignItems="center">
                 <Grid item className={classes.tableTitle}>
-                    <Link to={'/dashboard'}><IconButton><ArrowBackIcon/></IconButton></Link>
+                    <Link to={'/dashboard'}><IconButton>{language === 'en' ? <ArrowBackIcon/> :
+                        <ArrowForwardIcon/>}</IconButton></Link>
                 </Grid>
                 <Grid item className={classes.tableTitle}>
                     <Typography variant={'h5'}>{vocabs('category-table')}</Typography>

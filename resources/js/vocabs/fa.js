@@ -71,7 +71,7 @@ const vocabs = {
     'yes': 'بله',
     'no': 'خیر',
     'export-letter': 'صدور نامه',
-    'preliminary': 'مقدماتی',
+    'preliminary': 'ارزیابی مقدماتی',
     'incident-name': 'نام حادثه',
     'coordinate-x': 'طول جغرافیایی حادثه',
     'coordinate-y': 'عرض جغرافیایی حادثه',
@@ -91,7 +91,8 @@ const vocabs = {
     'survey-forms': 'فرم های ارزیابی',
     'categories': 'دسته بندی ها',
     'questions': 'سوالات',
-    'loading-data': 'در حال بارگذاری'
+    'loading-data': 'در حال بارگذاری',
+    'case-details': 'جزییات پرونده'
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;
