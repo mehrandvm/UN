@@ -56,7 +56,7 @@ Route::prefix('management')->group(function () {
         Route::post('files/bank-issue', 'api\v1\FilesController@storeIssuePdf');
 
         Route::get('agent/subdivisions', 'api\v1\AgentController@rootSubdivision');
-        Route::get('agent/subdivisions/{id}', 'api\v1\AgentController@getSubdivision');
+        Route::get('agent/subdivisions/{id}', 'api\v1\AgentController@getChildSubdivision');
 
         Route::get('incident/form', 'api\v1\IncidentController@getAllSurveyForms');
         Route::get('incident/category', 'api\v1\IncidentController@getAllCategories');
