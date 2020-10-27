@@ -114,4 +114,22 @@ class AgentController extends Controller
             ]);
         }
     }
+
+    public function updateBuilding(Request $request, $id){
+        $user = Auth::user(); 
+        $target = Building::find($id);
+        if ($target) {
+            $target->update($request->all());
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'Building Successfully Updated',
+                'updated' => $request->all()
+            ]);
+        }else{
+            return response()->json([
+                'status_code' => $this->notFoundStatus,
+                'status_message' => 'Building not found',
+            ]);
+        }
+    }
 }
