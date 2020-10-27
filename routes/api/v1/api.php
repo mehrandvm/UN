@@ -57,6 +57,9 @@ Route::prefix('management')->group(function () {
 
         Route::get('agent/subdivisions', 'api\v1\AgentController@rootSubdivision');
         Route::get('agent/subdivisions/{id}', 'api\v1\AgentController@getChildSubdivision');
+        Route::post('agent/building/add', 'api\v1\AgentController@addBuilding');
+        Route::post('agent/building/{id}/sync', 'api\v1\AgentController@updateBuilding');
+        Route::post('agent/subdivision/{id}/sync', 'api\v1\AgentController@updateSubdivision');
 
         Route::get('incident/form', 'api\v1\IncidentController@getAllSurveyForms');
         Route::get('incident/category', 'api\v1\IncidentController@getAllCategories');

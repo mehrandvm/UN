@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use App\Building;
 use App\CountrySubdivision;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class AgentController extends Controller
 {
     public $successStatus = 200;
+    public $badRequestStatus = 401;
     public $forbiddenStatus = 403;
     public $notFoundStatus = 404;
-    public $badRequestStatus = 401;
 
     public function rootSubdivision(){
         $user = Auth::user();
@@ -84,6 +86,32 @@ class AgentController extends Controller
         }else{
             $array = array_merge($array, [(object) ['country_subdivision_id' => $subdivision->parent_id]]);
             return $this->findParent($array, $target);
+        }
+    }
+
+    public function addBuilding(Request $request){
+        $user = Auth::user(); 
+        $validator = Validator::make($request->all(), [
+            'subdivision' => 'required',
+            'lat' => 'required',
+            'long' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status_code' => $this->badRequestStatus,
+                'status_message' => 'Bad request',
+                'error' => $validator->errors()
+            ]);
+        } else {
+            $building = new Building();
+            $building->subdivision = $request->subdivision;
+            $building->lat = $request->lat;
+            $building->long = $request->long;
+            $building->save();
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'Building added successfully',
+            ]);
         }
     }
 }
