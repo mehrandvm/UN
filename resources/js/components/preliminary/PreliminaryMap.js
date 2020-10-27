@@ -97,6 +97,8 @@ class PreliminaryMap extends React.Component {
             chartBehdashtData: [],
             chartMudData: [],
             chartMasonaryData: [],
+            chartSteelData: [],
+            chartConcreteData: [],
             isSendingReq: false,
 
         }
@@ -316,6 +318,22 @@ class PreliminaryMap extends React.Component {
                 this.getFamilyCountOfFeature(features20KM)[3],
                 this.getFamilyCountOfFeature(features50KM)[3],
             ],
+            chartSteelData: [
+                this.getFamilyCountOfFeature(features2_5KM)[4],
+                this.getFamilyCountOfFeature(features5KM)[4],
+                this.getFamilyCountOfFeature(features7_5KM)[4],
+                this.getFamilyCountOfFeature(features10KM)[4],
+                this.getFamilyCountOfFeature(features20KM)[4],
+                this.getFamilyCountOfFeature(features50KM)[4],
+            ],
+            chartConcreteData: [
+                this.getFamilyCountOfFeature(features2_5KM)[4],
+                this.getFamilyCountOfFeature(features5KM)[4],
+                this.getFamilyCountOfFeature(features7_5KM)[4],
+                this.getFamilyCountOfFeature(features10KM)[4],
+                this.getFamilyCountOfFeature(features20KM)[4],
+                this.getFamilyCountOfFeature(features50KM)[4],
+            ],
         })
     }
 
@@ -324,19 +342,27 @@ class PreliminaryMap extends React.Component {
         let sumBehdasht = 0
         let sumMud = 0
         let sumMasonary = 0
+        let sumSteel = 0
+        let sumConcrete = 0
         features.map((feature, i) => {
             if (feature.get('V_BEHDASHY') === "+") {
                 sumBehdasht++
             }
-            if (feature.get('Type') === 1) {
-                sumMasonary++
+            if (feature.get('OtherMason')) {
+                sumMud+=feature.get('OtherMason')
             }
-            if (feature.get('Type') === 2) {
-                sumMud++
+            if (feature.get('AdobeMason')) {
+                sumMasonary+=feature.get('AdobeMason')
+            }
+            if (feature.get('Steel')) {
+                sumSteel+=feature.get('Steel')
+            }
+            if (feature.get('Concrete')) {
+                sumConcrete+=feature.get('Concrete')
             }
             sum += feature.get('V_NKHANEVA')
         })
-        return [sum, sumBehdasht, sumMud, sumMasonary]
+        return [sum, sumBehdasht, sumMud, sumMasonary, sumSteel, sumConcrete]
     }
 
     componentDidMount() {
@@ -381,8 +407,8 @@ class PreliminaryMap extends React.Component {
             'datasets': {
                 'Adobe Masonry': this.state.chartMudData,
                 'Other Masonary': this.state.chartMasonaryData,
-                'Steel': [],
-                'Concrete': [],
+                'Steel': this.state.chartSteelData,
+                'Concrete': this.state.chartConcreteData,
             },
             'theme': 2,
         }

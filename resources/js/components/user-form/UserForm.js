@@ -14,6 +14,7 @@ import {withPermission} from "../../utils/with-premission/withPermission";
 import axiosInstance from "../../apis/AxiosConfig";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import {useSnackbar} from "notistack";
 import {
     validateConfirmPassword,
@@ -197,7 +198,8 @@ const UserForm = (props) => {
             return user.roles
         }
     }
-    const vocabs = getTranslator(useContext(LanguageContext).language);
+    const language = useContext(LanguageContext).language
+    const vocabs = getTranslator(language);
     return (
         <div>
             <Header role={'admin'}/>
@@ -211,7 +213,8 @@ const UserForm = (props) => {
                     className={classes.container}
                 >
                     <Grid item className={classes.tableTitle}>
-                        <Link to={'/user'}><IconButton><ArrowBackIcon/></IconButton></Link>
+                        <Link to={'/user'}><IconButton>{language === 'en' ? <ArrowBackIcon/> :
+                            <ArrowForwardIcon/>}</IconButton></Link>
                     </Grid>
                     <Grid item className={classes.tableTitle}>
                         <Typography variant={'h5'}>{vocabs('users-form')}</Typography>
