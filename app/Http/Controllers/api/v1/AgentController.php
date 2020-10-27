@@ -132,4 +132,22 @@ class AgentController extends Controller
             ]);
         }
     }
+
+    public function updateSubdivision(Request $request, $id){
+        $user = Auth::user(); 
+        $target = CountrySubdivision::find($id);
+        if ($target) {
+            $target->update($request->all());
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'Subdivision Successfully Updated',
+                'updated' => $request->all()
+            ]);
+        }else{
+            return response()->json([
+                'status_code' => $this->notFoundStatus,
+                'status_message' => 'Subdivision not found',
+            ]);
+        }
+    }
 }
