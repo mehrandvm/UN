@@ -64,13 +64,13 @@ const vocabs = {
     'stage_number': 'مرحله',
     'is_wall_damaged': 'دیوار آسیب دیده',
     'view-objection': 'دیدن اعتراض',
-    'download-letter': 'دانلود نامه',
+    'download-letter': 'دانلود نامه بانک',
     'objection-review': 'بازدید اعتراض',
     'objection-text': 'متن اعتراض',
     'stage': 'مرحله',
     'yes': 'بله',
     'no': 'خیر',
-    'export-letter': 'صدور نامه',
+    'export-letter': 'صدور نامه به بانک',
     'preliminary': 'ارزیابی مقدماتی',
     'incident-name': 'نام حادثه',
     'coordinate-x': 'طول جغرافیایی حادثه',
@@ -92,7 +92,14 @@ const vocabs = {
     'categories': 'دسته بندی ها',
     'questions': 'سوالات',
     'loading-data': 'در حال بارگذاری',
-    'case-details': 'جزییات پرونده'
+    'case-details': 'جزییات پرونده',
+    'stage-1': 'ارزیابی خسارت',
+    'stage-2': 'پی و ستون ها',
+    'stage-3': 'دیوار ها و سقف ها',
+    'stage-4': 'نازک کاری',
+    'images': 'تصاویر',
+    'none': 'هیچکدام',
+    'hazard-placeholder': 'خطر انتخاب شده',
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;
