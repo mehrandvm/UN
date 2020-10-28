@@ -23,6 +23,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import noImage from "../../../images/no-image.png";
+import ImageGallery from "./ImageGallery";
 
 const data = []
 
@@ -75,6 +77,7 @@ const CaseDetails = () => {
     const vocabs = getTranslator(language);
     const [rows, setRows] = useState(data);
     const [loading, setLoading] = useState(false);
+    const [imageViewerOpen, setImageViewerOpen] = useState(false);
     const fetchRows = () => {
         setLoading(true)
         axiosInstance.get('/management/tasks/building').then((res) => {
@@ -92,7 +95,6 @@ const CaseDetails = () => {
                 }
                 return newRow
             })
-            console.log(params)
             if (params.filter === 'issues') {
                 const dataWithIssues = dat.filter((row) => {
                     return row.issued !== null
@@ -107,7 +109,8 @@ const CaseDetails = () => {
                 const dataWithReferrenceCode = dat.filter((row) => {
                     return row.referrence_code === params.case
                 })
-                setRows(dataWithReferrenceCode)
+                const sortedData = dataWithReferrenceCode.sort((a, b) => (a.stage_number > b.stage_number) ? 1 : -1)
+                setRows(sortedData)
             }
             setLoading(false)
         }).catch((e) => {
@@ -162,13 +165,7 @@ const CaseDetails = () => {
                             {vocabs('is_wall_damaged') + ': ' + rows[0].is_wall_damaged}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} sm={6} className={classes.tableTitle}>
-                        <ImageViewer/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} className={classes.tableTitle}>
-                        <BuildingMap vocabs={vocabs} subdivision={rows[0] ? rows[0].subdivision : ''}/>
-                    </Grid>
-                    <Grid item xs={12} className={classes.tableTitle}>
+                    <Grid item xs={12} sm={8} className={classes.tableTitle}>
                         <TableContainer component={Paper} className={classes.tableContainer}>
                             <Table className={classes.table} aria-label="simple table">
                                 <TableHead>
@@ -182,13 +179,22 @@ const CaseDetails = () => {
                                     {rows.map((row) => (
                                         <TableRow key={row.stage_number}>
                                             <TableCell>{row.referrence_code}</TableCell>
-                                            <TableCell align="right">{row.stage_number}</TableCell>
+                                            <TableCell align="right">{vocabs(`stage-${row.stage_number}`)}</TableCell>
                                             <StageUtilButtons row={row}/>
                                         </TableRow>
                                     ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                    </Grid>
+                    <Grid container item xs={12} sm={4} className={classes.tableTitle}>
+                        <Grid item xs={12} className={classes.tableTitle}>
+                            <BuildingMap vocabs={vocabs} referrence_code={params.case}/>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} className={classes.tableTitle}>
+                        <Typography variant={'h6'}>{vocabs('images')}</Typography>
+                        <ImageGallery/>
                     </Grid>
                 </Grid> : <CircularProgress size={50} className={classes.loading}/>}
         </div>

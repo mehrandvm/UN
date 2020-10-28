@@ -221,6 +221,7 @@ const MyTasks = (props) => {
     const vocabs = getTranslator(language);
     const [columns] = useState([
         {name: 'referrence_code', title: vocabs('referrence_code')},
+        {name: 'stage_number', title: vocabs('stage_number')},
         {name: 'subdivision', title: vocabs('subdivision')},
         {name: 'incident', title: vocabs('incident')},
         {name: 'damage_type', title: vocabs('damage_type')},
@@ -241,7 +242,14 @@ const MyTasks = (props) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [pageSize, setPageSize] = useState(10);
     const [pageSizes] = useState([5, 10]);
-    const [columnOrder, setColumnOrder] = useState([]);
+    const [columnOrder, setColumnOrder] = useState([
+        'referrence_code',
+        'stage_number',
+        'incident',
+        'damage_type',
+        'is_wall_damaged',
+        'subdivision',
+    ]);
     const [leftFixedColumns] = useState([TableEditColumn.COLUMN_TYPE]);
     const [totalSummaryItems] = useState([
         {columnName: 'discount', type: 'avg'},
@@ -266,6 +274,7 @@ const MyTasks = (props) => {
                 const newRow = {
                     id: dataRow.id,
                     referrence_code: dataRow.referrence_code,
+                    stage_number: dataRow.stage_number,
                     subdivision: dataRow.subdivision,
                     incident: dataRow.incident,
                     is_wall_damaged: dataRow.is_wall_damaged ? vocabs('yes') : vocabs('no'),
@@ -275,7 +284,6 @@ const MyTasks = (props) => {
                 }
                 return newRow
             })
-            console.log(params)
             if (params.filter === 'issues') {
                 const dataWithIssues = dat.filter((row) => {
                     return row.issued !== null
@@ -294,7 +302,8 @@ const MyTasks = (props) => {
                 // console.log(Object.keys(group))
                 // console.log(Object.values(group))
                 const sumCases = Object.values(group).map((item) => item[0])
-                setRows(sumCases)
+                console.log(dat)
+                setRows(dat)
             }
             setLoading(false)
         }).catch((e) => {
@@ -387,8 +396,6 @@ const MyTasks = (props) => {
 
                         <FilteringState
                             defaultFilters={[]}
-                            columnExtensions={[{columnName: 'referrence_code', filteringEnabled: true}]}
-                            columnFilteringEnabled={false}
                         />
 
                         <IntegratedFiltering/>

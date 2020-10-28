@@ -7,8 +7,8 @@ import Text from "ol/style/Text";
 export const stylePointDefault = new Style({
     image: new CircleStyle({
         radius: 3,
-        fill: new Fill({color: '#FFFFFF'}),
-        stroke: new Stroke({color: '#3399CC', width: 0}),
+        fill: new Fill({color: '#CCC'}),
+        stroke: new Stroke({color: '#000', width: 0}),
     }),
 })
 
@@ -329,8 +329,8 @@ export const styleCircle5 = (text) => new Style({
 
 export const stylePoint_selected = new Style({
     image: new CircleStyle({
-        radius: 5,
+        radius: 3,
         fill: new Fill({color: 'rgb(255,100,255,0.6)'}),
-        stroke: new Stroke({color: 'rgb(0,0,0,0.6)', width: 1.25}),
+        stroke: new Stroke({color: 'rgb(0,0,0,0.6)', width: 0}),
     }),
 })

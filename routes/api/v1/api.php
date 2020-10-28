@@ -28,7 +28,7 @@ Route::prefix('user')->group(function () {
 Route::prefix('management')->group(function () {
     Route::middleware(['auth:api'])->group(function () {
         Route::get('permission/{id}', 'api\v1\ManagementController@hasPermissions');
-        
+
         Route::get('roles', 'api\v1\ManagementController@getRoles');
 
         Route::get('users', 'api\v1\ManagementController@getAllUsers');
@@ -78,3 +78,4 @@ Route::prefix('management')->group(function () {
 });
 
 Route::post('analysis/incident', 'api\v1\AnalysisController@addIncident');
+Route::get('analysis/incident', 'api\v1\AnalysisController@getIncident');

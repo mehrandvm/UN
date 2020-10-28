@@ -89,7 +89,13 @@ const Index = () => {
                 }}
                 >
                     <LoginContext.Provider value={{token, setToken: setLoginToken, login}}>
-                        <SnackbarProvider maxSnack={3}>
+                        <SnackbarProvider
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'center',
+                            }}
+                            maxSnack={3}
+                        >
                             <div dir={language==='en'? 'ltr' : 'rtl'}>
                                 <Router>
                                     <Switch>
