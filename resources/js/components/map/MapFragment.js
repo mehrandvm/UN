@@ -20,7 +20,6 @@ import GeoJSON from "ol/format/GeoJSON";
 import OlMap from 'ol/Map';
 import MultiPolygon from "ol/geom/MultiPolygon";
 import StageRadioGroup from "./StageRadioGroup";
-import HazardSelector from "./HazardSelector";
 import countyFeatureList from '../../../static/village.json'
 import Select from "ol/interaction/Select";
 import SelectPropsViewer from "./SelectPropsViewer";
@@ -236,6 +235,7 @@ class MapFragment extends React.Component {
                 this.setState({selectProps: selectProps})
             }
         })
+        this.turnBingInvisible()
     }
 
     componentDidUpdate(oldProps) {
@@ -333,12 +333,12 @@ class MapFragment extends React.Component {
     }
 
     handleHazards() {
-        if (this.props.mapHazards.floodHazard) {
+        if (this.props.mapHazards === "floodHazard") {
             this.turnFloodVisible()
         } else {
             this.turnFloodInVisible()
         }
-        if (this.props.mapHazards.seismicHazard) {
+        if (this.props.mapHazards === "seismicHazard") {
             this.turnSeismicVisible()
         } else {
             this.turnSeismicInVisible()
@@ -412,7 +412,7 @@ class MapFragment extends React.Component {
                             height: '400px'
                         }}
                     />
-                    <div style={{position: 'absolute', top: 0, right: 0}}>
+                    <div style={{position: 'absolute', bottom: 0, right: 0}}>
                         <SelectPropsViewer selectProps={this.state.selectProps}
                                            divisionLevel={this.props.divisionLevel}/>
                     </div>
@@ -420,21 +420,16 @@ class MapFragment extends React.Component {
                         <StageRadioGroup stageNumber={this.props.stageNumber}
                                          setStageNumber={this.props.setStageNumber}/>
                     </div>
-                    <div style={{position: 'absolute', bottom: 0, right: 0}}>
-                        <HazardSelector hazards={this.props.mapHazards}
-                                        setHazards={this.props.setMapHazards}/>
-                    </div>
                     <div style={{
                         position: 'absolute',
-                        top: 60,
-                        left: 0,
-                        transform: 'rotate(90deg)',
+                        top: 0,
+                        right: 0,
                         backgroundColor: 'rgb(255,255,255,0.6)',
                         borderRadius: 10,
                         margin: 5,
                     }}>
-                        <Switch size="small" checked={this.state.bing} onChange={this.handleBing}/>
-                        <Typography style={{fontSize: '0.675rem'}}>{this.state.bing ? 'BING' : 'OSM'}</Typography>
+                        <Switch checked={this.state.bing} onChange={this.handleBing}/>
+                        <Typography style={{fontSize: '0.775rem'}}>{this.state.bing ? 'BING' : 'OSM'}</Typography>
                     </div>
                 </Grid>
             </Grid>
