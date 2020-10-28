@@ -9,13 +9,10 @@ const MapContainer = (props) => {
         selectedProvince,
         selectedCounty,
         selectedVillage,
-        dashboardAccessLevel
+        dashboardAccessLevel,
+        mapHazards
     } = props
     const [stageNumber, setStageNumber] = useState('1')
-    const [mapHazards, setMapHazards] = useState({
-        seismicHazard: false,
-        floodHazard: false,
-    });
     return (
         <>
             <MapFragment
@@ -29,7 +26,6 @@ const MapContainer = (props) => {
                 stageNumber={stageNumber}
                 setStageNumber={setStageNumber}
                 mapHazards={mapHazards}
-                setMapHazards={setMapHazards}
             />
         </>
     );
