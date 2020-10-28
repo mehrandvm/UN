@@ -21,7 +21,7 @@ import Circle from "ol/geom/Circle";
 import ScaleLine from "ol/control/ScaleLine";
 import {defaults} from "ol/control";
 import {
-    style0,
+    style0, stylePoint_selected,
     stylePointDefault
 } from "../map/MapStyles";
 import {withSnackbar} from "notistack";
@@ -70,7 +70,13 @@ const scaleControl = () => {
 class BuildingMap extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            updated: false
+        }
+
         this.adjustView = this.adjustView.bind(this)
+        this.getStyleBasedOnStage = this.getStyleBasedOnStage.bind(this)
 
         this.mapDivId = `map-${Math.random()}`;
         this.map = new OlMap({
@@ -125,7 +131,14 @@ class BuildingMap extends React.Component {
 
 
     getStyleBasedOnStage(feature) {
-        if (feature.getGeometry().getType() === "Point") {
+        if (feature.getGeometry().getType() === "Point"
+            && feature.get('referrence_code') - 35 === parseInt(this.props.referrence_code, 10)) {
+            if (!this.state.updated) {
+                this.adjustView(feature.getGeometry())
+                this.setState({updated: true})
+            }
+            return stylePoint_selected
+        } else if (feature.getGeometry().getType() === "Point") {
             return stylePointDefault
         } else {
             return style0('')
@@ -137,12 +150,8 @@ class BuildingMap extends React.Component {
         this.map.getLayers().getArray()[1].setStyle(updateStyle)
     }
 
-    adjustView() {
-        if (this.props.subdivision === 'ازگله') {
-            this.map.getView().animate({center: [45.8420, 34.8327]}, {zoom: 16})
-        } else if (this.props.subdivision === 'دره ژاله سفلي') {
-            this.map.getView().animate({center: [45.8358, 34.8059]}, {zoom: 16})
-        }
+    adjustView(geometry) {
+        this.map.getView().fit(geometry, {maxZoom: 19})
     }
 
     componentDidMount() {
@@ -154,7 +163,6 @@ class BuildingMap extends React.Component {
 
     render() {
         this.updateAllLayersStyle()
-        this.adjustView()
         return (
             <Grid container spacing={2}>
                 <Grid item container xs={12}
@@ -167,7 +175,7 @@ class BuildingMap extends React.Component {
                         <div
                             id={this.mapDivId}
                             style={{
-                                height: '400px'
+                                height: '300px'
                             }}
                         />
                     </Grid>

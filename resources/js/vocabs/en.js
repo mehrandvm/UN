@@ -55,7 +55,7 @@ const vocabs = {
     'list-of-appeals-objections': 'List of appeals / objections',
     'assigned-units': 'Assigned Units: ',
     'damage-assessments': 'Damage Assessments',
-    'issue-letter': 'Issue Letters',
+    'issue-letter': 'Issue Letter To Bank',
     'appeals-objections': 'Appeals / Objections',
     'referrence_code': 'Reference Code',
     'subdivision': 'Subdivision',
@@ -70,7 +70,7 @@ const vocabs = {
     'stage': 'Stage',
     'yes': 'Yes',
     'no': 'No',
-    'export-letter': 'Issue Letter',
+    'export-letter': 'Issue Letter To Bank',
     'preliminary': 'Preliminary',
     'incident-name': 'Incident Name',
     'coordinate-x': 'Incident X Coordinate',
@@ -92,7 +92,14 @@ const vocabs = {
     'categories': 'Categories',
     'questions': 'Questions',
     'loading-data': 'Loading Data',
-    'case-details': 'Case Details'
+    'case-details': 'Case Details',
+    'stage-1': 'Damage Assessment',
+    'stage-2': 'Foundation & Structure',
+    'stage-3': 'Walls & Ceiling',
+    'stage-4': 'Finishing',
+    'images': 'Images',
+    'none': 'None',
+    'hazard-placeholder': 'Selected Hazard',
 };
 
 export const en = (key) => vocabs[key] || `unknown(${key})`;

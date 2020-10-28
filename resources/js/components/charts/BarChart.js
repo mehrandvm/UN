@@ -38,7 +38,10 @@ const returnOptions = (isLog) => {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    callback: (value, index, values) => {
+                        return Number(value.toString());//pass tick values as a string into Number function
+                    },
                 },
                 type: isLog ? 'logarithmic' : 'linear',
             }]

@@ -81,7 +81,7 @@ const Sidebar = (props) => {
 
     const sidebarItems = () => {
         let sidebarOptions = []
-        sidebarOptions.push({title: vocabs("home"), link: "/", icon: <HomeIcon/>, name: 'home'})
+        // sidebarOptions.push({title: vocabs("home"), link: "/", icon: <HomeIcon/>, name: 'home'})
         if (manageIncidents) {
             sidebarOptions.push({
                 title: vocabs("preliminary"),

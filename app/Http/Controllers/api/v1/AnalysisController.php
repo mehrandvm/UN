@@ -16,7 +16,7 @@ class AnalysisController extends Controller
     public $badRequestStatus = 401;
 
     public function addIncident(Request $request){
-        $user = Auth::user(); 
+        $user = Auth::user();
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'lat' => 'required',
@@ -39,6 +39,14 @@ class AnalysisController extends Controller
                 'status_message' => 'Incident added successfully',
             ]);
         }
-        
     }
+    public function getIncident(){
+            $user = Auth::user();
+            $forms = Incident::all();
+            return response()->json([
+                'status_code' => $this->successStatus,
+                'status_message' => 'Success',
+                'data' => $forms
+            ]);
+        }
 }

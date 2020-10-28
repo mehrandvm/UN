@@ -13,6 +13,7 @@ import MapContainer from "../map/MapContainer";
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import MapWithControls from "./MapWithControls";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -129,7 +130,7 @@ const Dashboard = () => {
                             className={classes.mapContainer}
                             spacing={2}
                         >
-                            <DivisionSelectors
+                            <MapWithControls
                                 dashboardAccessLevel={dashboardAccessLevel}
                                 divisionLevel={divisionLevel}
                                 setDivisionLevel={setDivisionLevel}
@@ -141,23 +142,8 @@ const Dashboard = () => {
                                 setSelectedProvince={setSelectedProvince}
                                 setSelectedCounty={setSelectedCounty}
                                 setSelectedVillage={setSelectedVillage}
+                                mapParams={mapParams}
                             />
-                            {/*<Grid item xs={3}>*/}
-                            {/*    <HazardSelector mapHazards={mapHazards} setMapHazards={setMapHazards} />*/}
-                            {/*</Grid>*/}
-                            {mapParams ?
-                                <Grid item xs={12}>
-                                    <MapContainer
-                                        dashboardAccessLevel={dashboardAccessLevel}
-                                        params={mapParams}
-                                        divisionLevel={divisionLevel}
-                                        selectedNation={selectedNation}
-                                        selectedProvince={selectedProvince}
-                                        selectedCounty={selectedCounty}
-                                        selectedVillage={selectedVillage}
-                                    />
-                                </Grid>
-                                : null}
                             {mapBottomStats.map((chart, i) => {
                                     return (
                                         <Grid item xs={12} key={i}>
