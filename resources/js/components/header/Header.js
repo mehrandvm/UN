@@ -164,7 +164,7 @@ const Header = (props) => {
     useEffect(() => {
         endSession()
         fetchUserInfo()
-    })
+    },[])
     return (
         <div className={classes.root}>
             <Sidebar open={drawerOpen}

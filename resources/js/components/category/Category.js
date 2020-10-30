@@ -26,6 +26,11 @@ import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 import Grid from "@material-ui/core/Grid";
 import axiosInstance from "../../apis/AxiosConfig";
 import {withPermission} from "../../utils/with-premission/withPermission";
+import TableCell from "@material-ui/core/TableCell";
+import Select from "@material-ui/core/Select";
+import Input from "@material-ui/core/Input";
+import MenuItem from "@material-ui/core/MenuItem";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -54,9 +59,19 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'rgba(255,255,255,0.6)',
     },
     loading: {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
+        textAlign: 'center',
+    },
+    lookupEditCell: {
+        padding: theme.spacing(1),
+    },
+    dialog: {
+        width: 'calc(100% - 16px)',
+    },
+    inputRoot: {
+        width: '100%',
+    },
+    selectMenu: {
+        position: 'absolute !important',
     },
 }));
 
@@ -125,7 +140,50 @@ const Cell = (props) => {
     return <Table.Cell {...props} />;
 };
 
+const LookupEditCell = ({value, onValueChange, styles}) => {
+    const [forms, setForms] = useState(null)
+    const getForms = async () => {
+        axiosInstance.get('/management/incident/form').then(res => {
+            setForms(res.data.data)
+        }).catch(err => console.error(err))
+    }
+
+    useEffect(() => {
+        getForms()
+    }, [])
+    return (<TableCell
+            className={styles.lookupEditCell}
+        >
+            <Select
+                value={value}
+                onChange={event => onValueChange(event.target.value)}
+                MenuProps={{
+                    className: styles.selectMenu,
+                }}
+                input={(
+                    <Input
+                        classes={{root: styles.inputRoot}}
+                    />
+                )}
+            >
+                {forms ? forms.map(item => {
+                    return (
+                        <MenuItem key={item.id} value={item.id}>
+                            {item.name}
+                        </MenuItem>
+                    )
+                }) : <div className={styles.loading}><CircularProgress size={20} /></div>}
+            </Select>
+        </TableCell>
+    );
+}
+
 const EditCell = (props) => {
+    const {column} = props;
+    const classes = useStyles()
+    if (column.name === 'form') {
+        return <LookupEditCell {...props} styles={classes} />;
+    }
     return <TableEditRow.Cell {...props} />;
 };
 
@@ -135,13 +193,13 @@ const Category = () => {
     const [columns] = useState([
         {name: 'name', title: 'Category Name'},
         {name: 'weight', title: 'Weight'},
-        {name: 'form_id', title: 'Form Id'},
+        {name: 'form', title: 'Form'},
     ]);
     const [rows, setRows] = useState([])
     const [tableColumnExtensions] = useState([
         {columnName: 'name', width: 200},
         {columnName: 'weight', width: 180},
-        {columnName: 'form_id', width: 180},
+        {columnName: 'form', width: 180},
     ]);
     const [sorting, getSorting] = useState([]);
     const [editingRowIds, getEditingRowIds] = useState([]);
@@ -150,7 +208,7 @@ const Category = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [pageSize, setPageSize] = useState(0);
     const [pageSizes] = useState([5, 10, 0]);
-    const [columnOrder, setColumnOrder] = useState(['name', 'weight', 'form_id',]);
+    const [columnOrder, setColumnOrder] = useState(['name', 'weight', 'form',]);
 
     const getRows = async () => {
         try {
@@ -170,7 +228,7 @@ const Category = () => {
         value.map(row => (Object.keys(row).length ? row : {
             name: '',
             weight: '',
-            form_id: 0,
+            form: '',
         })),
     );
 
