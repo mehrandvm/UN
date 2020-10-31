@@ -104,7 +104,7 @@ class IncidentController extends Controller
         $categories = Category::all();
         foreach($categories as $category){
             $form = SurveyForm::find($question->category);
-            $question->category_name = $form->name;
+            $category->survey_form_name = $form->name;
         }
         return response()->json([
             'status_code' => $this->successStatus,
