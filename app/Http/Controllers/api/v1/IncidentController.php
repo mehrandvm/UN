@@ -15,7 +15,7 @@ class IncidentController extends Controller
     public $successStatus = 200;
     public $forbiddenStatus = 403;
     public $notFoundStatus = 404;
-    public $badRequestStatus = 404;
+    public $badRequestStatus = 401;
 
 
     public function addSurveyForm(Request $request){
@@ -102,6 +102,10 @@ class IncidentController extends Controller
     public function getAllCategories(){
         $user = Auth::user(); 
         $categories = Category::all();
+        foreach($categories as $category){
+            $form = SurveyForm::find($question->category);
+            $question->category_name = $form->name;
+        }
         return response()->json([
             'status_code' => $this->successStatus,
             'status_message' => 'Success',
