@@ -9,12 +9,37 @@ import axiosInstance from "../../apis/AxiosConfig";
 const ProvinceSelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
-    const {selectedDivision, setSelectedDivision, divisionLevel, dashboardAccessLevel, setDivisionLevel, clearProvince} = props;
+    const {
+        selectedDivision,
+        setSelectedDivision,
+        dashboardAccessLevel,
+        setDivisionLevel,
+        clearProvince,
+        setSelectedProvinceLayer,
+        setLoading
+    } = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
     const vocabs = getTranslator(useContext(LanguageContext).language);
 
     const isDisabled = () => !(dashboardAccessLevel === 'province' || dashboardAccessLevel === 'national')
-    const handleProvinceChange = () => setDivisionLevel("province")
+    const getProvinceLayer = async (province) => {
+        // await Axios.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AShahrestan&outputFormat=application%2Fjson')
+        //     .then(res => {
+        //     console.log(res.data)
+        // })
+        setLoading(true)
+        fetch('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AOstan&maxFeatures=50&outputFormat=application%2Fjson')
+            .then(response => response.json())
+            .then(data => {
+                const matchProvince = data.features.filter((provinceLayer) => {
+                    return provinceLayer.properties.province_F === "کرمانشاه"
+                })
+                setSelectedProvinceLayer(matchProvince[0])
+                setSelectedDivision(province)
+                setDivisionLevel("province")
+                setLoading(false)
+            });
+    }
 
     React.useEffect(() => {
         let active = true;
@@ -26,7 +51,6 @@ const ProvinceSelector = (props) => {
         (async () => {
             const Response = await axiosInstance.get('/management/subdivisions/0/child').then((res) => {
                 if (active) {
-                    console.log(res.data.data)
                     setOptions(res.data.data)
                 }
             });
@@ -42,7 +66,6 @@ const ProvinceSelector = (props) => {
             setOptions([]);
         }
     }, [open]);
-
     return (
         <Autocomplete
             style={{width: '100%'}}
@@ -61,11 +84,11 @@ const ProvinceSelector = (props) => {
             // getOptionDisabled={(option) => option.subdivision_name !== "Kermanshah"}
             value={selectedDivision}
             onChange={(event, newValue) => {
-                setSelectedDivision(newValue)
+                if (newValue) {
+                    getProvinceLayer(newValue)
+                }
                 if (newValue === null) {
                     clearProvince()
-                } else {
-                    setDivisionLevel("province")
                 }
             }}
             renderInput={(params) => (
