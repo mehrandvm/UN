@@ -1,9 +1,7 @@
 import React, {useContext} from 'react';
-import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import nationalFeatureCollection from '../../../static/national.json'
 import axiosInstance from "../../apis/AxiosConfig";
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
@@ -31,19 +29,12 @@ const ProvinceSelector = (props) => {
         }
 
         (async () => {
-            const response = await axiosInstance.get('/management/subdivisions/child/0').then((res)=>{
-                console.log(res.data)
-                setOptions(res.data.data)
-            }).catch((e)=>{
-                console.error(e)
+            const Response = await axiosInstance.get('/management/subdivisions/0/child').then((res) => {
+                if (active) {
+                    console.log(res.data.data)
+                    setOptions(res.data.data)
+                }
             });
-            // await sleep(1e3); // For demo purposes.
-            // const countries = await response.json();
-
-            if (active) {
-                // setOptions(nationalFeatureCollection.features)
-                // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
-            }
         })();
 
         return () => {
