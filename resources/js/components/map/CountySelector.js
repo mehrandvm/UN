@@ -2,21 +2,14 @@ import React, {useContext} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import countyFeatureCollection from '../../../static/county.json'
-import axiosInstance from "../../apis/AxiosConfig";
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
-
-function sleep(delay = 0) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, delay);
-    });
-}
+import axiosInstance from "../../apis/AxiosConfig";
 
 const CountySelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
-    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearCounty} = props;
+    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, selectedProvince,clearCounty} = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
     const vocabs = getTranslator(useContext(LanguageContext).language);
 
@@ -31,16 +24,12 @@ const CountySelector = (props) => {
         }
 
         (async () => {
-            // const response = await Axios.get('https://country.register.gov.uk/records.json?page-size=5000');
-            await sleep(1e3); // For demo purposes.
-            // const countries = await response.json();
-
-            if (active) {
-                // await axiosInstance.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson'
-                // ).then((res) => console.log(res))
-                setOptions(countyFeatureCollection.features)
-                // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
-            }
+            const response = await axiosInstance.get(`/management/subdivisions/${selectedProvince.id}/child`).then((res)=>{
+                if (active) {
+                    console.log(res.data.data)
+                    setOptions(res.data.data)
+                }
+            });
         })();
 
         return () => {
@@ -65,7 +54,7 @@ const CountySelector = (props) => {
                 setOpen(false);
             }}
             getOptionSelected={(option, value) => option === value}
-            getOptionLabel={(option) => option.properties.F_SHAHREST}
+            getOptionLabel={(option) => option.subdivision_name}
             options={options}
             loading={loading}
             disabled={isDisabled()}

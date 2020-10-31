@@ -1,17 +1,10 @@
 import React, {useContext} from 'react';
-import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import nationalFeatureCollection from '../../../static/national.json'
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
-
-function sleep(delay = 0) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, delay);
-    });
-}
+import axiosInstance from "../../apis/AxiosConfig";
 
 const ProvinceSelector = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -31,14 +24,12 @@ const ProvinceSelector = (props) => {
         }
 
         (async () => {
-            // const response = await Axios.get('https://country.register.gov.uk/records.json?page-size=5000');
-            await sleep(1e3); // For demo purposes.
-            // const countries = await response.json();
-
-            if (active) {
-                setOptions(nationalFeatureCollection.features)
-                // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
-            }
+            const Response = await axiosInstance.get('/management/subdivisions/0/child').then((res) => {
+                if (active) {
+                    console.log(res.data.data)
+                    setOptions(res.data.data)
+                }
+            });
         })();
 
         return () => {
@@ -54,7 +45,7 @@ const ProvinceSelector = (props) => {
 
     return (
         <Autocomplete
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             open={open}
             onOpen={() => {
                 setOpen(true);
@@ -63,16 +54,19 @@ const ProvinceSelector = (props) => {
                 setOpen(false);
             }}
             getOptionSelected={(option, value) => option === value}
-            getOptionLabel={(option) => option.properties.province}
+            getOptionLabel={(option) => option.subdivision_name}
             options={options}
             loading={loading}
             disabled={isDisabled()}
-            getOptionDisabled={(option) => option.properties.province !== "Kermanshah"}
+            // getOptionDisabled={(option) => option.subdivision_name !== "Kermanshah"}
             value={selectedDivision}
             onChange={(event, newValue) => {
                 setSelectedDivision(newValue)
-                if (newValue===null){clearProvince()}
-                else{setDivisionLevel("province")}
+                if (newValue === null) {
+                    clearProvince()
+                } else {
+                    setDivisionLevel("province")
+                }
             }}
             renderInput={(params) => (
                 <TextField
@@ -83,7 +77,7 @@ const ProvinceSelector = (props) => {
                         ...params.InputProps,
                         endAdornment: (
                             <React.Fragment>
-                                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                {loading ? <CircularProgress color="inherit" size={20}/> : null}
                                 {params.InputProps.endAdornment}
                             </React.Fragment>
                         ),

@@ -75,6 +75,7 @@ const DivisionSelectors = (props) => {
                     setSelectedDivision={setSelectedCounty}
                     divisionLevel={divisionLevel}
                     setDivisionLevel={setDivisionLevel}
+                    selectedProvince={selectedProvince}
                     clearCounty={clearCounty}
                 />
             </Grid>
