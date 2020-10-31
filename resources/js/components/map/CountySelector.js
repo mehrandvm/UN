@@ -9,12 +9,40 @@ import axiosInstance from "../../apis/AxiosConfig";
 const CountySelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
-    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, selectedProvince,clearCounty} = props;
+    const {
+        selectedDivision,
+        setSelectedDivision,
+        divisionLevel,
+        setDivisionLevel,
+        selectedProvince,
+        clearCounty,
+        setSelectedCountyLayer,
+        setLoading
+    } = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
     const vocabs = getTranslator(useContext(LanguageContext).language);
 
     const isDisabled = () => divisionLevel === "national" || divisionLevel === "none"
-    const handleCountyChange = () => setDivisionLevel("county")
+    const getCountyLayer = async (county) => {
+        // await Axios.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AShahrestan&outputFormat=application%2Fjson')
+        //     .then(res => {
+        //     console.log(res.data)
+        // })
+        setLoading(true)
+        fetch('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AShahrestan&outputFormat=application%2Fjson')
+            .then(response => response.json())
+            .then(data => {
+                const matchCounty = data.features.filter((countyLayer) => {
+                    // console.log(county)
+                    // console.log(countyLayer)
+                    return countyLayer.properties.OBJECTID === county.id + 2
+                })
+                setSelectedCountyLayer(matchCounty[0])
+                setSelectedDivision(county)
+                setDivisionLevel("county")
+                setLoading(false)
+            });
+    }
 
     React.useEffect(() => {
         let active = true;
@@ -24,9 +52,8 @@ const CountySelector = (props) => {
         }
 
         (async () => {
-            const response = await axiosInstance.get(`/management/subdivisions/${selectedProvince.id}/child`).then((res)=>{
+            const response = await axiosInstance.get(`/management/subdivisions/${selectedProvince.id}/child`).then((res) => {
                 if (active) {
-                    console.log(res.data.data)
                     setOptions(res.data.data)
                 }
             });
@@ -60,9 +87,14 @@ const CountySelector = (props) => {
             disabled={isDisabled()}
             value={selectedDivision}
             onChange={(event, newValue) => {
-                setSelectedDivision(newValue)
-                if (newValue===null){clearCounty()}
-                else{setDivisionLevel("county")}
+                if (newValue) {
+                    getCountyLayer(newValue)
+                }
+                if (newValue === null) {
+                    clearCounty()
+                    setSelectedCountyLayer(null)
+                    setDivisionLevel("province")
+                }
             }}
             renderInput={(params) => (
                 <TextField
