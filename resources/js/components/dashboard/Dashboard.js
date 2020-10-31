@@ -52,6 +52,9 @@ const useStyles = makeStyles(theme => ({
 const Dashboard = () => {
     const [divisionLevel, setDivisionLevel] = useState("national") // national, province, county, village
     const [dashboardAccessLevel, setDashboardAccessLevel] = useState("none") // national, province, county, village, none
+    const [selectedProvinceLayer, setSelectedProvinceLayer] = useState(null);
+    const [selectedCountyLayer, setSelectedCountyLayer] = useState(null);
+    const [selectedVillageLayer, setSelectedVillageLayer] = useState(null);
     const [selectedNation, setSelectedNation] = useState("Iran");
     const [selectedProvince, setSelectedProvince] = useState(null);
     const [selectedCounty, setSelectedCounty] = useState(null);
@@ -143,6 +146,12 @@ const Dashboard = () => {
                                 setSelectedCounty={setSelectedCounty}
                                 setSelectedVillage={setSelectedVillage}
                                 mapParams={mapParams}
+                                selectedProvinceLayer={selectedProvinceLayer}
+                                setSelectedProvinceLayer={setSelectedProvinceLayer}
+                                selectedCountyLayer={selectedCountyLayer}
+                                setSelectedCountyLayer={setSelectedCountyLayer}
+                                selectedVillageLayer={selectedVillageLayer}
+                                setSelectedVillageLayer={setSelectedVillageLayer}
                             />
                             {mapBottomStats.map((chart, i) => {
                                     return (
@@ -153,9 +162,9 @@ const Dashboard = () => {
                                                 chart={chart}
                                                 divisionLevel={divisionLevel}
                                                 selectedNation={selectedNation}
-                                                selectedProvince={selectedProvince}
-                                                selectedCounty={selectedCounty}
-                                                selectedVillage={selectedVillage}
+                                                selectedProvince={selectedProvinceLayer}
+                                                selectedCounty={selectedCountyLayer}
+                                                selectedVillage={selectedVillageLayer}
                                             />
                                         </Grid>
                                     )
@@ -180,9 +189,9 @@ const Dashboard = () => {
                                                 chart={chart}
                                                 divisionLevel={divisionLevel}
                                                 selectedNation={selectedNation}
-                                                selectedProvince={selectedProvince}
-                                                selectedCounty={selectedCounty}
-                                                selectedVillage={selectedVillage}
+                                                selectedProvince={selectedProvinceLayer}
+                                                selectedCounty={selectedCountyLayer}
+                                                selectedVillage={selectedVillageLayer}
                                             />
                                         </Grid>
                                     )
