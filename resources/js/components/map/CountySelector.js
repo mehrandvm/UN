@@ -2,26 +2,47 @@ import React, {useContext} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import countyFeatureCollection from '../../../static/county.json'
-import axiosInstance from "../../apis/AxiosConfig";
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
-
-function sleep(delay = 0) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, delay);
-    });
-}
+import axiosInstance from "../../apis/AxiosConfig";
 
 const CountySelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
-    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearCounty} = props;
+    const {
+        selectedDivision,
+        setSelectedDivision,
+        divisionLevel,
+        setDivisionLevel,
+        selectedProvince,
+        clearCounty,
+        setSelectedCountyLayer,
+        setLoading
+    } = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
     const vocabs = getTranslator(useContext(LanguageContext).language);
 
     const isDisabled = () => divisionLevel === "national" || divisionLevel === "none"
-    const handleCountyChange = () => setDivisionLevel("county")
+    const getCountyLayer = async (county) => {
+        // await Axios.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AShahrestan&outputFormat=application%2Fjson')
+        //     .then(res => {
+        //     console.log(res.data)
+        // })
+        setLoading(true)
+        fetch('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AShahrestan&outputFormat=application%2Fjson')
+            .then(response => response.json())
+            .then(data => {
+                const matchCounty = data.features.filter((countyLayer) => {
+                    // console.log(county)
+                    // console.log(countyLayer)
+                    return countyLayer.properties.OBJECTID === county.id + 2
+                })
+                setSelectedCountyLayer(matchCounty[0])
+                setSelectedDivision(county)
+                setDivisionLevel("county")
+                setLoading(false)
+            });
+    }
 
     React.useEffect(() => {
         let active = true;
@@ -31,16 +52,18 @@ const CountySelector = (props) => {
         }
 
         (async () => {
-            // const response = await Axios.get('https://country.register.gov.uk/records.json?page-size=5000');
-            await sleep(1e3); // For demo purposes.
-            // const countries = await response.json();
-
-            if (active) {
-                // await axiosInstance.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson'
-                // ).then((res) => console.log(res))
-                setOptions(countyFeatureCollection.features)
-                // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
-            }
+            // const response = await axiosInstance.get(`/management/subdivisions/${selectedProvince.id}/child`).then((res) => {
+            //     if (active) {
+            //         setOptions(res.data.data)
+            //     }
+            // });
+            fetch('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AShahrestan&maxFeatures=50&outputFormat=application%2Fjson')
+                .then(response => response.json())
+                .then(data => {
+                    if (active) {
+                        setOptions(data.features)
+                    }
+                });
         })();
 
         return () => {
@@ -71,9 +94,14 @@ const CountySelector = (props) => {
             disabled={isDisabled()}
             value={selectedDivision}
             onChange={(event, newValue) => {
-                setSelectedDivision(newValue)
-                if (newValue===null){clearCounty()}
-                else{setDivisionLevel("county")}
+                if (newValue) {
+                    getCountyLayer(newValue)
+                }
+                if (newValue === null) {
+                    clearCounty()
+                    setSelectedCountyLayer(null)
+                    setDivisionLevel("province")
+                }
             }}
             renderInput={(params) => (
                 <TextField

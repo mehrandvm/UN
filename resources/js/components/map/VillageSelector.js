@@ -1,28 +1,48 @@
 import React, {useContext} from 'react';
-import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import villageFeatureCollection from '../../../static/village.json'
 import axiosInstance from "../../apis/AxiosConfig";
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 
-function sleep(delay = 0) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, delay);
-    });
-}
-
 const VillageSelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
-    const {selectedDivision, setSelectedDivision, divisionLevel, setDivisionLevel, clearVillage, selectedCounty} = props;
+    const {
+        selectedDivision,
+        setSelectedDivision,
+        divisionLevel,
+        setDivisionLevel,
+        clearVillage,
+        selectedCounty,
+        setSelectedVillageLayer,
+        setLoading,
+    } = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
     const vocabs = getTranslator(useContext(LanguageContext).language);
 
     const isDisabled = () => divisionLevel === "national" || divisionLevel === "province" || divisionLevel === "none"
-    const handleVillageChange = () => setDivisionLevel("village")
+    const getVillageLayer = async (village) => {
+        // await Axios.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AShahrestan&outputFormat=application%2Fjson')
+        //     .then(res => {
+        //     console.log(res.data)
+        // })
+        setLoading(true)
+        fetch('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson')
+            .then(response => response.json())
+            .then(data => {
+                const matchVillage = data.features.filter((villageLayer) => {
+                    // console.log(village)
+                    // console.log(villageLayer)
+                    return villageLayer.properties.OBJECTID + 335 === village.id
+                })
+                setSelectedVillageLayer(matchVillage[0])
+                setSelectedDivision(village)
+                setDivisionLevel("village")
+                setLoading(false)
+            });
+    }
 
     React.useEffect(() => {
         let active = true;
@@ -32,18 +52,18 @@ const VillageSelector = (props) => {
         }
 
         (async () => {
-            // const response = await axiosInstance.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson'
-            await sleep(1e3); // For demo purposes.
-
-            // ).then((res)=>{
-            //     setOptions(res.data.features.filter((feature)=>feature.properties.F_SHAHREST === selectedCounty.properties.F_SHAHREST))
+            // const response = await axiosInstance.get(`/management/subdivisions/${selectedCounty.id}/child`).then((res) => {
+            //     if (active) {
+            //         setOptions(res.data.data)
+            //     }
             // });
-
-
-            if (active) {
-                setOptions(villageFeatureCollection.features.filter((feature)=>feature.properties.F_SHAHREST === selectedCounty.properties.F_SHAHREST))
-                // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
-            }
+            fetch('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson')
+                .then(response => response.json())
+                .then(data => {
+                    if (active) {
+                        setOptions(data.features.filter((feature)=>feature.properties.F_SHAHREST === selectedCounty.properties.F_SHAHREST))
+                    }
+                });
         })();
 
         return () => {
@@ -59,7 +79,7 @@ const VillageSelector = (props) => {
 
     return (
         <Autocomplete
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             open={open}
             onOpen={() => {
                 setOpen(true);
@@ -74,9 +94,14 @@ const VillageSelector = (props) => {
             disabled={isDisabled()}
             value={selectedDivision}
             onChange={(event, newValue) => {
-                setSelectedDivision(newValue)
-                if (newValue===null){clearVillage()}
-                else{setDivisionLevel("village")}
+                if (newValue) {
+                    getVillageLayer(newValue)
+                }
+                if (newValue === null) {
+                    clearVillage()
+                    setSelectedVillageLayer(null)
+                    setDivisionLevel("county")
+                }
             }}
             renderInput={(params) => (
                 <TextField
@@ -87,7 +112,7 @@ const VillageSelector = (props) => {
                         ...params.InputProps,
                         endAdornment: (
                             <React.Fragment>
-                                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                {loading ? <CircularProgress color="inherit" size={20}/> : null}
                                 {params.InputProps.endAdornment}
                             </React.Fragment>
                         ),

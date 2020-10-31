@@ -20,7 +20,6 @@ import GeoJSON from "ol/format/GeoJSON";
 import OlMap from 'ol/Map';
 import MultiPolygon from "ol/geom/MultiPolygon";
 import StageRadioGroup from "./StageRadioGroup";
-import countyFeatureList from '../../../static/village.json'
 import Select from "ol/interaction/Select";
 import SelectPropsViewer from "./SelectPropsViewer";
 import {
@@ -41,6 +40,7 @@ import {
 import BingMaps from "ol/source/BingMaps";
 import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
+import axiosInstance from "../../apis/AxiosConfig";
 
 class MapFragment extends React.Component {
     constructor(props) {
@@ -106,17 +106,19 @@ class MapFragment extends React.Component {
             style: style_selected(),
         });
     }
-
+//TODO: fix
     returnKhaneva(feature) {
-        let SUM_NKHANEVA = 0
-        const selectedVillages = countyFeatureList.features.filter((village) => {
-            return village.properties.F_SHAHREST === feature.get('F_SHAHREST')
-        })
-        selectedVillages.map((filteredVillage) => {
-            SUM_NKHANEVA += filteredVillage.properties.V_NKHANEVA
-        })
-        return SUM_NKHANEVA
-    }
+         // let SUM_NKHANEVA = 0
+         // const response = await axiosInstance.get(`/management/subdivisions/${this.props.selectedProvince.id}/child`)
+         // console.log('response',response)
+         // const selectedVillages = response.data.data.filter((village) => {
+         //     return village.properties.F_SHAHREST === feature.get('F_SHAHREST')
+         // })
+         // selectedVillages.map((filteredVillage) => {
+         //     SUM_NKHANEVA += filteredVillage.properties.V_NKHANEVA
+         // })
+         return 10000
+     }
 
     getStyleBasedOnStage(feature) {
         if (this.props.divisionLevel === "national") {

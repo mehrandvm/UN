@@ -2,16 +2,9 @@ import React, {useContext} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import countyFeatureCollection from '../../../static/county.json'
 import axiosInstance from "../../apis/AxiosConfig";
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
-
-function sleep(delay = 0) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, delay);
-    });
-}
 
 const CountySelector = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -31,22 +24,12 @@ const CountySelector = (props) => {
         }
 
         (async () => {
-            // const response = await Axios.get('https://country.register.gov.uk/records.json?page-size=5000');
-            const response = await axiosInstance.get(`/management/subdivisions/child/${selectedProvince.id}`).then((res)=>{
-                console.log(res.data)
-                setOptions(res.data.data)
-            }).catch((e)=>{
-                console.error(e)
+            const response = await axiosInstance.get(`/management/subdivisions/${selectedProvince.id}/child`).then((res)=>{
+                if (active) {
+                    console.log(res.data.data)
+                    setOptions(res.data.data)
+                }
             });
-            // await sleep(1e3); // For demo purposes.
-            // const countries = await response.json();
-
-            if (active) {
-                // await axiosInstance.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson'
-                // ).then((res) => console.log(res))
-                // setOptions(countyFeatureCollection.features)
-                // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
-            }
         })();
 
         return () => {

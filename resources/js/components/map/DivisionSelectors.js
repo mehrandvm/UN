@@ -22,7 +22,11 @@ const DivisionSelectors = (props) => {
         setSelectedCounty,
         setSelectedVillage,
         mapHazards,
-        setMapHazards
+        setMapHazards,
+        setSelectedProvinceLayer,
+        setSelectedCountyLayer,
+        setSelectedVillageLayer,
+        setLoading,
     } = props
 
     const clearNational = () => {
@@ -36,15 +40,21 @@ const DivisionSelectors = (props) => {
         setDivisionLevel("national")
         setSelectedCounty(null)
         setSelectedVillage(null)
+        setSelectedProvince(null)
+        setSelectedProvinceLayer(null)
     }
 
     const clearCounty = () => {
         setDivisionLevel("province")
         setSelectedVillage(null)
+        setSelectedCounty(null)
+        setSelectedCountyLayer(null)
     }
 
     const clearVillage = () => {
         setDivisionLevel("county")
+        setSelectedVillage(null)
+        setSelectedVillageLayer(null)
     }
 
     return (
@@ -67,6 +77,8 @@ const DivisionSelectors = (props) => {
                     divisionLevel={divisionLevel}
                     setDivisionLevel={setDivisionLevel}
                     clearProvince={clearProvince}
+                    setSelectedProvinceLayer={setSelectedProvinceLayer}
+                    setLoading={setLoading}
                 />
             </Grid>
             <Grid item xs={4} lg>
@@ -75,7 +87,10 @@ const DivisionSelectors = (props) => {
                     setSelectedDivision={setSelectedCounty}
                     divisionLevel={divisionLevel}
                     setDivisionLevel={setDivisionLevel}
+                    selectedProvince={selectedProvince}
                     clearCounty={clearCounty}
+                    setSelectedCountyLayer={setSelectedCountyLayer}
+                    setLoading={setLoading}
                 />
             </Grid>
             <Grid item xs={6} lg>
@@ -86,6 +101,8 @@ const DivisionSelectors = (props) => {
                     setDivisionLevel={setDivisionLevel}
                     clearVillage={clearVillage}
                     selectedCounty={selectedCounty}
+                    setSelectedVillageLayer={setSelectedVillageLayer}
+                    setLoading={setLoading}
                 />
             </Grid>
             <Grid item xs={6} lg>

@@ -5,6 +5,7 @@ import MapContainer from "../map/MapContainer";
 
 const MapWithControls = (props) => {
     const [mapHazards, setMapHazards] = useState('');
+    const [loading, setLoading] = useState(false);
     const {
         dashboardAccessLevel,
         divisionLevel,
@@ -17,6 +18,12 @@ const MapWithControls = (props) => {
         setSelectedProvince,
         setSelectedCounty,
         setSelectedVillage,
+        selectedProvinceLayer,
+        setSelectedProvinceLayer,
+        selectedCountyLayer,
+        setSelectedCountyLayer,
+        selectedVillageLayer,
+        setSelectedVillageLayer,
         mapParams,
     } = props
     return (
@@ -35,6 +42,13 @@ const MapWithControls = (props) => {
                 setSelectedVillage={setSelectedVillage}
                 mapHazards={mapHazards}
                 setMapHazards={setMapHazards}
+                selectedProvinceLayer={selectedProvinceLayer}
+                setSelectedProvinceLayer={setSelectedProvinceLayer}
+                selectedCountyLayer={selectedCountyLayer}
+                setSelectedCountyLayer={setSelectedCountyLayer}
+                selectedVillageLayer={selectedVillageLayer}
+                setSelectedVillageLayer={setSelectedVillageLayer}
+                setLoading={setLoading}
             />
             {mapParams ?
                 <Grid item xs={12}>
@@ -47,6 +61,13 @@ const MapWithControls = (props) => {
                         selectedCounty={selectedCounty}
                         selectedVillage={selectedVillage}
                         mapHazards={mapHazards}
+                        selectedProvinceLayer={selectedProvinceLayer}
+                        setSelectedProvinceLayer={setSelectedProvinceLayer}
+                        selectedCountyLayer={selectedCountyLayer}
+                        setSelectedCountyLayer={setSelectedCountyLayer}
+                        selectedVillageLayer={selectedVillageLayer}
+                        setSelectedVillageLayer={setSelectedVillageLayer}
+                        loading={loading}
                     />
                 </Grid>
                 : null}

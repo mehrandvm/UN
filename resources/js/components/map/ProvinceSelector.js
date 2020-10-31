@@ -1,27 +1,45 @@
 import React, {useContext} from 'react';
-import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import nationalFeatureCollection from '../../../static/national.json'
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
-
-function sleep(delay = 0) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, delay);
-    });
-}
+import axiosInstance from "../../apis/AxiosConfig";
 
 const ProvinceSelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
-    const {selectedDivision, setSelectedDivision, divisionLevel, dashboardAccessLevel, setDivisionLevel, clearProvince} = props;
+    const {
+        selectedDivision,
+        setSelectedDivision,
+        dashboardAccessLevel,
+        setDivisionLevel,
+        clearProvince,
+        setSelectedProvinceLayer,
+        setLoading
+    } = props;
     const loading = open && (selectedDivision === null || selectedDivision.length === 0);
     const vocabs = getTranslator(useContext(LanguageContext).language);
 
     const isDisabled = () => !(dashboardAccessLevel === 'province' || dashboardAccessLevel === 'national')
-    const handleProvinceChange = () => setDivisionLevel("province")
+    const getProvinceLayer = async (province) => {
+        // await Axios.get('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AShahrestan&outputFormat=application%2Fjson')
+        //     .then(res => {
+        //     console.log(res.data)
+        // })
+        setLoading(true)
+        fetch('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AOstan&maxFeatures=50&outputFormat=application%2Fjson')
+            .then(response => response.json())
+            .then(data => {
+                const matchProvince = data.features.filter((provinceLayer) => {
+                    return provinceLayer.properties.province_F === "کرمانشاه"
+                })
+                setSelectedProvinceLayer(matchProvince[0])
+                setSelectedDivision(province)
+                setDivisionLevel("province")
+                setLoading(false)
+            });
+    }
 
     React.useEffect(() => {
         let active = true;
@@ -31,14 +49,19 @@ const ProvinceSelector = (props) => {
         }
 
         (async () => {
-            // const response = await Axios.get('https://country.register.gov.uk/records.json?page-size=5000');
-            await sleep(1e3); // For demo purposes.
-            // const countries = await response.json();
-
-            if (active) {
-                setOptions(nationalFeatureCollection.features)
-                // setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
-            }
+            // const Response = await axiosInstance.get('/management/subdivisions/0/child').then((res) => {
+            //     if (active) {
+            //         setOptions(res.data.data)
+            //     }
+            // });
+            fetch('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AOstan&maxFeatures=50&outputFormat=application%2Fjson')
+                .then(response => response.json())
+                .then(data => {
+                    if (active) {
+                        // console.log(data)
+                        setOptions(data.features)
+                    }
+                });
         })();
 
         return () => {
@@ -51,10 +74,9 @@ const ProvinceSelector = (props) => {
             setOptions([]);
         }
     }, [open]);
-
     return (
         <Autocomplete
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             open={open}
             onOpen={() => {
                 setOpen(true);
@@ -63,16 +85,19 @@ const ProvinceSelector = (props) => {
                 setOpen(false);
             }}
             getOptionSelected={(option, value) => option === value}
-            getOptionLabel={(option) => option.properties.province}
+            getOptionLabel={(option) => option.properties.province_F}
             options={options}
             loading={loading}
             disabled={isDisabled()}
-            getOptionDisabled={(option) => option.properties.province !== "Kermanshah"}
+            getOptionDisabled={(option) => option.properties.province_F !== "کرمانشاه"}
             value={selectedDivision}
             onChange={(event, newValue) => {
-                setSelectedDivision(newValue)
-                if (newValue===null){clearProvince()}
-                else{setDivisionLevel("province")}
+                if (newValue) {
+                    getProvinceLayer(newValue)
+                }
+                if (newValue === null) {
+                    clearProvince()
+                }
             }}
             renderInput={(params) => (
                 <TextField
@@ -83,7 +108,7 @@ const ProvinceSelector = (props) => {
                         ...params.InputProps,
                         endAdornment: (
                             <React.Fragment>
-                                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                {loading ? <CircularProgress color="inherit" size={20}/> : null}
                                 {params.InputProps.endAdornment}
                             </React.Fragment>
                         ),
