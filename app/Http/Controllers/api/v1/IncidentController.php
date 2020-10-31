@@ -112,6 +112,9 @@ class IncidentController extends Controller
     public function getAllQuestions(){
         $user = Auth::user(); 
         $questions = Question::all();
+        foreach($questions as $question){
+            $question->category_name = Category::find($question->category)->name;
+        }
         return response()->json([
             'status_code' => $this->successStatus,
             'status_message' => 'Success',
