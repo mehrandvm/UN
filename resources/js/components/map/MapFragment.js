@@ -106,18 +106,18 @@ class MapFragment extends React.Component {
             style: style_selected(),
         });
     }
-
-     async returnKhaneva(feature) {
-         let SUM_NKHANEVA = 0
-         const response = await axiosInstance.get(`/management/subdivisions/${selectedProvince.id}/child`)
-         console.log(response)
-         const selectedVillages = response.features.filter((village) => {
-             return village.properties.F_SHAHREST === feature.get('F_SHAHREST')
-         })
-         selectedVillages.map((filteredVillage) => {
-             SUM_NKHANEVA += filteredVillage.properties.V_NKHANEVA
-         })
-         return SUM_NKHANEVA
+//TODO: fix
+    returnKhaneva(feature) {
+         // let SUM_NKHANEVA = 0
+         // const response = await axiosInstance.get(`/management/subdivisions/${this.props.selectedProvince.id}/child`)
+         // console.log('response',response)
+         // const selectedVillages = response.data.data.filter((village) => {
+         //     return village.properties.F_SHAHREST === feature.get('F_SHAHREST')
+         // })
+         // selectedVillages.map((filteredVillage) => {
+         //     SUM_NKHANEVA += filteredVillage.properties.V_NKHANEVA
+         // })
+         return 10000
      }
 
     getStyleBasedOnStage(feature) {
@@ -253,17 +253,17 @@ class MapFragment extends React.Component {
                 this.map.getView().animate({center: [53.6880, 32.4279]}, {zoom: 5})
                 break;
             case("province"):
-                const poly = new MultiPolygon(this.props.selectedProvince.geometry.coordinates)
+                const poly = new MultiPolygon(this.props.selectedProvinceLayer.geometry.coordinates)
                 this.map.getView().fit(poly.getExtent(),
                     {padding: [10, 10, 10, 10]})
                 break;
             case("county"):
-                const poly2 = new MultiPolygon(this.props.selectedCounty.geometry.coordinates)
+                const poly2 = new MultiPolygon(this.props.selectedCountyLayer.geometry.coordinates)
                 this.map.getView().fit(poly2.getExtent(),
                     {padding: [10, 10, 10, 10]})
                 break;
             case("village"):
-                const center = this.props.selectedVillage.geometry.coordinates
+                const center = this.props.selectedVillageLayer.geometry.coordinates
                 this.map.getView().animate({center: center}, {zoom: 13})
                 break;
             default:
