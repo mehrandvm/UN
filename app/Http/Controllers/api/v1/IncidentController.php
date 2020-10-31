@@ -103,7 +103,7 @@ class IncidentController extends Controller
         $user = Auth::user(); 
         $categories = Category::all();
         foreach($categories as $category){
-            $form = SurveyForm::find($question->category);
+            $form = SurveyForm::find($category->form);
             $category->survey_form_name = $form->name;
         }
         return response()->json([
