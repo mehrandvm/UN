@@ -253,17 +253,17 @@ class MapFragment extends React.Component {
                 this.map.getView().animate({center: [53.6880, 32.4279]}, {zoom: 5})
                 break;
             case("province"):
-                const poly = new MultiPolygon(this.props.selectedProvinceLayer.geometry.coordinates)
+                const poly = new MultiPolygon(this.props.selectedProvince.geometry.coordinates)
                 this.map.getView().fit(poly.getExtent(),
                     {padding: [10, 10, 10, 10]})
                 break;
             case("county"):
-                const poly2 = new MultiPolygon(this.props.selectedCountyLayer.geometry.coordinates)
+                const poly2 = new MultiPolygon(this.props.selectedCounty.geometry.coordinates)
                 this.map.getView().fit(poly2.getExtent(),
                     {padding: [10, 10, 10, 10]})
                 break;
             case("village"):
-                const center = this.props.selectedVillageLayer.geometry.coordinates
+                const center = this.props.selectedVillage.geometry.coordinates
                 this.map.getView().animate({center: center}, {zoom: 13})
                 break;
             default:

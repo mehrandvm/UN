@@ -162,9 +162,9 @@ const Dashboard = () => {
                                                 chart={chart}
                                                 divisionLevel={divisionLevel}
                                                 selectedNation={selectedNation}
-                                                selectedProvince={selectedProvinceLayer}
-                                                selectedCounty={selectedCountyLayer}
-                                                selectedVillage={selectedVillageLayer}
+                                                selectedProvince={selectedProvince}
+                                                selectedCounty={selectedCounty}
+                                                selectedVillage={selectedVillage}
                                             />
                                         </Grid>
                                     )
@@ -189,9 +189,9 @@ const Dashboard = () => {
                                                 chart={chart}
                                                 divisionLevel={divisionLevel}
                                                 selectedNation={selectedNation}
-                                                selectedProvince={selectedProvinceLayer}
-                                                selectedCounty={selectedCountyLayer}
-                                                selectedVillage={selectedVillageLayer}
+                                                selectedProvince={selectedProvince}
+                                                selectedCounty={selectedCounty}
+                                                selectedVillage={selectedVillage}
                                             />
                                         </Grid>
                                     )

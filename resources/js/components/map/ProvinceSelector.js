@@ -49,11 +49,19 @@ const ProvinceSelector = (props) => {
         }
 
         (async () => {
-            const Response = await axiosInstance.get('/management/subdivisions/0/child').then((res) => {
-                if (active) {
-                    setOptions(res.data.data)
-                }
-            });
+            // const Response = await axiosInstance.get('/management/subdivisions/0/child').then((res) => {
+            //     if (active) {
+            //         setOptions(res.data.data)
+            //     }
+            // });
+            fetch('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AOstan&maxFeatures=50&outputFormat=application%2Fjson')
+                .then(response => response.json())
+                .then(data => {
+                    if (active) {
+                        // console.log(data)
+                        setOptions(data.features)
+                    }
+                });
         })();
 
         return () => {
@@ -77,11 +85,11 @@ const ProvinceSelector = (props) => {
                 setOpen(false);
             }}
             getOptionSelected={(option, value) => option === value}
-            getOptionLabel={(option) => option.subdivision_name}
+            getOptionLabel={(option) => option.properties.province_F}
             options={options}
             loading={loading}
             disabled={isDisabled()}
-            // getOptionDisabled={(option) => option.subdivision_name !== "Kermanshah"}
+            getOptionDisabled={(option) => option.properties.province_F !== "کرمانشاه"}
             value={selectedDivision}
             onChange={(event, newValue) => {
                 if (newValue) {

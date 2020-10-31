@@ -52,11 +52,18 @@ const VillageSelector = (props) => {
         }
 
         (async () => {
-            const response = await axiosInstance.get(`/management/subdivisions/${selectedCounty.id}/child`).then((res) => {
-                if (active) {
-                    setOptions(res.data.data)
-                }
-            });
+            // const response = await axiosInstance.get(`/management/subdivisions/${selectedCounty.id}/child`).then((res) => {
+            //     if (active) {
+            //         setOptions(res.data.data)
+            //     }
+            // });
+            fetch('http://194.5.188.215:8080/geoserver/UN/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UN%3AK_Villages&outputFormat=application%2Fjson')
+                .then(response => response.json())
+                .then(data => {
+                    if (active) {
+                        setOptions(data.features.filter((feature)=>feature.properties.F_SHAHREST === selectedCounty.properties.F_SHAHREST))
+                    }
+                });
         })();
 
         return () => {
@@ -81,7 +88,7 @@ const VillageSelector = (props) => {
                 setOpen(false);
             }}
             getOptionSelected={(option, value) => option = value}
-            getOptionLabel={(option) => option.subdivision_name}
+            getOptionLabel={(option) => option.properties.V_ABADI}
             options={options}
             loading={loading}
             disabled={isDisabled()}
