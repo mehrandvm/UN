@@ -93,17 +93,18 @@ const EditButton = ({onExecute}) => (
 );
 
 const DeleteButton = ({onExecute}) => (
-    <IconButton
-        onClick={() => {
-            // eslint-disable-next-line
-            if (window.confirm('Are you sure you want to delete this row?')) {
-                onExecute();
-            }
-        }}
-        title="Delete row"
-    >
-        <DeleteIcon/>
-    </IconButton>
+    null
+    // <IconButton
+    //     onClick={() => {
+    //         // eslint-disable-next-line
+    //         if (window.confirm('Are you sure you want to delete this row?')) {
+    //             onExecute();
+    //         }
+    //     }}
+    //     title="Delete row"
+    // >
+    //     <DeleteIcon/>
+    // </IconButton>
 );
 
 const CommitButton = ({onExecute}) => (
@@ -150,9 +151,9 @@ const LookupEditCell = ({value, onValueChange, styles}) => {
     useEffect(() => {
         getIncidents()
     }, [])
-    return (<TableCell
-            className={styles.lookupEditCell}
-        >
+    return (
+        incidents ?
+        <TableCell className={styles.lookupEditCell}>
             <Select
                 value={value}
                 onChange={event => onValueChange(event.target.value)}
@@ -165,15 +166,15 @@ const LookupEditCell = ({value, onValueChange, styles}) => {
                     />
                 )}
             >
-                {incidents ? incidents.map(item => {
+                {incidents.map(item => {
                     return (
                         <MenuItem key={item.id} value={item.id}>
                             {item.name}
                         </MenuItem>
                     )
-                }) : <div className={styles.loading}><CircularProgress size={20} /></div>}
+                })}
             </Select>
-        </TableCell>
+        </TableCell> : <td className={styles.loading}><CircularProgress size={20} /></td>
     );
 }
 
@@ -189,9 +190,11 @@ const EditCell = (props) => {
 const getRowId = row => row.id;
 
 const SurveyForm = () => {
+    const language = useContext(LanguageContext).language
+    const vocabs = getTranslator(language);
     const [columns] = useState([
-        {name: 'name', title: 'Survey Name'},
-        {name: 'incident', title: 'Incident'},
+        {name: 'name', title: vocabs('survey-name')},
+        {name: 'incident', title: vocabs('incident')},
     ]);
     const [rows, setRows] = useState([])
     const [tableColumnExtensions] = useState([
@@ -256,7 +259,8 @@ const SurveyForm = () => {
         }
         if (changed) {
             const surveyID = Object.keys(changed)
-            axiosInstance.post(`/management/incident/form/${surveyID}/sync`)
+            const surveyUpdated = Object.values(changed)
+            axiosInstance.post(`/management/incident/form/${surveyID}/sync`,surveyUpdated[0])
             getRows()
             // changedRows = rows.map(row => (changed[row.id] ? {...row, ...changed[row.id]} : row));
         }
@@ -265,7 +269,6 @@ const SurveyForm = () => {
             // changedRows = deleteRows(deleted);
         }
     };
-    const vocabs = getTranslator(useContext(LanguageContext).language);
     return (
         <div className={classes.container}>
             <Header name={'survey-forms'} role={'admin'}/>
