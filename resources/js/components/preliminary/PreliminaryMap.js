@@ -379,37 +379,46 @@ class PreliminaryMap extends React.Component {
 
     render() {
         const vocabs = this.props.vocabs
+        const returnChartDataset = () => {
+            let dataset = {}
+            dataset[vocabs('household-in-radius')] = this.state.chartData
+            return dataset
+        }
         const chartData = {
             'type': 'bar',
             'labels': [
                 '2.5', '5', '7.5', '10', '20', '50',
             ],
-            'datasets': {
-                'Household in incident radius': this.state.chartData
-            },
+            'datasets': returnChartDataset(),
             'theme': 0,
+        }
+        const returnChartBehdashtDataset = () => {
+            let dataset = {}
+            dataset[vocabs('household-per-medical-center')] = this.state.chartBehdashtData
+            return dataset
         }
         const chartBehdashtData = {
             'type': 'bar',
             'labels': [
                 '2.5', '5', '7.5', '10', '20', '50',
             ],
-            'datasets': {
-                'Household per medical center in incident radius': this.state.chartBehdashtData
-            },
+            'datasets': returnChartBehdashtDataset(),
             'theme': 1,
+        }
+        const returnChartMudMasonaryDataset = () => {
+            let dataset = {}
+            dataset[vocabs('adobe-masonry')] = this.state.chartMudData
+            dataset[vocabs('other-masonry')] = this.state.chartMasonaryData
+            dataset[vocabs('steel')] = this.state.chartSteelData
+            dataset[vocabs('concrete')] = this.state.chartConcreteData
+            return dataset
         }
         const chartMudMasonaryData = {
             'type': 'bar',
             'labels': [
                 '2.5', '5', '7.5', '10', '20', '50',
             ],
-            'datasets': {
-                'Adobe Masonry': this.state.chartMudData,
-                'Other Masonary': this.state.chartMasonaryData,
-                'Steel': this.state.chartSteelData,
-                'Concrete': this.state.chartConcreteData,
-            },
+            'datasets': returnChartMudMasonaryDataset(),
             'theme': 2,
         }
         this.updateAllLayersStyle()
