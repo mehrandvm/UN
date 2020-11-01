@@ -5,10 +5,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 import axiosInstance from "../../apis/AxiosConfig";
+import {useSnackbar} from "notistack";
 
 const ProvinceSelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
+    const {enqueueSnackbar} = useSnackbar();
     const {
         selectedDivision,
         setSelectedDivision,
@@ -38,7 +40,9 @@ const ProvinceSelector = (props) => {
                 setSelectedDivision(province)
                 setDivisionLevel("province")
                 setLoading(false)
-            });
+            }).catch(e => {
+            enqueueSnackbar('Error fetching data!', {variant: "error"})
+        });
     }
 
     React.useEffect(() => {
@@ -61,7 +65,9 @@ const ProvinceSelector = (props) => {
                         // console.log(data)
                         setOptions(data.features)
                     }
-                });
+                }).catch(e => {
+                enqueueSnackbar('Error fetching data!', {variant: "error"})
+            });
         })();
 
         return () => {

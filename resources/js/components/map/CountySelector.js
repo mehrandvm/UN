@@ -5,10 +5,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
 import axiosInstance from "../../apis/AxiosConfig";
+import {useSnackbar} from "notistack";
 
 const CountySelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
+    const {enqueueSnackbar} = useSnackbar();
     const {
         selectedDivision,
         setSelectedDivision,
@@ -41,7 +43,9 @@ const CountySelector = (props) => {
                 setSelectedDivision(county)
                 setDivisionLevel("county")
                 setLoading(false)
-            });
+            }).catch(e => {
+            enqueueSnackbar('Error fetching data!', {variant: "error"})
+        });
     }
 
     React.useEffect(() => {
@@ -63,7 +67,9 @@ const CountySelector = (props) => {
                     if (active) {
                         setOptions(data.features)
                     }
-                });
+                }).catch(e => {
+                enqueueSnackbar('Error fetching data!', {variant: "error"})
+            });
         })();
 
         return () => {
