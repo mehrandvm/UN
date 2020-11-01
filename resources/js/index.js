@@ -29,6 +29,7 @@ import SurveyForm from "./components/survey-form/SurveyForm";
 import Cases from "./components/cases/Cases";
 import Question from "./components/question/Question";
 import CaseDetails from "./components/case-details/CaseDetails";
+import { useIdleTimer } from 'react-idle-timer'
 
 const jss = create({plugins: [...jssPreset().plugins, rtl()]});
 
@@ -77,6 +78,27 @@ const Index = () => {
             }
         })();
     }, [setLoginToken]);
+
+        const handleOnIdle = event => {
+            localStorage.removeItem("token")
+        }
+
+        const handleOnActive = event => {
+            // console.log('user is active', event)
+            // console.log('time remaining', getRemainingTime())
+        }
+
+        const handleOnAction = (e) => {
+            // console.log('user did something', e)
+        }
+
+        const { getRemainingTime, getLastActiveTime } = useIdleTimer({
+            timeout: 1000 * 60 * 15,
+            onIdle: handleOnIdle,
+            onActive: handleOnActive,
+            onAction: handleOnAction,
+            debounce: 500
+        })
 
     return (
         <ThemeProvider theme={language === "en" ? theme : themeRTL}>

@@ -5,10 +5,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import axiosInstance from "../../apis/AxiosConfig";
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
+import {useSnackbar} from "notistack";
 
 const VillageSelector = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
+    const {enqueueSnackbar} = useSnackbar();
     const {
         selectedDivision,
         setSelectedDivision,
@@ -41,7 +43,9 @@ const VillageSelector = (props) => {
                 setSelectedDivision(village)
                 setDivisionLevel("village")
                 setLoading(false)
-            });
+            }).catch(e => {
+            enqueueSnackbar('Error fetching data!', {variant: "error"})
+        });
     }
 
     React.useEffect(() => {
@@ -63,7 +67,9 @@ const VillageSelector = (props) => {
                     if (active) {
                         setOptions(data.features.filter((feature)=>feature.properties.F_SHAHREST === selectedCounty.properties.F_SHAHREST))
                     }
-                });
+                }).catch(e => {
+                enqueueSnackbar('Error fetching data!', {variant: "error"})
+            });
         })();
 
         return () => {

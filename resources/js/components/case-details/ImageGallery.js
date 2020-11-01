@@ -1,8 +1,7 @@
 import ImageViewer from "./ImageViewer";
 import React, {useState} from "react";
-import noImage from "../../../images/no-image.png";
 
-const imgs = [{src: noImage}, {src: noImage}, {src: noImage}, {src: noImage}]
+const imgs = []
 
 const ImageGallery = () => {
     const [currImage, setCurrImage] = useState(0)

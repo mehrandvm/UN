@@ -114,7 +114,7 @@ const Header = (props) => {
         const token = localStorage.getItem(tokenTitle)
         if (token) {
             const sessionTime = ((Date.now() / 1000) - parseJwt(token).iat) / 60
-            if (sessionTime > 60) {
+            if (sessionTime > 60 * 4) {
                 localStorage.removeItem(tokenTitle)
                 history.push('/login')
                 enqueueSnackbar('Session Expired!', {variant: 'info'})
@@ -164,7 +164,7 @@ const Header = (props) => {
     useEffect(() => {
         endSession()
         fetchUserInfo()
-    },[])
+    }, [])
     return (
         <div className={classes.root}>
             <Sidebar open={drawerOpen}
@@ -211,7 +211,7 @@ const Header = (props) => {
                             {/*{vocabs('profile')}*/}
                         </Button>
                         :
-                       null
+                        null
                     }
                     <Menu
                         anchorEl={anchorEl}

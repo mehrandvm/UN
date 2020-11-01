@@ -47,7 +47,7 @@ class MapFragment extends React.Component {
         super(props);
         this.state = {
             selectProps: {},
-            bing: false
+            bing: true
         }
 
         this.handleBing = this.handleBing.bind(this)
@@ -237,7 +237,7 @@ class MapFragment extends React.Component {
                 this.setState({selectProps: selectProps})
             }
         })
-        this.turnBingInvisible()
+        this.turnOSMInvisible()
     }
 
     componentDidUpdate(oldProps) {
@@ -284,6 +284,14 @@ class MapFragment extends React.Component {
             this.map.getLayers().getArray()[3].setStyle(updateStyle)
             this.map.getLayers().getArray()[4].setStyle(updateStyle)
         }
+    }
+
+    turnOSMInvisible() {
+        this.map.getLayers().getArray()[0].setVisible(false)
+    }
+
+    turnOSMVisible() {
+        this.map.getLayers().getArray()[0].setVisible(true)
     }
 
     turnBingInvisible() {
@@ -379,9 +387,11 @@ class MapFragment extends React.Component {
         if (this.state.bing) {
             this.setState({bing: false})
             this.turnBingInvisible()
+            this.turnOSMVisible()
         } else {
             this.setState({bing: true})
             this.turnBingVisible()
+            this.turnOSMInvisible()
         }
     }
 

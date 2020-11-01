@@ -97,9 +97,22 @@ const vocabs = {
     'stage-2': 'Foundation & Structure',
     'stage-3': 'Walls & Ceiling',
     'stage-4': 'Finishing',
-    'images': 'Images',
+    'images': 'Images & Attachments',
     'none': 'None',
     'hazard-placeholder': 'Selected Hazard',
+    'household-in-radius': 'Household in incident radius',
+    'household-per-medical-center': 'Household per medical center in incident radius',
+    'adobe-masonry': 'Adobe Masonry',
+    'other-masonry': 'Other Masonry',
+    'steel': 'Steel',
+    'concrete': 'Concrete',
+    'survey-name': 'Survey Name',
+    'category-name': 'Category Name',
+    'weight': 'Weight',
+    'form': 'Form',
+    'question-text': 'Question Text',
+    'rate': 'Rate',
+    'category': 'Category',
 };
 
 export const en = (key) => vocabs[key] || `unknown(${key})`;

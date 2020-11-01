@@ -5,7 +5,7 @@ import {Grid, Typography} from "@material-ui/core";
 import LineChart from "./LineChart";
 import {getTranslator} from "../../vocabs";
 import {LanguageContext} from "../../contexts/language-context/LanguageContext";
-
+import { defaults } from 'react-chartjs-2'
 
 const ChartSelector = (props) => {
     const vocabs = getTranslator(useContext(LanguageContext).language);
@@ -199,6 +199,7 @@ const ChartSelector = (props) => {
             return renderChart(props.chart)
         }
     }
+    defaults.global.defaultFontFamily= 'IRANSans'
     return (
         <Grid
             container

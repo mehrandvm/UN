@@ -97,9 +97,22 @@ const vocabs = {
     'stage-2': 'پی و ستون ها',
     'stage-3': 'دیوار ها و سقف ها',
     'stage-4': 'نازک کاری',
-    'images': 'تصاویر',
+    'images': 'تصاویر و پیوست ها',
     'none': 'هیچکدام',
     'hazard-placeholder': 'خطر انتخاب شده',
+    'household-in-radius': 'تعداد خانوار',
+    'household-per-medical-center': 'نسبت خانوار به مراکز بهداشت در شعاع حادثه',
+    'adobe-masonry': 'ساختمان گلی',
+    'other-masonry': 'ساختمان بنایی',
+    'steel': 'اسکلت فولادی',
+    'concrete': 'اسکلت بتنی',
+    'survey-name': 'نام فرم ارزیابی',
+    'category-name': 'نام دسته بندی',
+    'weight': 'وزن',
+    'form': 'فرم',
+    'question-text': 'متن سوال',
+    'rate': 'نرخ',
+    'category': 'دسته بندی',
 };
 
 export const fa = (key) => vocabs[key] || `${key}`;

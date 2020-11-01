@@ -132,7 +132,7 @@ class BuildingMap extends React.Component {
 
     getStyleBasedOnStage(feature) {
         if (feature.getGeometry().getType() === "Point"
-            && feature.get('referrence_code') - 35 === parseInt(this.props.referrence_code, 10)) {
+            && feature.get('referrence_code') === parseInt(this.props.referrence_code, 10)) {
             if (!this.state.updated) {
                 this.adjustView(feature.getGeometry())
                 this.setState({updated: true})
