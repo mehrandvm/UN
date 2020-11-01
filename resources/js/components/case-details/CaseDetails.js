@@ -171,7 +171,7 @@ const CaseDetails = () => {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>{vocabs('referrence_code')}</TableCell>
-                                        <TableCell align="right">{vocabs('stage_number')}</TableCell>
+                                        <TableCell>{vocabs('stage_number')}</TableCell>
                                         <TableCell/>
                                     </TableRow>
                                 </TableHead>
@@ -179,7 +179,7 @@ const CaseDetails = () => {
                                     {rows.map((row) => (
                                         <TableRow key={row.stage_number}>
                                             <TableCell>{row.referrence_code}</TableCell>
-                                            <TableCell align="right">{vocabs(`stage-${row.stage_number}`)}</TableCell>
+                                            <TableCell>{vocabs(`stage-${row.stage_number}`)+" "+`(${row.stage_number})`}</TableCell>
                                             <StageUtilButtons row={row}/>
                                         </TableRow>
                                     ))}
