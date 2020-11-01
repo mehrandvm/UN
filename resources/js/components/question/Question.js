@@ -94,17 +94,18 @@ const EditButton = ({onExecute}) => (
 );
 
 const DeleteButton = ({onExecute}) => (
-    <IconButton
-        onClick={() => {
-            // eslint-disable-next-line
-            if (window.confirm('Are you sure you want to delete this row?')) {
-                onExecute();
-            }
-        }}
-        title="Delete row"
-    >
-        <DeleteIcon/>
-    </IconButton>
+    null
+    // <IconButton
+    //     onClick={() => {
+    //         // eslint-disable-next-line
+    //         if (window.confirm('Are you sure you want to delete this row?')) {
+    //             onExecute();
+    //         }
+    //     }}
+    //     title="Delete row"
+    // >
+    //     <DeleteIcon/>
+    // </IconButton>
 );
 
 const CommitButton = ({onExecute}) => (
@@ -143,7 +144,7 @@ const Cell = (props) => {
 const LookupEditCell = ({value, onValueChange, styles}) => {
     const [categories, setCategories] = useState(null)
     const getCategories = async () => {
-        axiosInstance.get('/management/incident/form').then(res => {
+        axiosInstance.get('/management/incident/category').then(res => {
             setCategories(res.data.data)
         }).catch(err => console.error(err))
     }
@@ -151,9 +152,8 @@ const LookupEditCell = ({value, onValueChange, styles}) => {
     useEffect(() => {
         getCategories()
     }, [])
-    return (<TableCell
-            className={styles.lookupEditCell}
-        >
+    return (categories?
+            <TableCell className={styles.lookupEditCell}>
             <Select
                 value={value}
                 onChange={event => onValueChange(event.target.value)}
@@ -166,15 +166,15 @@ const LookupEditCell = ({value, onValueChange, styles}) => {
                     />
                 )}
             >
-                {categories ? categories.map(item => {
+                {categories.map(item => {
                     return (
                         <MenuItem key={item.id} value={item.id}>
                             {item.name}
                         </MenuItem>
                     )
-                }) : <div className={styles.loading}><CircularProgress size={20} /></div>}
+                })}
             </Select>
-        </TableCell>
+        </TableCell> : <td className={styles.loading}><CircularProgress size={20} /></td>
     );
 }
 
@@ -182,7 +182,11 @@ const EditCell = (props) => {
     const {column} = props;
     const classes = useStyles()
     if (column.name === 'category') {
-        return <LookupEditCell {...props} styles={classes} />;
+        console.log(props)
+        return <LookupEditCell {...props} styles={classes} value={props.row.category}/>;
+    }
+    if (column.name === 'total') {
+        return null;
     }
     return <TableEditRow.Cell {...props} />;
 };
@@ -190,16 +194,20 @@ const EditCell = (props) => {
 const getRowId = row => row.id;
 
 const Question = () => {
+    const language = useContext(LanguageContext).language
+    const vocabs = getTranslator(language);
     const [columns] = useState([
-        {name: 'text', title: 'Question Text'},
-        {name: 'rate', title: 'Rate'},
-        {name: 'category', title: 'Category'},
+        {name: 'text', title: vocabs('question-text')},
+        {name: 'rate', title: vocabs('rate')},
+        {name: 'category', title: vocabs('category'), getCellValue: (row) => (row.category_name)},
+        {name: 'total', title: vocabs('total'), getCellValue: (row) => (row.category_weight * row.rate)},
     ]);
     const [rows, setRows] = useState([])
     const [tableColumnExtensions] = useState([
         {columnName: 'text', width: 200},
         {columnName: 'rate', width: 180},
-        {columnName: 'category', width: 180},
+        {columnName: 'category', width: 180,},
+        {columnName: 'total', width: 180,},
     ]);
     const [sorting, getSorting] = useState([]);
     const [editingRowIds, getEditingRowIds] = useState([]);
@@ -208,7 +216,7 @@ const Question = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [pageSize, setPageSize] = useState(0);
     const [pageSizes] = useState([5, 10, 0]);
-    const [columnOrder, setColumnOrder] = useState(['text', 'rate', 'category',]);
+    const [columnOrder, setColumnOrder] = useState(['text', 'rate', 'category','total']);
 
     const getRows = async () => {
         try {
@@ -257,7 +265,8 @@ const Question = () => {
         }
         if (changed) {
             const questionID = Object.keys(changed)
-            axiosInstance.post(`/management/incident/question/${questionID}/sync`)
+            const questionUpdated = Object.values(changed)
+            axiosInstance.post(`/management/incident/question/${questionID}/sync`, questionUpdated[0])
             // changedRows = rows.map(row => (changed[row.id] ? {...row, ...changed[row.id]} : row));
         }
         if (deleted) {
@@ -267,8 +276,6 @@ const Question = () => {
         getRows()
     };
     const classes = useStyles()
-    const language = useContext(LanguageContext).language
-    const vocabs = getTranslator(language);
     return (
         <div className={classes.container}>
             <Header name={'question'} role={'admin'}/>
