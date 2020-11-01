@@ -21,6 +21,7 @@ const returnData = (data,) => {
                 backgroundColor: returnLineChartBackgroundColor(i, data.theme),
                 borderColor: returnLineChartColor(i, data.theme),
                 borderWidth: 1,
+                lineTension: 0,
                 hoverBackgroundColor: returnLineChartColor(i, data.theme),
                 hoverBorderColor: returnLineChartColor(i, data.theme),
                 data: dataset,
