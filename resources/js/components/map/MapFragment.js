@@ -41,6 +41,9 @@ import BingMaps from "ol/source/BingMaps";
 import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
 import axiosInstance from "../../apis/AxiosConfig";
+import Button from "@material-ui/core/Button";
+import osm_toggle from "../../../images/osm-toggle.jpg";
+import bing_toggle from "../../../images/bing-toggle.jpg";
 
 class MapFragment extends React.Component {
     constructor(props) {
@@ -106,19 +109,20 @@ class MapFragment extends React.Component {
             style: style_selected(),
         });
     }
+
 //TODO: fix
     returnKhaneva(feature) {
-         // let SUM_NKHANEVA = 0
-         // const response = await axiosInstance.get(`/management/subdivisions/${this.props.selectedProvince.id}/child`)
-         // console.log('response',response)
-         // const selectedVillages = response.data.data.filter((village) => {
-         //     return village.properties.F_SHAHREST === feature.get('F_SHAHREST')
-         // })
-         // selectedVillages.map((filteredVillage) => {
-         //     SUM_NKHANEVA += filteredVillage.properties.V_NKHANEVA
-         // })
-         return 10000
-     }
+        // let SUM_NKHANEVA = 0
+        // const response = await axiosInstance.get(`/management/subdivisions/${this.props.selectedProvince.id}/child`)
+        // console.log('response',response)
+        // const selectedVillages = response.data.data.filter((village) => {
+        //     return village.properties.F_SHAHREST === feature.get('F_SHAHREST')
+        // })
+        // selectedVillages.map((filteredVillage) => {
+        //     SUM_NKHANEVA += filteredVillage.properties.V_NKHANEVA
+        // })
+        return 10000
+    }
 
     getStyleBasedOnStage(feature) {
         if (this.props.divisionLevel === "national") {
@@ -343,12 +347,12 @@ class MapFragment extends React.Component {
     }
 
     handleHazards() {
-        if (this.props.mapHazards === "floodHazard") {
+        if (this.props.mapHazards.includes('flood')) {
             this.turnFloodVisible()
         } else {
             this.turnFloodInVisible()
         }
-        if (this.props.mapHazards === "seismicHazard") {
+        if (this.props.mapHazards.includes('seismic')) {
             this.turnSeismicVisible()
         } else {
             this.turnSeismicInVisible()
@@ -439,9 +443,34 @@ class MapFragment extends React.Component {
                         backgroundColor: 'rgb(255,255,255,0.6)',
                         borderRadius: 10,
                         margin: 5,
+                        boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.3)',
                     }}>
-                        <Switch checked={this.state.bing} onChange={this.handleBing}/>
-                        <Typography style={{fontSize: '0.775rem'}}>{this.state.bing ? 'BING' : 'OSM'}</Typography>
+                        <Button
+                            style={{
+                                backgroundImage: this.state.bing ? `url(${osm_toggle})` : `url(${bing_toggle})`,
+                                backgroundSize: 'cover',
+                                height: 64,
+                                borderRadius: 10,
+                                border: '2px solid white',
+                            }}
+                            onClick={this.handleBing}
+                        >
+                            <Typography style={{
+                                fontSize: '0.775rem',
+                                color: 'white',
+                                fontWeight: 'bold',
+                                backgroundImage: 'linear-gradient(transparent,rgba(0,0,0,0.6))',
+                                position: 'absolute',
+                                bottom: 0,
+                                left: 0,
+                                width: '100%',
+                                borderRadius: '0 0 10px 10px',
+                                paddingTop: 5,
+                                textShadow: 'rgba(0,0,0,0.7) 0px 1px 8px',
+                            }}>
+                                {this.state.bing ? 'OSM' : 'Bing'}
+                            </Typography>
+                        </Button>
                     </div>
                 </Grid>
             </Grid>
