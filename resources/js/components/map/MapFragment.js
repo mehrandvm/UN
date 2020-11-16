@@ -347,12 +347,12 @@ class MapFragment extends React.Component {
     }
 
     handleHazards() {
-        if (this.props.mapHazards === "floodHazard") {
+        if (this.props.mapHazards.includes('flood')) {
             this.turnFloodVisible()
         } else {
             this.turnFloodInVisible()
         }
-        if (this.props.mapHazards === "seismicHazard") {
+        if (this.props.mapHazards.includes('seismic')) {
             this.turnSeismicVisible()
         } else {
             this.turnSeismicInVisible()

@@ -4,7 +4,7 @@ import {Grid} from "@material-ui/core";
 import MapContainer from "../map/MapContainer";
 
 const MapWithControls = (props) => {
-    const [mapHazards, setMapHazards] = useState('');
+    const [mapHazards, setMapHazards] = useState([]);
     const [loading, setLoading] = useState(false);
     const {
         dashboardAccessLevel,
